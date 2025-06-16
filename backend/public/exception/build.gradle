@@ -1,0 +1,4 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web' // 반드시 필요
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
