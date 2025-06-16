@@ -3,9 +3,10 @@ package primaryIdProvider;
 import java.util.random.RandomGenerator;
 
 
-
-
-
+/***
+ * Auth : MyungJoo
+ * Date : 2025/06/16
+ */
 public class Snowflake {
 
     private static final int NODE_ID_BITS = 10;
