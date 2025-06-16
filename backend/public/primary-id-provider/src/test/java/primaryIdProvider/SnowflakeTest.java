@@ -13,6 +13,12 @@ import java.util.concurrent.Future;
 import org.junit.jupiter.api.Test;
 
 
+/**
+ *  Writer : Myung Joo
+ *  Date : 2025/06/16
+ *
+ *  스노우 플레이크를 통한 프라이머리키 생성 전략 테스트 코드
+ */
 class SnowflakeTest {
     Snowflake snowflake = new Snowflake();
 
