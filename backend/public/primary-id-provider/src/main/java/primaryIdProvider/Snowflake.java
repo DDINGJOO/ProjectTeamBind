@@ -4,8 +4,14 @@ import java.util.random.RandomGenerator;
 
 
 /***
- * Auth : MyungJoo
+ * writer : MyungJoo
  * Date : 2025/06/16
+ *
+ *
+ *
+ *
+ * 스노우 플레이크를 구현하여 프라이머리 키 생성 전략
+ *  ulid 처럼 순서를 갖고있음 + 여러 동시요청 처리 가능
  */
 public class Snowflake {
 
