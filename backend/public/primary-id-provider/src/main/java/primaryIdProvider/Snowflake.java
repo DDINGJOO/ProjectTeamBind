@@ -1,63 +1,86 @@
 package primaryIdProvider;
 
-import java.util.random.RandomGenerator;
-
-
-/***
- * writer : MyungJoo
- * Date : 2025/06/16
+/**
+ * Snowflake ID Generator
+ * - Time-ordered 64-bit unique ID
+ * - Custom epoch
+ * - Supports multiple nodes
  *
- *
- *
- *
- * 스노우 플레이크를 구현하여 프라이머리 키 생성 전략
- *  ulid 처럼 순서를 갖고있음 + 여러 동시요청 처리 가능
+ * Author: MyungJoo
+ * Date: 2025-06-17
  */
 public class Snowflake {
 
+    // ===== Bit Allocation =====
     private static final int NODE_ID_BITS = 10;
     private static final int SEQUENCE_BITS = 12;
 
-    private static final long maxNodeId = (1L << NODE_ID_BITS) - 1;
-    private static final long maxSequence = (1L << SEQUENCE_BITS) - 1;
+    private static final long MAX_NODE_ID = (1L << NODE_ID_BITS) - 1;
+    private static final long MAX_SEQUENCE = (1L << SEQUENCE_BITS) - 1;
 
-    private final long nodeId = RandomGenerator.getDefault().nextLong(maxNodeId + 1);
-    // UTC = 2024-01-01T00:00:00Z
-    private final long startTimeMillis = 1704067200000L;
+    private static final int NODE_ID_SHIFT = SEQUENCE_BITS;
+    private static final int TIMESTAMP_SHIFT = NODE_ID_BITS + SEQUENCE_BITS;
 
-    private long lastTimeMillis = startTimeMillis;
+    // ===== Custom Epoch: 2024-01-01T00:00:00Z =====
+    private static final long CUSTOM_EPOCH = 1704067200000L;
+
+    // ===== Instance Variables =====
+    private final long nodeId;
+    private long lastTimestamp = -1L;
     private long sequence = 0L;
 
+    /**
+     * @param nodeId [0, 1023]
+     */
+    public Snowflake(long nodeId) {
+        if (nodeId < 0 || nodeId > MAX_NODE_ID) {
+            throw new IllegalArgumentException("Node ID must be between 0 and " + MAX_NODE_ID);
+        }
+        this.nodeId = nodeId;
+    }
 
+    /**
+     * Generate next unique ID
+     */
+    public synchronized long nextId() {
+        long currentTimestamp = currentTime();
 
-
-
-    public synchronized long getNextId() {
-        long currentTimeMillis = System.currentTimeMillis();
-
-        if (currentTimeMillis < lastTimeMillis) {
-            throw new IllegalStateException("Invalid Time");
+        // Clock rollback handling
+        if (currentTimestamp < lastTimestamp) {
+            // Option 1: wait for time to catch up (soft fail)
+            currentTimestamp = waitNextMillis(lastTimestamp);
         }
 
-        if (currentTimeMillis == lastTimeMillis) {
-            sequence = (sequence + 1) & maxSequence;
+        if (currentTimestamp == lastTimestamp) {
+            sequence = (sequence + 1) & MAX_SEQUENCE;
             if (sequence == 0) {
-                currentTimeMillis = waitNextMillis(currentTimeMillis);
+                // Sequence overflow: wait for next millisecond
+                currentTimestamp = waitNextMillis(currentTimestamp);
             }
         } else {
             sequence = 0;
         }
-        lastTimeMillis = currentTimeMillis;
 
-        return ((currentTimeMillis - startTimeMillis) << (NODE_ID_BITS + SEQUENCE_BITS))
-                | (nodeId << SEQUENCE_BITS)
+        lastTimestamp = currentTimestamp;
+
+        return ((currentTimestamp - CUSTOM_EPOCH) << TIMESTAMP_SHIFT)
+                | (nodeId << NODE_ID_SHIFT)
                 | sequence;
     }
 
-    private long waitNextMillis(long currentTimestamp) {
-        while (currentTimestamp <= lastTimeMillis) {
-            currentTimestamp = System.currentTimeMillis();
+    /**
+     * Busy-wait for next millisecond
+     */
+    private long waitNextMillis(long lastTimestamp) {
+        long timestamp = currentTime();
+        while (timestamp <= lastTimestamp) {
+            Thread.yield(); // Reduce CPU waste
+            timestamp = currentTime();
         }
-        return currentTimestamp;
+        return timestamp;
+    }
+
+    private long currentTime() {
+        return System.currentTimeMillis();
     }
 }
