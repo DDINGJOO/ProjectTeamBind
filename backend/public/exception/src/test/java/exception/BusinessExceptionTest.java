@@ -1,10 +1,15 @@
 package exception;
 
+import exception.error_code.GlobalErrorCode;
+import exception.excrptions.BusinessException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+/**
+ * Author: MyungJoo
+ * Date: 2025-06-17
+ */
 class BusinessExceptionTest {
 
     @Test
