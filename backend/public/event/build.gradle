@@ -1,0 +1,10 @@
+
+dependencies {
+    // Spring ApplicationEventPublisher 사용을 위한 최소 의존성
+    implementation 'org.springframework:spring-context'
+    // Jackson 직렬화 기반
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    // 공통 유틸 직렬화 모듈
+    implementation project(':public:data-serializer')
+}
