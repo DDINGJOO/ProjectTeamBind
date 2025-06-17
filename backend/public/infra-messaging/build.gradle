@@ -1,0 +1,10 @@
+dependencies {
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // Optional: 로깅
+    implementation 'org.slf4j:slf4j-api'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    implementation project(':public:event')
+}
