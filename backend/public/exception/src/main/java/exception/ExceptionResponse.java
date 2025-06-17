@@ -1,5 +1,8 @@
 package exception;
-
+/**
+ * Author: MyungJoo
+ * Date: 2025-06-17
+ */
 public record ExceptionResponse(
         String code,
         String message,
