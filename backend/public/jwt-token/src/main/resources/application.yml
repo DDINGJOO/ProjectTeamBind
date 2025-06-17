@@ -1,0 +1,3 @@
+jwt:
+  secret: ${TOKEN_KEY}
+  expiration: ${TOKEN_EXPIRATION}  # 초 단위
