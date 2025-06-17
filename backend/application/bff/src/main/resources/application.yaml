@@ -7,6 +7,4 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
-jwt:
-  secret: ${TOKEN_KEY}
-  expiration: 3600  # 초 단위
+
