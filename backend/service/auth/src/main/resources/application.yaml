@@ -1,8 +1,6 @@
 server:
   port: ${AUTH_PORT}
 
-
-
 spring:
   datasource:
     url: ${AUTH_DB_URL}
@@ -14,6 +12,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
   data:
     redis:
