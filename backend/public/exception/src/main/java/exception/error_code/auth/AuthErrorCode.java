@@ -8,7 +8,8 @@ public enum AuthErrorCode implements CustomErrorCode {
     DUPLICATE_EMAIL("AUTH-REG-001", "이미 존재하는 이메일입니다.", HttpStatus.CONFLICT),
     INVALID_PASSWORD("AUTH-VAL-001", "비밀번호가 정책에 부합하지 않습니다.", HttpStatus.BAD_REQUEST),
     INVALID_EMAIL("AUTH-VAL-002", "이메일 정책에 부합하지 않습니다.", HttpStatus.BAD_REQUEST ),
-    USER_NOT_FOUND("AUTH-VAL-003", "유저를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+    USER_NOT_FOUND("AUTH-VAL-003", "유저를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    NOT_CONFIRMED_PASSWORD("AUTH-VAL-004", "비밀번호와 비밀번호 확인이 다릅니다.", HttpStatus.BAD_REQUEST );
 
     private final String code;
     private final String message;

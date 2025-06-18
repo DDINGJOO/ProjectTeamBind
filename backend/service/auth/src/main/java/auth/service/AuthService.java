@@ -73,6 +73,10 @@ public class AuthService {
         if (!passwordValidator.validate(req.getPassword())) {
             throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
         }
+        //비밀번호 확인 오휴
+        if(req.getPassword().equals(req.getPassword())) {
+            throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
+        }
 
     }
     private String passwordEncode(String password)
