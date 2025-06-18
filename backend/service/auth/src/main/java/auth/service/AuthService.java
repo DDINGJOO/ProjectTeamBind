@@ -12,6 +12,7 @@ import exception.error_code.auth.AuthErrorCode;
 import exception.excrptions.AuthException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import primaryIdProvider.Snowflake;
 
@@ -24,10 +25,39 @@ public class AuthService {
     private final UserRepository userRepository;
     private final ValidatorFactory validatorFactory;
     private final Snowflake  snowflake;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void registerUser(SignUpRequest req) {
         // 이메일 중복 체크
+        validateUser(req);
+
+        // 사용자 저장
+        User user = User.builder()
+                .id(snowflake.nextId())
+                .email(req.getEmail())
+                .password(passwordEncode(req.getPassword()))
+                .provider(ProviderList.SYSTEM)
+                .createdAt(LocalDateTime.now())
+                .isEmailVerified(false)
+                .isDeleted(false)
+                .build();
+        userRepository.save(user);
+    }
+
+
+    @Transactional
+    public void deleteUser(Long id)
+    {
+        User user =  userRepository.findById(id)
+                .orElseThrow(()->new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        user.setIsDeleted(true);
+        userRepository.save(user);
+    }
+
+
+
+    private void validateUser(SignUpRequest req) {
         if (userRepository.existsByEmail(req.getEmail())) {
             throw new AuthException(AuthErrorCode.DUPLICATE_EMAIL);
         }
@@ -44,16 +74,9 @@ public class AuthService {
             throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
         }
 
-        // 사용자 저장
-        User user = User.builder()
-                .id(snowflake.nextId())
-                .email(req.getEmail())
-                .password(req.getPassword())
-                .provider(ProviderList.SYSTEM)
-                .createdAt(LocalDateTime.now())
-                .isEmailVerified(false)
-                .isDeleted(false)
-                .build();
-        userRepository.save(user);
+    }
+    private String passwordEncode(String password)
+    {
+        return passwordEncoder.encode(password);
     }
 }
