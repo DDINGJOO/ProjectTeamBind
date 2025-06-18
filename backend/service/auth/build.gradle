@@ -1,0 +1,14 @@
+dependencies {
+
+
+
+
+
+
+
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    //from public
+    implementation project(':public:outbox')
+    implementation project(':public:exception')
+    implementation project(':public:primary-id-provider')
+}
