@@ -74,7 +74,7 @@ public class AuthService {
             throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
         }
         //비밀번호 확인 오휴
-        if(req.getPassword().equals(req.getPassword())) {
+        if(!req.getPassword().equals(req.getPasswordConfirm())) {
             throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
         }
 
