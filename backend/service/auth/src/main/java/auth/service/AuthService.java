@@ -2,6 +2,7 @@ package auth.service;
 
 
 import auth.config.ProviderList;
+import auth.config.UserRoleType;
 import auth.dto.request.SignUpRequest;
 import auth.entity.User;
 import auth.repository.UserRepository;
@@ -24,6 +25,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final ValidatorFactory validatorFactory;
+    private final UserRoleGrantService userRoleGrantService;
     private final Snowflake  snowflake;
     private final PasswordEncoder passwordEncoder;
 
@@ -43,6 +45,8 @@ public class AuthService {
                 .isDeleted(false)
                 .build();
         userRepository.save(user);
+
+        userRoleGrantService.grantDefaultRole(user);
     }
 
 
@@ -75,12 +79,20 @@ public class AuthService {
         }
         //비밀번호 확인 오휴
         if(!req.getPassword().equals(req.getPasswordConfirm())) {
-            throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
+            throw new AuthException(AuthErrorCode.PASSWORD_CONFIRM_MISMATCH);
         }
+    }
+
+    @Transactional
+     public void grantRole(Long grantedId, Long granterId, UserRoleType role) {
+        User granted =  userRepository.findById(grantedId).orElseThrow(()->new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        User granter = userRepository.findById(granterId).orElseThrow(()->new AuthException(AuthErrorCode.USER_NOT_FOUND));
+        userRoleGrantService.grantRole(granted,  granter, role );
 
     }
     private String passwordEncode(String password)
     {
         return passwordEncoder.encode(password);
     }
+
 }

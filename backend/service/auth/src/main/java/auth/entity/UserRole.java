@@ -22,13 +22,11 @@ public class UserRole {
     @JoinColumn(name = "user_id")
     private User user;
 
-
-
     @Id
     @Enumerated(EnumType.STRING)
     private UserRoleType role;
 
     private LocalDateTime grantedAt;
 
-    private String grantedBy;// "부여자 UUID"를 의미합니다. 이 필드는 사용자가 역할을 부여받은 사람의 UUID를 저장합니다.
+    private Long grantedBy;// "부여자 UUID"를 의미합니다. 이 필드는 사용자가 역할을 부여받은 사람의 UUID를 저장합니다.
 }
