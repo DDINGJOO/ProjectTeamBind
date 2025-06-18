@@ -1,5 +1,7 @@
 package primaryIdProvider;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Snowflake ID Generator
  * - Time-ordered 64-bit unique ID
@@ -9,6 +11,7 @@ package primaryIdProvider;
  * Author: MyungJoo
  * Date: 2025-06-17
  */
+@Component
 public class Snowflake {
 
     // ===== Bit Allocation =====
