@@ -1,6 +1,7 @@
 package auth.service;
 
 import auth.config.ProviderList;
+import auth.config.UserRoleType;
 import auth.dto.request.SignUpRequest;
 import auth.entity.User;
 import auth.repository.UserRepository;
@@ -29,7 +30,8 @@ class AuthServiceTest {
 
     @InjectMocks
     private AuthService authService;
-
+    @Mock
+    private UserRoleGrantService userRoleGrantService;
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -105,6 +107,20 @@ class AuthServiceTest {
         AuthException ex = assertThrows(AuthException.class, () -> authService.registerUser(request));
         assertEquals(AuthErrorCode.INVALID_PASSWORD, ex.getErrorCode());
     }
+    @Test
+    void grantRole_정상처리() {
+        Long grantedId = 1L;
+        Long granterId = 2L;
+        User granted = User.builder().id(grantedId).build();
+        User granter = User.builder().id(granterId).build();
+
+        when(userRepository.findById(grantedId)).thenReturn(Optional.of(granted));
+        when(userRepository.findById(granterId)).thenReturn(Optional.of(granter));
+
+        authService.grantRole(grantedId, granterId, UserRoleType.Admin);
+
+        verify(userRoleGrantService).grantRole(granted, granter, UserRoleType.Admin);
+    }
 
     @Test
     void 회원_삭제_정상처리() {
@@ -144,7 +160,7 @@ class AuthServiceTest {
         // then
         assertThat(thrown)
                 .isInstanceOf(AuthException.class)
-                .hasMessageContaining(AuthErrorCode.INVALID_PASSWORD.getMessage());
+                .hasMessageContaining(AuthErrorCode. PASSWORD_CONFIRM_MISMATCH.getMessage());
     }
 
 }
