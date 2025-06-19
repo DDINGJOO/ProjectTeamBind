@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_24
+        targetCompatibility = JavaVersion.VERSION_24
+    }
+
+    dependencies {
+
+        implementation 'ch.qos.logback:logback-classic'
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+
+
+        //.env
+        implementation 'io.github.cdimascio:dotenv-java:2.3.2'
+
+
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+        //lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+
+        //TEST
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+
+
+
+
+    }
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += ["-parameters"]
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+}

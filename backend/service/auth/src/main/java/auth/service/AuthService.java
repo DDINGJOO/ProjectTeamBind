@@ -3,6 +3,7 @@ package auth.service;
 
 import auth.config.ProviderList;
 import auth.config.UserRoleType;
+import auth.dto.request.LoginRequest;
 import auth.dto.request.SignUpRequest;
 import auth.entity.User;
 import auth.repository.UserRepository;
@@ -93,6 +94,18 @@ public class AuthService {
     private String passwordEncode(String password)
     {
         return passwordEncoder.encode(password);
+    }
+
+    public void login (LoginRequest req)
+    {
+        var user = userRepository.findByEmail(req.getEmail()).orElseThrow(
+                ()-> new AuthException(AuthErrorCode.USER_NOT_FOUND));
+
+
+        if(!user.getPassword() .equals(passwordEncode(req.getPassword())))
+        {
+            throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
+        }
     }
 
 }

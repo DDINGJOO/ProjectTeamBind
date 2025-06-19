@@ -31,8 +31,8 @@ public class User {
     private ProviderList provider;
 
 
-    private Boolean isDeleted;
 
+    private Boolean isDeleted;
 
     @Column(name = "resisted-at",  nullable = false)
     private LocalDateTime createdAt;
