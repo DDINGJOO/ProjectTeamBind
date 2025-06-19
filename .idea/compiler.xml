@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="backend" target="24" />
+      <module name="backend.application" target="24" />
+      <module name="backend.application.bff" target="24" />
+      <module name="backend.application.bff.main" target="24" />
+      <module name="backend.application.bff.test" target="24" />
+      <module name="backend.application.main" target="24" />
+      <module name="backend.application.test" target="24" />
+      <module name="backend.main" target="24" />
+      <module name="backend.public" target="24" />
+      <module name="backend.public.data-serializer" target="24" />
+      <module name="backend.public.data-serializer.main" target="24" />
+      <module name="backend.public.data-serializer.test" target="24" />
+      <module name="backend.public.event" target="24" />
+      <module name="backend.public.event.main" target="24" />
+      <module name="backend.public.event.test" target="24" />
+      <module name="backend.public.exception" target="24" />
+      <module name="backend.public.exception.main" target="24" />
+      <module name="backend.public.exception.test" target="24" />
+      <module name="backend.public.infra-messaging" target="24" />
+      <module name="backend.public.infra-messaging.main" target="24" />
+      <module name="backend.public.infra-messaging.test" target="24" />
+      <module name="backend.public.jwt-token" target="24" />
+      <module name="backend.public.jwt-token.main" target="24" />
+      <module name="backend.public.jwt-token.test" target="24" />
+      <module name="backend.public.main" target="24" />
+      <module name="backend.public.outbox" target="24" />
+      <module name="backend.public.outbox.main" target="24" />
+      <module name="backend.public.outbox.test" target="24" />
+      <module name="backend.public.primary-id-provider" target="24" />
+      <module name="backend.public.primary-id-provider.main" target="24" />
+      <module name="backend.public.primary-id-provider.test" target="24" />
+      <module name="backend.public.response" target="24" />
+      <module name="backend.public.response.main" target="24" />
+      <module name="backend.public.response.test" target="24" />
+      <module name="backend.public.test" target="24" />
+      <module name="backend.service" target="24" />
+      <module name="backend.service.auth" target="24" />
+      <module name="backend.service.auth.main" target="24" />
+      <module name="backend.service.auth.test" target="24" />
+      <module name="backend.service.main" target="24" />
+      <module name="backend.service.test" target="24" />
+      <module name="backend.test" target="24" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

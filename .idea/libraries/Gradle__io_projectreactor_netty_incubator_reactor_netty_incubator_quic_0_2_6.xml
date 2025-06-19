@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.projectreactor.netty.incubator:reactor-netty-incubator-quic:0.2.6" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.projectreactor.netty.incubator" artifactId="reactor-netty-incubator-quic" version="0.2.6" baseVersion="0.2.6" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.projectreactor.netty.incubator/reactor-netty-incubator-quic/0.2.6/a3642e65c81f4294783441bc0fab202e5108fb50/reactor-netty-incubator-quic-0.2.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

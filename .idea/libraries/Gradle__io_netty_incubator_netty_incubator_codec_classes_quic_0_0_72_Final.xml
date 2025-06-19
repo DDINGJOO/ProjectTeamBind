@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: io.netty.incubator:netty-incubator-codec-classes-quic:0.0.72.Final" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="io.netty.incubator" artifactId="netty-incubator-codec-classes-quic" version="0.0.72.Final" baseVersion="0.0.72.Final" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty.incubator/netty-incubator-codec-classes-quic/0.0.72.Final/b34619309e57346be9a46efdb63623d93a52bcd0/netty-incubator-codec-classes-quic-0.0.72.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
