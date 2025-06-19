@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/backend" />
+            <option value="$PROJECT_DIR$/backend/application" />
+            <option value="$PROJECT_DIR$/backend/application/bff" />
+            <option value="$PROJECT_DIR$/backend/public" />
+            <option value="$PROJECT_DIR$/backend/public/data-serializer" />
+            <option value="$PROJECT_DIR$/backend/public/event" />
+            <option value="$PROJECT_DIR$/backend/public/exception" />
+            <option value="$PROJECT_DIR$/backend/public/infra-messaging" />
+            <option value="$PROJECT_DIR$/backend/public/jwt-token" />
+            <option value="$PROJECT_DIR$/backend/public/outbox" />
+            <option value="$PROJECT_DIR$/backend/public/primary-id-provider" />
+            <option value="$PROJECT_DIR$/backend/public/response" />
+            <option value="$PROJECT_DIR$/backend/service" />
+            <option value="$PROJECT_DIR$/backend/service/auth" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

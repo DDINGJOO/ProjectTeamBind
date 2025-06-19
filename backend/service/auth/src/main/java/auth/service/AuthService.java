@@ -2,7 +2,6 @@ package auth.service;
 
 
 import auth.config.ProviderList;
-import auth.config.UserRoleType;
 import auth.dto.request.LoginRequest;
 import auth.dto.request.SignUpRequest;
 import auth.entity.User;
@@ -51,15 +50,6 @@ public class AuthService {
     }
 
 
-    @Transactional
-    public void deleteUser(Long id)
-    {
-        User user =  userRepository.findById(id)
-                .orElseThrow(()->new AuthException(AuthErrorCode.USER_NOT_FOUND));
-        user.setIsDeleted(true);
-        userRepository.save(user);
-    }
-
 
 
     private void validateUser(SignUpRequest req) {
@@ -84,17 +74,8 @@ public class AuthService {
         }
     }
 
-    @Transactional
-     public void grantRole(Long grantedId, Long granterId, UserRoleType role) {
-        User granted =  userRepository.findById(grantedId).orElseThrow(()->new AuthException(AuthErrorCode.USER_NOT_FOUND));
-        User granter = userRepository.findById(granterId).orElseThrow(()->new AuthException(AuthErrorCode.USER_NOT_FOUND));
-        userRoleGrantService.grantRole(granted,  granter, role );
 
-    }
-    private String passwordEncode(String password)
-    {
-        return passwordEncoder.encode(password);
-    }
+
 
     public void login (LoginRequest req)
     {
@@ -108,4 +89,20 @@ public class AuthService {
         }
     }
 
+
+    @Transactional
+    public void confirmedEmail(Long userId){
+        var user = userRepository.findById(userId).orElseThrow(
+                ()-> new AuthException(AuthErrorCode.USER_NOT_FOUND)
+        );
+
+        user.setEmailVerified(true);
+        user.setIsActive(true);
+        userRepository.save(user);
+    }
+
+    private String passwordEncode(String password)
+    {
+        return passwordEncoder.encode(password);
+    }
 }

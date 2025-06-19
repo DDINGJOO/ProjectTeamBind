@@ -4,6 +4,7 @@ package auth.controller;
 import auth.dto.request.LoginRequest;
 import auth.dto.request.SignUpRequest;
 import auth.service.AuthService;
+import auth.service.UserWithdrawService;
 import exception.excrptions.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import resposne.BaseResponse;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserWithdrawService  userWithdrawService;
 
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<?>> signup(SignUpRequest req)
@@ -40,16 +42,16 @@ public class AuthController {
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
         return ResponseEntity.ok(BaseResponse.success());
-
     }
 
     @DeleteMapping("/withdraw")
     public ResponseEntity<BaseResponse<?>> withdraw(
-            @RequestParam Long userId
+            @RequestParam Long userId,
+            @RequestParam String reason
     )
     {
         try{
-            authService.deleteUser(userId);
+            userWithdrawService.withdraw(userId, reason);
         }
         catch (AuthException e){
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));

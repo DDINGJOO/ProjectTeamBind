@@ -1,0 +1,19 @@
+rootProject.name = 'backend'
+
+
+include 'public'
+include 'public:primary-id-provider'
+include 'public:data-serializer'
+include 'public:infra-messaging'
+include 'public:exception'
+include 'public:event'
+include 'public:outbox'
+include 'public:jwt-token'
+include 'public:response'
+
+include 'application'
+include 'application:bff'
+
+
+include 'service'
+include 'service:auth'

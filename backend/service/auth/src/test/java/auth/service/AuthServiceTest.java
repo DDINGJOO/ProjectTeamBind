@@ -1,7 +1,6 @@
 package auth.service;
 
 import auth.config.ProviderList;
-import auth.config.UserRoleType;
 import auth.dto.request.SignUpRequest;
 import auth.entity.User;
 import auth.repository.UserRepository;
@@ -19,19 +18,17 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import primaryIdProvider.Snowflake;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class AuthServiceTest {
 
     @InjectMocks
     private AuthService authService;
-    @Mock
-    private UserRoleGrantService userRoleGrantService;
+
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -107,44 +104,10 @@ class AuthServiceTest {
         AuthException ex = assertThrows(AuthException.class, () -> authService.registerUser(request));
         assertEquals(AuthErrorCode.INVALID_PASSWORD, ex.getErrorCode());
     }
-    @Test
-    void grantRole_정상처리() {
-        Long grantedId = 1L;
-        Long granterId = 2L;
-        User granted = User.builder().id(grantedId).build();
-        User granter = User.builder().id(granterId).build();
 
-        when(userRepository.findById(grantedId)).thenReturn(Optional.of(granted));
-        when(userRepository.findById(granterId)).thenReturn(Optional.of(granter));
 
-        authService.grantRole(grantedId, granterId, UserRoleType.Admin);
 
-        verify(userRoleGrantService).grantRole(granted, granter, UserRoleType.Admin);
-    }
 
-    @Test
-    void 회원_삭제_정상처리() {
-        User user = User.builder()
-                .id(1L)
-                .email("test@example.com")
-                .isDeleted(false)
-                .build();
-
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-
-        authService.deleteUser(1L);
-
-        assertTrue(user.getIsDeleted());
-        verify(userRepository).save(user);
-    }
-
-    @Test
-    void 삭제_시_존재하지않는_유저면_예외() {
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
-
-        AuthException ex = assertThrows(AuthException.class, () -> authService.deleteUser(1L));
-        assertEquals(AuthErrorCode.USER_NOT_FOUND, ex.getErrorCode());
-    }
     @Test
     void registerUser_shouldThrow_whenPasswordMismatch() {
         // given

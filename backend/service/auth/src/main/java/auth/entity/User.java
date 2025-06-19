@@ -33,6 +33,7 @@ public class User {
 
 
     private Boolean isDeleted;
+    private Boolean isActive;
 
     @Column(name = "resisted-at",  nullable = false)
     private LocalDateTime createdAt;

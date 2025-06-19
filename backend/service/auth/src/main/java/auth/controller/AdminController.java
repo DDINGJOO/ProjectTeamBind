@@ -2,7 +2,7 @@ package auth.controller;
 
 
 import auth.config.UserRoleType;
-import auth.service.AuthService;
+import auth.service.UserRoleGrantService;
 import exception.excrptions.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,8 @@ import resposne.BaseResponse;
 @RequestMapping("/api/auth/admin")
 public class AdminController {
 
-    private final AuthService authService;
+    private final UserRoleGrantService userRoleGrantService;
+
 
 
     @PostMapping("/grantRole")
@@ -30,7 +31,7 @@ public class AdminController {
     )
     {
         try {
-            authService.grantRole(grantedId, granterId, roleId);
+            userRoleGrantService.grantRole(grantedId, granterId, roleId);
         }
         catch (AuthException e)
         {
