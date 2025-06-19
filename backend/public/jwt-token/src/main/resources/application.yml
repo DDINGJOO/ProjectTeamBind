@@ -1,3 +1,4 @@
 jwt:
   secret: ${TOKEN_KEY}
-  expiration: ${TOKEN_EXPIRATION}  # 초 단위
+  access-expiration: ${ACCESSTOKEN_EXPIRATION}   # 15 minutes
+  refresh-expiration: ${REFRESHTOKEN_EXPIRATION}

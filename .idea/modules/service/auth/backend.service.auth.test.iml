@@ -4,9 +4,5 @@
     <content url="file://$MODULE_DIR$/../../../../backend/service/auth/build/generated/sources/annotationProcessor/java/test">
       <sourceFolder url="file://$MODULE_DIR$/../../../../backend/service/auth/build/generated/sources/annotationProcessor/java/test" isTestSource="true" generated="true" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../../backend/service/auth/src/test" dumb="true">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../backend/service/auth/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../../backend/service/auth/src/test/resources" type="java-test-resource" />
-    </content>
   </component>
 </module>

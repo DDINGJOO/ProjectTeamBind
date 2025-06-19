@@ -1,6 +1,7 @@
 package token;
 
 
+import exception.excrptions.TokenException;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 
 class JwtTokenProviderTest {
 
@@ -17,9 +20,10 @@ class JwtTokenProviderTest {
 
     @BeforeEach
     void setUp() {
-        String secret = "mysecretkeymysecretkeymysecretkey"; // 최소 256bit (32자리 이상)
-        long expiration = 3600; // 1시간
-        tokenProvider = new JwtTokenProvider(secret, expiration);
+        String secret = "mysecretkeymysecretkeymysecretkeymysecretkey"; // 최소 32자
+        long accessExpiration = 3600; // 1시간
+        long refreshExpiration = 86400; // 1일
+        tokenProvider = new JwtTokenProvider(secret, accessExpiration, refreshExpiration);
     }
 
     @Test
@@ -30,7 +34,7 @@ class JwtTokenProviderTest {
         claims.put("role", "USER");
 
         // when
-        String token = tokenProvider.issueToken(subject, claims);
+        String token = tokenProvider.issueAccessToken(subject, claims);
         Claims parsed = tokenProvider.parse(token);
 
         // then
@@ -39,18 +43,27 @@ class JwtTokenProviderTest {
     }
 
     @Test
-    void 토큰_유효성_검사() {
-        String token = tokenProvider.issueToken("user-456", Collections.emptyMap());
+    void 유효한_토큰은_parse_성공() {
+        String token = tokenProvider.issueAccessToken("user-456", Collections.emptyMap());
 
-        assertThat(tokenProvider.isValid(token)).isTrue();
-        assertThat(tokenProvider.isValid(token + "tampered")).isFalse(); // 위조된 토큰
+        Claims claims = tokenProvider.parse(token);
+        assertThat(claims.getSubject()).isEqualTo("user-456");
+    }
+
+    @Test
+    void 위조된_토큰은_InvalidTokenException_발생() {
+        String token = tokenProvider.issueAccessToken("user-789", Collections.emptyMap());
+        String tampered = token + "tamper";
+
+        assertThatThrownBy(() -> tokenProvider.parse(tampered))
+                .isInstanceOf(TokenException.class);
     }
 
     @Test
     void 토큰에서_subject_추출() {
-        String token = tokenProvider.issueToken("user-789", Collections.emptyMap());
+        String token = tokenProvider.issueAccessToken("user-999", Collections.emptyMap());
 
-        String subject = tokenProvider.getSubject(token);
-        assertThat(subject).isEqualTo("user-789");
+        String subject = tokenProvider.getClaim(token, "sub");
+        assertThat(subject).isEqualTo("user-999");
     }
 }

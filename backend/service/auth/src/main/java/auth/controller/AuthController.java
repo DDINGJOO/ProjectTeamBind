@@ -3,6 +3,7 @@ package auth.controller;
 
 import auth.dto.request.LoginRequest;
 import auth.dto.request.SignUpRequest;
+import auth.dto.response.LoginResponse;
 import auth.service.AuthService;
 import auth.service.UserWithdrawService;
 import exception.excrptions.AuthException;
@@ -31,17 +32,14 @@ public class AuthController {
         return ResponseEntity.ok(BaseResponse.success());
     }
 
-
-    @GetMapping("/login")
-    public ResponseEntity<BaseResponse<?>> login(LoginRequest req)
-    {
-        try{
-            authService.login(req);
-        } catch (AuthException e)
-        {
+    @PostMapping("/login")
+    public ResponseEntity<BaseResponse<LoginResponse>> login(@RequestBody LoginRequest req) {
+        try {
+            LoginResponse loginResponse = authService.login(req);
+            return ResponseEntity.ok(BaseResponse.success(loginResponse));
+        } catch (AuthException e) {
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
-        return ResponseEntity.ok(BaseResponse.success());
     }
 
     @DeleteMapping("/withdraw")

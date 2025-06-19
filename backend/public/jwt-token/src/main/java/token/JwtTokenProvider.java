@@ -1,39 +1,51 @@
 package token;
 
+import exception.error_code.token.TokenErrorCode;
+import exception.excrptions.TokenException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Date;
 import java.util.Map;
 
-@Slf4j
 public class JwtTokenProvider {
 
-
-    @Value("${jwt.secret}")
     private final SecretKey key;
+    private final long accessTokenExpirationSeconds;
+    private final long refreshTokenExpirationSeconds;
 
-    @Value("${jwt.expiration}")
-    private final long expirationSeconds;
-
-    public JwtTokenProvider(String secret, long expirationSeconds) {
+    public JwtTokenProvider(String secret, long accessExp, long refreshExp) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        this.expirationSeconds = expirationSeconds;
+        this.accessTokenExpirationSeconds = accessExp;
+        this.refreshTokenExpirationSeconds = refreshExp;
     }
 
-    public String issueToken(String subject, Map<String, Object> claims) {
+    public String issueAccessToken(String subject, Map<String, Object> claims) {
+        try {
+            return buildToken(subject, claims, accessTokenExpirationSeconds);
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new TokenException(TokenErrorCode.TOKEN_CREATION_FAILED);
+        }
+    }
+
+
+    public String issueRefreshToken(String subject, String deviceId) {
+        return buildToken(subject, Map.of("deviceId", deviceId), refreshTokenExpirationSeconds);
+    }
+
+    private String buildToken(String subject, Map<String, Object> claims, long ttlSec) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + expirationSeconds * 1000);
+        Date expiry = new Date(now.getTime() + ttlSec * 1000);
 
         return Jwts.builder()
-                .setClaims(claims)
                 .setSubject(subject)
+                .addClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(key)
@@ -41,23 +53,24 @@ public class JwtTokenProvider {
     }
 
     public Claims parse(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public boolean isValid(String token) {
         try {
-            parse(token);
-            return true;
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            throw new TokenException(TokenErrorCode.EXPIRED_TOKEN);
         } catch (JwtException | IllegalArgumentException e) {
-            return false;
+            throw new TokenException(TokenErrorCode.INVALID_TOKEN);
         }
     }
 
-    public String getSubject(String token) {
-        return parse(token).getSubject();
+    public String getClaim(String token, String claimKey) {
+        return parse(token).get(claimKey, String.class);
+    }
+
+    public Duration getAccessTokenTTL() {
+        return Duration.ofSeconds(accessTokenExpirationSeconds);
+    }
+
+    public Duration getRefreshTokenTTL() {
+        return Duration.ofSeconds(refreshTokenExpirationSeconds);
     }
 }
