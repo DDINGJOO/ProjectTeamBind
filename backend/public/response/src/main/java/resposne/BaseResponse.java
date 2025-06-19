@@ -1,4 +1,4 @@
-package Resposne;
+package resposne;
 
 import exception.CustomErrorCode;
 import lombok.AllArgsConstructor;

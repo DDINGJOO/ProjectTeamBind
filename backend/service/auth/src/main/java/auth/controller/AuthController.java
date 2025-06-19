@@ -7,10 +7,8 @@ import auth.service.AuthService;
 import exception.excrptions.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import resposne.BaseResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,29 +18,42 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(SignUpRequest req)
+    public ResponseEntity<BaseResponse<?>> signup(SignUpRequest req)
     {
         try {
             authService.registerUser(req);
         }catch (AuthException e)
         {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
-        return  ResponseEntity.ok().build();
+        return ResponseEntity.ok(BaseResponse.success());
     }
 
 
     @GetMapping("/login")
-    public ResponseEntity<?> login(LoginRequest req)
+    public ResponseEntity<BaseResponse<?>> login(LoginRequest req)
     {
         try{
             authService.login(req);
         } catch (AuthException e)
         {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
+        return ResponseEntity.ok(BaseResponse.success());
 
-        return   ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/withdraw")
+    public ResponseEntity<BaseResponse<?>> withdraw(
+            @RequestParam Long userId
+    )
+    {
+        try{
+            authService.deleteUser(userId);
+        }
+        catch (AuthException e){
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
+            }
+        return  ResponseEntity.ok(BaseResponse.success());
+    }
 }

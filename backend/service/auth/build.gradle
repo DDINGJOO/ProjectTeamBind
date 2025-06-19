@@ -23,5 +23,6 @@ dependencies {
     implementation project(':public:outbox')
     implementation project(':public:exception')
     implementation project(':public:primary-id-provider')
+    implementation project (':public:response')
 }
 
