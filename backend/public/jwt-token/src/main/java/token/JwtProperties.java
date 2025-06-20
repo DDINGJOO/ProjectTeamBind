@@ -1,11 +1,13 @@
 package token;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@Data
 @ConfigurationProperties(prefix = "jwt")
+@Getter
 public class JwtProperties {
     private String secret;
-    private long expiration;
+    private long accessExpiration;   // ex) 15 * 60
+    private long refreshExpiration;  // ex) 14 * 24 * 60 * 60
+
 }

@@ -10,6 +10,11 @@ public class TokenConfig {
 
     @Bean
     public JwtTokenProvider jwtTokenProvider(JwtProperties props) {
-        return new JwtTokenProvider(props.getSecret(), props.getExpiration());
+        return new JwtTokenProvider(
+                props.getSecret(),
+                props.getAccessExpiration(),
+                props.getRefreshExpiration()
+        );
     }
 }
+
