@@ -25,7 +25,7 @@ public class LogoutService {
 
         try {
             String jti = jwtTokenProvider.getJti(accessToken);
-            Duration ttl = jwtTokenProvider.getAccessTokenTTL(); // 또는 위에서 말한 실시간 TTL
+            Duration ttl = jwtTokenProvider.getAccessTokenTTL();
 
             redisTemplate.opsForValue()
                     .set("blacklist:" + jti, "1", ttl);
