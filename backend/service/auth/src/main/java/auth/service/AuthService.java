@@ -14,9 +14,7 @@ import auth.service.validator.Validator;
 import auth.service.validator.ValidatorFactory;
 import auth.service.validator.ValidatorType;
 import exception.error_code.auth.AuthErrorCode;
-import exception.error_code.token.TokenErrorCode;
 import exception.excrptions.AuthException;
-import exception.excrptions.TokenException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +35,7 @@ public class AuthService {
     private final UserRoleRepository userRoleRepository;
     private final RefreshTokenService  refreshTokenService;
     private final Snowflake  snowflake;
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -110,9 +108,6 @@ public class AuthService {
         // 5. Refresh 토큰 저장 (Redis)
         refreshTokenService.save(String.valueOf(user.getId()), req.getDeviceId(), refreshToken, jwtTokenProvider.getRefreshTokenTTL());
 
-        if(accessToken == null && refreshToken == null) {
-            throw new TokenException(TokenErrorCode.EXPIRED_TOKEN);
-        }
 
         // 6. 응답 반환
         return new LoginResponse(accessToken, refreshToken);

@@ -10,7 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {
         "auth",
         "outbox",                // Outbox 모듈
-        "primaryIdProvider"
+        "primaryIdProvider",
+        "token"
 })
 public class AuthApplication {
     public static void  main(String[] args)

@@ -16,7 +16,7 @@ import resposne.BaseResponse;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/auth/admin")
+@RequestMapping("/admin/api/auth")
 public class AdminController {
 
     private final UserRoleGrantService userRoleGrantService;
