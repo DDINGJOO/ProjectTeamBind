@@ -6,5 +6,6 @@ package event;
  * Date : 2026/06/117
  */
 public interface CustomEvent {
-    String name();  // ex: "user.created", "order.canceled"
+    String name();        // 이벤트명
+    String getTopic();    // Kafka topic
 }

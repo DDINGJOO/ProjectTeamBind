@@ -25,6 +25,7 @@ public class KafkaEventProducer  {
 
     public void send(CustomEvent event) {
         String json = KafkaEventSerializer.serialize(event);
-        kafkaTemplate.send(event.name(), json);
+        kafkaTemplate.send(event.getTopic(), json);
     }
+
 }

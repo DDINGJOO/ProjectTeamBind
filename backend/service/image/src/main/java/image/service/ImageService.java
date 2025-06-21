@@ -105,6 +105,7 @@ public class ImageService {
                 .filter(image -> image.getStatus() == ImageStatus.CONFIRMED)
                 .map(image -> ImageResponse.builder()
                         .referenceId(referenceId)
+                        .category(image.getCategory())
                         .isThumbnail(image.isThumbnail())
                         .url(imageUrlHelper.generatePublicUrl(image))
                         .build())

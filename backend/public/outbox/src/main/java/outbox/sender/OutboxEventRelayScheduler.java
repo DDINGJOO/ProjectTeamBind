@@ -1,39 +1,45 @@
 package outbox.sender;
 
 
-import inframessaging.producer.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import outbox.config.OutboxStatus;
 import outbox.entity.OutboxEventEntity;
 import outbox.repository.OutboxEventRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
-@Slf4j
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class OutboxEventRelayScheduler {
 
     private final OutboxEventRepository repository;
-    private final KafkaEventProducer messagingSender;
+    private final MessagingSender sender;
 
-    @Scheduled(fixedDelay = 1000)
-    public void relay() {
-        List<OutboxEventEntity> events = repository.findTop100BySentFalseOrderByCreatedAtAsc();
+    @Scheduled(fixedDelay = 5000)
+    public void relayEvents() {
+        List<OutboxEventEntity> events = repository.findTop100ByStatusOrderByCreatedAtAsc(OutboxStatus.PENDING);
 
-        for (OutboxEventEntity e : events) {
-            if (!e.isReadyToSend()) continue;
-
+        for (OutboxEventEntity event : events) {
             try {
-                messagingSender.send(e.getType(), e.getPayload(), String.valueOf(e.getId()));
-                e.markSuccess();
-            } catch (Exception ex) {
-                log.warn("[Outbox] Failed to send event: id={}, reason={}", e.getId(), ex.getMessage());
-                e.markFailure(ex.getMessage());
+                sender.send(event.getTopic(), event.getPayload(), null);
+                event.markSuccess();
+            } catch (Exception e) {
+                log.warn("Failed to send event [id={}, topic={}]: {}", event.getId(), event.getTopic(), e.getMessage(), e);
+                event.markFailure(e.getMessage());
             }
         }
 
         repository.saveAll(events);
+    }
+
+    @Scheduled(cron = "0 0 * * * *") // 매 정시마다
+    public void deleteOldSentEvents() {
+        LocalDateTime cutoff = LocalDateTime.now().minusHours(1);
+        int deletedCount = repository.deleteByStatusAndUpdatedAtBefore(OutboxStatus.SENT, cutoff);
+        log.info("Deleted {} old sent events", deletedCount);
     }
 }

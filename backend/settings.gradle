@@ -10,6 +10,8 @@ include 'public:event'
 include 'public:outbox'
 include 'public:jwt-token'
 include 'public:response'
+include 'public:log-metadata'
+
 
 include 'application'
 include 'application:bff'
