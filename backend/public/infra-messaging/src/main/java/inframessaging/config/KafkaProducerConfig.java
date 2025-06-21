@@ -1,6 +1,8 @@
 package inframessaging.config;
 
 import inframessaging.properties.KafkaTopicProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -21,6 +23,8 @@ import java.util.Map;
  */
 @Configuration
 @EnableConfigurationProperties({KafkaProperties.class, KafkaTopicProperties.class})
+@Getter
+@Setter
 public class KafkaProducerConfig {
 
     private final KafkaProperties kafkaProperties;

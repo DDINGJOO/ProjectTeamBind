@@ -1,4 +1,4 @@
-package auth;
+package bandRoom;
 
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -10,10 +10,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
-        "auth",
+        "bandRoom",
         "outbox",                // Outbox 모듈
         "primaryIdProvider",
-        "token",
 })
 
 @EntityScan(basePackages = {
@@ -21,11 +20,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "outbox"
 })
 @EnableJpaRepositories(basePackages = {
-        "auth.repository",   // 이미지 도메인 JPA 레포지토리
+        "bandRoom.repository",   // 이미지 도메인 JPA 레포지토리
         "outbox",                  // 반드시 outbox 패키지 JPA 리포지토리!
         // 필요하다면 다른 repository 패키지도 추가
 })
-public class AuthApplication {
+public class BandRoomApplication {
     public static void  main(String[] args)
     {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
@@ -36,6 +35,6 @@ public class AuthApplication {
         );
 
 
-        SpringApplication.run(AuthApplication.class, args);
+        SpringApplication.run(BandRoomApplication.class, args);
     }
 }

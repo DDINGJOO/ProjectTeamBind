@@ -1,4 +1,4 @@
-package inframessaging;
+package outbox.sender;
 
 
 public interface MessagingSender {

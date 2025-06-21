@@ -25,6 +25,8 @@ import token.JwtTokenProvider;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -34,9 +36,11 @@ public class AuthService {
     private final UserRoleGrantService userRoleGrantService;
     private final UserRoleRepository userRoleRepository;
     private final RefreshTokenService  refreshTokenService;
-    private final Snowflake  snowflake;
+    private  Snowflake  snowflake;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+
+
 
     @Transactional
     public void registerUser(SignUpRequest req) {
@@ -111,6 +115,20 @@ public class AuthService {
 
         // 6. 응답 반환
         return new LoginResponse(accessToken, refreshToken);
+    }
+
+
+    @Transactional
+    public void changePassword(Long userId, String newPassword, String newPasswordConfirm) {
+        if(!passwordEncoder.matches(newPassword, newPasswordConfirm)) {
+            throw new AuthException(AuthErrorCode.PASSWORD_CONFIRM_MISMATCH);
+        }
+
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new AuthException(AuthErrorCode.USER_ROLE_NOT_FOUND)
+                );
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 
 

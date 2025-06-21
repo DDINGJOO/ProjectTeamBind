@@ -22,3 +22,7 @@ spring:
         enabled: false
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+jwt:
+  secret: ${TOKEN_KEY}
+  access-expiration: ${ACCESSTOKEN_EXPIRATION}   # 15 minutes
+  refresh-expiration: ${REFRESHTOKEN_EXPIRATION}

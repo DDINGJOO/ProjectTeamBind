@@ -1,7 +1,6 @@
 package primaryIdProvider;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,7 +9,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class SnowflakeConcurrentTest {
 
-    private final Snowflake snowflake = new Snowflake(1L);
+    private final Snowflake snowflake = new Snowflake();
 
     @Test
     void generateIdsConcurrently_withoutDuplicates() throws InterruptedException {

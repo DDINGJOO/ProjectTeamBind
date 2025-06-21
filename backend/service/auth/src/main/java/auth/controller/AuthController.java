@@ -2,6 +2,7 @@ package auth.controller;
 
 
 import auth.dto.request.LoginRequest;
+import auth.dto.request.PasswordChangeRequest;
 import auth.dto.request.SignUpRequest;
 import auth.dto.response.LoginResponse;
 import auth.service.AuthService;
@@ -40,6 +41,21 @@ public class AuthController {
         } catch (AuthException e) {
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
+    }
+    @PostMapping("/changePassword")
+    public ResponseEntity<BaseResponse<?>> changePassword(
+            @RequestBody PasswordChangeRequest req
+            )
+    {
+        try{
+            authService.changePassword(req.userId(),req.newPassword(), req.newPasswordConfirm());
+        }
+        catch (AuthException e){
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
+        }
+
+        return ResponseEntity.ok(BaseResponse.success());
+
     }
 
     @DeleteMapping("/withdraw")

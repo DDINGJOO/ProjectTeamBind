@@ -23,9 +23,9 @@ public class UserWithdraw {
     @Column(name ="user_id" , nullable = false, unique = true)
     Long userId;
 
-    @Column(name ="사유")
+    @Column(name ="reason")
     String reason;
 
-    @Column(name = "탈퇴날짜")
+    @Column(name = "withdraw_date")
     LocalDateTime withdrawDate;
 }

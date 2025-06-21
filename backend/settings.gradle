@@ -17,3 +17,6 @@ include 'application:bff'
 
 include 'service'
 include 'service:auth'
+include 'service:mail'
+include 'service:band-room'
+include 'service:image'

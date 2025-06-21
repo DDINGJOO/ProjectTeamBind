@@ -2,6 +2,8 @@ package primaryIdProvider;
 
 import org.springframework.stereotype.Component;
 
+import java.util.random.RandomGenerator;
+
 /**
  * Snowflake ID Generator
  * - Time-ordered 64-bit unique ID
@@ -26,21 +28,13 @@ public class Snowflake {
 
     // ===== Custom Epoch: 2024-01-01T00:00:00Z =====
     private static final long CUSTOM_EPOCH = 1704067200000L;
-
+    private static final long maxNodeId = (1L << NODE_ID_BITS) - 1;
     // ===== Instance Variables =====
-    private final long nodeId;
+    private final long nodeId = RandomGenerator.getDefault().nextLong(maxNodeId + 1);
     private long lastTimestamp = -1L;
     private long sequence = 0L;
 
-    /**
-     * @param nodeId [0, 1023]
-     */
-    public Snowflake(long nodeId) {
-        if (nodeId < 0 || nodeId > MAX_NODE_ID) {
-            throw new IllegalArgumentException("Node ID must be between 0 and " + MAX_NODE_ID);
-        }
-        this.nodeId = nodeId;
-    }
+
 
     /**
      * Generate next unique ID

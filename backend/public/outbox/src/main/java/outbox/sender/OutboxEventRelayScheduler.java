@@ -1,5 +1,6 @@
 package outbox.sender;
 
+
 import inframessaging.producer.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-
 public class OutboxEventRelayScheduler {
 
     private final OutboxEventRepository repository;

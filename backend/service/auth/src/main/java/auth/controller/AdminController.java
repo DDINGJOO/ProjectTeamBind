@@ -16,7 +16,7 @@ import resposne.BaseResponse;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/admin/api/auth")
+@RequestMapping("/admin/api/auth/v1")
 public class AdminController {
 
     private final UserRoleGrantService userRoleGrantService;
@@ -39,10 +39,4 @@ public class AdminController {
         }
         return ResponseEntity.ok(BaseResponse.success());
     }
-
-
-
-
-
-
 }

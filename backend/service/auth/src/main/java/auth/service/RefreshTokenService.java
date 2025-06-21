@@ -36,4 +36,11 @@ public class RefreshTokenService {
         String pattern = "refresh:" + userId + ":*";
         redisTemplate.keys(pattern).forEach(redisTemplate::delete);
     }
+
+
+    public boolean isValid(String userId, String deviceId, String refreshToken) {
+        return get(userId, deviceId)
+                .map(saved -> saved.equals(refreshToken))
+                .orElse(false);
+    }
 }
