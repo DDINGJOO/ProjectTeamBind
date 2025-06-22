@@ -52,6 +52,12 @@ public class UserProfile {
     @Builder.Default
     @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserGenre> userGenres = new ArrayList<>();
+    @Column
+    private LocalDateTime deletedAt;
+
+    public boolean isDeleted() {
+        return this.deletedAt != null;
+    }
 
     @PrePersist
     protected void onCreate() {

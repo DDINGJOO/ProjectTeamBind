@@ -9,4 +9,6 @@ import userProfile.entity.UserGenre;
 public interface UserGenreRepository extends JpaRepository<UserGenre,Long> {
 
 
+    void deleteByUserId(Long userId);
+
 }

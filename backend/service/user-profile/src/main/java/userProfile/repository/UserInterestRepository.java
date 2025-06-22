@@ -7,4 +7,7 @@ import userProfile.entity.UserInterest;
 
 @Repository
 public interface UserInterestRepository extends JpaRepository<UserInterest,Long> {
+    void deleteByUserId(Long userId);
+
+
 }

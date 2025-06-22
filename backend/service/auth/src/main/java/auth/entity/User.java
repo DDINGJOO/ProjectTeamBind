@@ -41,4 +41,5 @@ public class User {
     @Column(name = "email-verified")
     private boolean isEmailVerified;
 
+
 }
