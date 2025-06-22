@@ -1,27 +1,57 @@
 package userProfile.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 import userProfile.config.UpdatableProfileColumn;
 
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "user_profile_history")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class UserProfileHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    private UpdatableProfileColumn fieldChanged; // NICKNAME, PROFILE_IMAGE, LOCATION 등
+    @Column(nullable = false, length = 32)
+    private UpdatableProfileColumn fieldChanged;
 
+    @Column(length = 255)
     private String oldValue;
+
+    @Column(length = 255)
     private String newValue;
 
+    @Column(nullable = false)
+    private String changedBy;
+
+    @Column(nullable = false, updatable = false)
     private LocalDateTime changedAt;
 
-    private String changedBy; // 유저 ID 또는 SYSTEM
+    @PrePersist
+    public void onCreate() {
+        this.changedAt = LocalDateTime.now();
+    }
+
+    public static UserProfileHistory of(Long userId,
+                                        UpdatableProfileColumn field,
+                                        String oldValue,
+                                        String newValue,
+                                        String changedBy) {
+        return UserProfileHistory.builder()
+                .userId(userId)
+                .fieldChanged(field)
+                .oldValue(oldValue)
+                .newValue(newValue)
+                .changedBy(changedBy)
+                .build();
+    }
 }

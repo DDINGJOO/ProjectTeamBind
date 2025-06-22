@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "userProfile",
         "outbox",                // Outbox 모듈
         "primaryIdProvider",
+        "wordFilter"
 })
 
 @EntityScan(basePackages = {
