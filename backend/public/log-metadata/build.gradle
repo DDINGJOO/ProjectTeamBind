@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(':public:event')
+    implementation project(':public:data-serializer')
+}
