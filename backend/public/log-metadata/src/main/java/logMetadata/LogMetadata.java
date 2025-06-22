@@ -47,6 +47,9 @@ public class LogMetadata {
      */
     private Map<String, String> context;
 
+    private String urlPath; //  추가
+    private String httpMethod; // (선택) GET/POST 등
+
     public static LogMetadata nowKST(boolean success, Long duration, String clientInfo) {
         return LogMetadata.builder()
                 .timestamp(ZonedDateTime.now(ZoneId.of("Asia/Seoul")))

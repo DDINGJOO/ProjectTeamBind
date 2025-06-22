@@ -1,17 +1,35 @@
 package logMetadata;
 
+import event.CustomEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
+import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogEvent {
-    private String userId;                // 유저 식별자
-    private LogActionType actionType;    // 로그인, 페이지 조회 등
-    private LogMetadata metadata;        // 부가정보 (아래 설명 참고)
-    private Object payload;              // 상세 행위에 대한 유연한 정보 (예: 조회한 게시글 ID)
+public class LogEvent<T> implements CustomEvent {
+
+    private Long userId;
+    private LogActionType actionType;
+    private LocalDateTime timestamp;
+    private LogMetadata metadata;
+    private T payload;
+
+    @Builder(builderMethodName = "now")
+    public static <T> LogEvent<T> now(Long userId, LogActionType actionType, LogMetadata metadata, T payload) {
+        return new LogEvent<>(userId, actionType, LocalDateTime.now(), metadata, payload);
+    }
+
+    @Override
+    public String name() {
+        return actionType.name();
+    }
+
+    @Override
+    public String getTopic() {
+        return actionType.getTopic();
+    }
 }
