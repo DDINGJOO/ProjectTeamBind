@@ -24,7 +24,7 @@ public class AdminController {
 
 
     @PostMapping("/grantRole")
-    public ResponseEntity<BaseResponse<?>> grandRole(
+    public ResponseEntity<BaseResponse<?>> grantRole(
             @RequestParam Long grantedId,
             @RequestParam Long granterId,
             @RequestParam UserRoleType roleId
