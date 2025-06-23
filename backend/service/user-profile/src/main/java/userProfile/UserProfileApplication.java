@@ -18,11 +18,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 })
 
 @EntityScan(basePackages = {
-        "UserProfile.entity",
+        "userProfile.entity",
         "outbox"
 })
 @EnableJpaRepositories(basePackages = {
-        "UserProfile.repository",
+        "userProfile.repository",
         "outbox",
         // 필요하다면 다른 repository 패키지도 추가
 })
