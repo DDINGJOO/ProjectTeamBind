@@ -6,16 +6,18 @@ import exception.error_code.userProfile.UserProfileErrorCode;
 import exception.excrptions.UserProfileException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import userProfile.config.Location;
 import userProfile.config.UpdatableProfileColumn;
+import userProfile.dto.condition.ProfileSearchCondition;
 import userProfile.dto.request.UserProfileUpdateRequest;
+import userProfile.dto.response.UserProfileResponse;
 import userProfile.entity.UserProfile;
 import userProfile.entity.UserProfileHistory;
-import userProfile.repository.UserGenreRepository;
-import userProfile.repository.UserInterestRepository;
-import userProfile.repository.UserProfileHistoryRepository;
-import userProfile.repository.UserProfileRepository;
+import userProfile.repository.*;
 import wordFilter.WordFilterService;
 
 import java.time.LocalDateTime;
@@ -27,26 +29,13 @@ import java.util.List;
 public class UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
-//    private final UserProfileQueryRepository userProfileQueryRepository;
+    private final UserProfileQueryRepository userProfileQueryRepository;
     private final UserGenreRepository userGenreRepository;
     private final UserInterestRepository userInterestRepository;
     private final UserProfileHistoryRepository historyRepository;
     private final WordFilterService wordFilterService;
 
-//    @Transactional
-//    public void createProfile(UserCreatedEvent event) {
-//        if (userProfileRepository.existsById(event.getUserId())) return;
-//
-//        UserProfile profile = UserProfile.builder()
-//                .userId(event.getUserId())
-//                .nickname("user_" + event.getUserId().toString().substring(0, 6))
-//                .email(event.getEmail())
-//                .profileImageUrl(event.getProfileImageUrl())
-//                .createdAt(LocalDateTime.now())
-//                .build();
-//
-//        userProfileRepository.save(profile);
-//    }
+
 
     @Transactional
     public void softDelete(Long userId) {
@@ -104,18 +93,21 @@ public class UserProfileService {
         profile.setUpdatedAt(LocalDateTime.now());
     }
 
-//    public UserProfileDto getProfile(Long userId) {
-//        UserProfile profile = findActiveProfile(userId);
-//        return UserProfileDto.from(profile);
-//    }
-//
-//    public Page<UserProfileDto> searchProfiles(ProfileSearchCondition condition, Pageable pageable) {
-//        return userProfileQueryRepository.search(condition, pageable);
-//    }
-//
-//    public List<UserProfileDto> findBatchProfiles(LocalDateTime updatedAfter) {
-//        return userProfileQueryRepository.findBatchProfiles(updatedAfter);
-//    }
+    public UserProfileResponse getProfile(Long userId) {
+        UserProfile profile = findActiveProfile(userId);
+        return UserProfileResponse.from(profile);
+    }
+
+
+    public Page<UserProfileResponse> searchProfiles(ProfileSearchCondition condition, Pageable pageable) {
+        Page<UserProfile> profiles = userProfileQueryRepository.search(condition, pageable);
+
+        List<UserProfileResponse> responseList = profiles.getContent().stream()
+                .map( UserProfileResponse::from)
+                .toList();
+
+        return new PageImpl<>(responseList, pageable, profiles.getTotalElements());
+    }
 
     public List<UserProfileHistory> getChangeHistories(Long userId) {
         return historyRepository.findAllByUserIdOrderByChangedAtDesc(userId);

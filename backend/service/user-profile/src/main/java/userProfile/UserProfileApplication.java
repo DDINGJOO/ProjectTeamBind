@@ -13,7 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "userProfile",
         "outbox",                // Outbox 모듈
         "primaryIdProvider",
-        "wordFilter"
+        "wordFilter",
+        "event"
 })
 
 @EntityScan(basePackages = {
@@ -21,7 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "outbox"
 })
 @EnableJpaRepositories(basePackages = {
-        "UserProfile.repository",   // 이미지 도메인 JPA 레포지토리
+        "UserProfile.repository",
         "outbox",
         // 필요하다면 다른 repository 패키지도 추가
 })
