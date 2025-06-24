@@ -1,1 +1,30 @@
-내용 추상화..?
+server:
+  port: ${MAIL_SEVER_PORT}
+
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_URL}
+      group-id: email-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+
+
+
+logging:
+  level:
+    org.springframework.kafka: INFO
+    bind.mail: DEBUG

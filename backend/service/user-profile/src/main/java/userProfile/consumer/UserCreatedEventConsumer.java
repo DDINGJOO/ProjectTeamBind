@@ -21,7 +21,7 @@ public class UserCreatedEventConsumer {
     private final UserProfileRepository userProfileRepository;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "user.created", groupId = "user-profile-group")
+    @KafkaListener(topics = "user.created", groupId = "user-profile-consumer-group")
     public void consume(String message) {
 
         try {
