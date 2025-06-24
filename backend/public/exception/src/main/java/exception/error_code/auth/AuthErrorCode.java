@@ -11,7 +11,8 @@ public enum AuthErrorCode implements CustomErrorCode {
     USER_NOT_FOUND("AUTH-VAL-003", "유저를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     PASSWORD_CONFIRM_MISMATCH("AUTH-VAL-004", "비밀번호와 비밀번호 확인이 다릅니다.", HttpStatus.BAD_REQUEST ),
     UNAUTHORIZED_ROLE_ASSIGNMENT("AUTH-005", "해당 권한을 부여할 권한이 없습니다.", HttpStatus.FORBIDDEN),
-    USER_ROLE_NOT_FOUND("AUTH-006", "유저의 권한 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
+    USER_ROLE_NOT_FOUND("AUTH-006", "유저의 권한 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    IS_ALREADY_CONFIRMED("AUTH-VAL-007", "이미 이메일이 인증된 유저입니다.", HttpStatus.CONFLICT),;
 
 
     private final String code;

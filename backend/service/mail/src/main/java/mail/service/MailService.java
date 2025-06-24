@@ -15,8 +15,6 @@ public class MailService {
     private final JavaMailSender mailSender;
 
     public void confirmedEmail(String email, Long userId) {
-
-
         System.out.println("This is MailService.sendVerificationEmail() \n email : " + email + "\n token :" + userId);
         try {
             //TODO : 인증 링크를 그냥 만들어서 줄까?
@@ -27,7 +25,7 @@ public class MailService {
             helper.setSubject("[BANDER] 회원가입 이메일 인증");
             helper.setText("<h1>이메일 인증</h1>" +
                             "<p>아래 링크를 클릭하여 이메일을 인증해주세요:</p>" +
-                            "<a href='http://localhost:9000/api/auth/verify-email?token=" +userId + "'>이메일 인증하기</a>",
+                            "<a href='http://localhost:9000/api/confirm/v1/email?" +userId + "'>이메일 인증하기</a>",
                     true);
 
             mailSender.send(message);
@@ -37,9 +35,6 @@ public class MailService {
             log.error("이메일 전송 실패", e);
         }
     }
-
-
-
 
 
 }

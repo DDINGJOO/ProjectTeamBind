@@ -36,11 +36,9 @@ public class AuthService {
     private final UserRoleGrantService userRoleGrantService;
     private final UserRoleRepository userRoleRepository;
     private final RefreshTokenService  refreshTokenService;
-    private  Snowflake  snowflake;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
-
-
+    private  Snowflake  snowflake;
 
     @Transactional
     public void registerUser(SignUpRequest req) {
@@ -132,11 +130,18 @@ public class AuthService {
     }
 
 
+
+
     @Transactional
     public void confirmedEmail(Long userId){
         var user = userRepository.findById(userId).orElseThrow(
                 ()-> new AuthException(AuthErrorCode.USER_NOT_FOUND)
         );
+
+        if(user.isEmailVerified())
+        {
+            throw new AuthException(AuthErrorCode.IS_ALREADY_CONFIRMED);
+        }
 
         user.setEmailVerified(true);
         user.setIsActive(true);
