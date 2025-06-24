@@ -46,7 +46,6 @@ public class BandRoom {
 
     private String phone;
 
-
     private boolean isClosed = true;
 
 

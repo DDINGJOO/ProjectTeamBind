@@ -25,5 +25,6 @@ dependencies {
     implementation project(':public:primary-id-provider')
     implementation project(':public:event')
     implementation project (':public:log-metadata')
+    implementation project(':public:data-serializer')
 
 }

@@ -38,6 +38,7 @@ dependencies {
 
     //내부 모듈
     implementation project(':public:primary-id-provider')
+    implementation project(':public:data-serializer')
     implementation project(':public:event')
     implementation project (':public:log-metadata')
     implementation project (':public:outbox')

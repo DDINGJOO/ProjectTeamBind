@@ -2,6 +2,9 @@ package userActivityLog.consumer;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dataserializer.DataSerializer;
+import event.KafkaEventPayload;
+import event.KafkaEventSerializer;
 import logMetadata.LogEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +26,15 @@ public class LogEventConsumer {
     @KafkaListener(topics = "activity.log.save", groupId = "log-consumer-group")
     public void consume(String message) {
         try {
-            LogEvent event = objectMapper.readValue(message, LogEvent.class);
+            // 1) 래핑된 KafkaEventPayload 객체로 역직렬화
+            KafkaEventPayload wrapper = KafkaEventSerializer.deserialize(message);
+
+            // 2) 내부 data(JSON)만 꺼내서 LogEvent로 역직렬화
+            String eventJson = wrapper.data();
+            LogEvent event = DataSerializer
+                    .deserialize(eventJson, LogEvent.class)
+                    .orElseThrow(() -> new IllegalArgumentException("LogEvent 역직렬화 실패"));
+
 
             UserActivityLog log = UserActivityLog.builder()
                     .id(snowflake.nextId())
