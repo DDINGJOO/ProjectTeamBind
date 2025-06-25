@@ -29,6 +29,12 @@ class KafkaEventProducerTest {
     @Autowired
     private KafkaEventProducer kafkaEventProducer;
 
+    @Test
+    void 전송_테스트() {
+        TestUserRegisteredEvent event = new TestUserRegisteredEvent();
+        kafkaEventProducer.send(event);
+    }
+
     static class TestUserRegisteredEvent implements CustomEvent {
         private final String id = "user-123";
         private final String email = "test@example.com";
@@ -38,14 +44,13 @@ class KafkaEventProducerTest {
             return "user.registered";
         }
 
+        @Override
+        public String getTopic() {
+            return "";
+        }
+
         public String getId() { return id; }
         public String getEmail() { return email; }
-    }
-
-    @Test
-    void 전송_테스트() {
-        TestUserRegisteredEvent event = new TestUserRegisteredEvent();
-        kafkaEventProducer.send(event);
     }
 
     @Configuration

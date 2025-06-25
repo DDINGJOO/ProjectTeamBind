@@ -1,5 +1,6 @@
 package primaryIdProvider;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.random.RandomGenerator;
@@ -14,6 +15,7 @@ import java.util.random.RandomGenerator;
  * Date: 2025-06-17
  */
 @Component
+@RequiredArgsConstructor
 public class Snowflake {
 
     // ===== Bit Allocation =====

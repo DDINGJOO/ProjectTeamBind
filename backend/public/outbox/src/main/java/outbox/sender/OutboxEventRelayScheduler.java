@@ -1,6 +1,7 @@
 package outbox.sender;
 
 
+import inframessaging.producer.KafkaEventProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +18,7 @@ import java.util.List;
 public class OutboxEventRelayScheduler {
 
     private final OutboxEventRepository repository;
-    private final MessagingSender sender;
+    private final KafkaEventProducer sender;
 
     @Scheduled(fixedDelay = 5000)
     public void relayEvents() {

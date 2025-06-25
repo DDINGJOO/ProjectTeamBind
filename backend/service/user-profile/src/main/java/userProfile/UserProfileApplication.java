@@ -36,7 +36,6 @@ public class UserProfileApplication {
                 System.setProperty(entry.getKey(), entry.getValue())
         );
 
-
         SpringApplication.run(UserProfileApplication.class, args);
     }
 }

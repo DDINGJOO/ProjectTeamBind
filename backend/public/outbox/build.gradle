@@ -6,7 +6,7 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     implementation project(':public:primary-id-provider')
-    implementation project(":public:infra-messaging")
+    implementation project(':public:infra-messaging')
     implementation project(':public:data-serializer')
     implementation project(':public:event')
 }

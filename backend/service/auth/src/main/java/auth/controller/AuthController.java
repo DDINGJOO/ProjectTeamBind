@@ -15,14 +15,15 @@ import resposne.BaseResponse;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth/v1/")
+@RequestMapping("/api/auth/v1")
 public class AuthController {
 
     private final AuthService authService;
     private final UserWithdrawService  userWithdrawService;
 
     @PostMapping("/signup")
-    public ResponseEntity<BaseResponse<?>> signup(SignUpRequest req)
+    public ResponseEntity<BaseResponse<?>> signup(
+            @RequestBody SignUpRequest req)
     {
         try {
             authService.registerUser(req);
@@ -30,6 +31,8 @@ public class AuthController {
         {
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
+
+
         return ResponseEntity.ok(BaseResponse.success());
     }
 

@@ -1,28 +1,20 @@
 package auth.dto.request;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor        // 기본 생성자 추가
+@AllArgsConstructor       // 모든 필드를 인자로 받는 생성자 추가
 public class SignUpRequest {
 
     String email;
     String password;
     String passwordConfirm;
 
-    public SignUpRequest(String mail, String s) {
-        this.email = mail;
-        this.password = s;
 
-    }
-
-    public SignUpRequest(String mail, String s, String differentPass)
-    {
-        this.email = mail;
-        this.password = s;
-        this.passwordConfirm = differentPass;
-
-    }
 }

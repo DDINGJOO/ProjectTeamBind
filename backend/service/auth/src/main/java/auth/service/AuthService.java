@@ -10,6 +10,7 @@ import auth.entity.User;
 import auth.entity.UserRole;
 import auth.repository.UserRepository;
 import auth.repository.UserRoleRepository;
+import auth.service.eventPublish.EventPublish;
 import auth.service.validator.Validator;
 import auth.service.validator.ValidatorFactory;
 import auth.service.validator.ValidatorType;
@@ -38,7 +39,10 @@ public class AuthService {
     private final RefreshTokenService  refreshTokenService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
-    private  Snowflake  snowflake;
+    private final Snowflake  snowflake;
+
+    //TODO : refact plz
+    private final EventPublish  eventPublish;
 
     @Transactional
     public void registerUser(SignUpRequest req) {
@@ -52,11 +56,14 @@ public class AuthService {
                 .password(passwordEncode(req.getPassword()))
                 .provider(ProviderList.SYSTEM)
                 .createdAt(LocalDateTime.now())
+                .isActive(false)
                 .isEmailVerified(false)
                 .isDeleted(false)
                 .build();
         userRepository.save(user);
 
+
+        eventPublish.createUserEvent(user.getId(),user.getEmail());
         userRoleGrantService.grantDefaultRole(user);
     }
 
@@ -93,15 +100,15 @@ public class AuthService {
         User user = userRepository.findByEmail(req.getEmail())
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
 
-        // 2. 비밀번호 검증
-        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
-            throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
-        }
+        checkUserHealth(req, user);
+
 
         // 3. 권한 조회
         UserRoleType role = userRoleRepository.findByUser(user)
                 .map(UserRole::getRole)
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_ROLE_NOT_FOUND));
+
+
 
         // 4. 토큰 발급
         String accessToken = jwtTokenProvider.issueAccessToken(String.valueOf(user.getId()), Map.of("role", role.name()));
@@ -113,6 +120,26 @@ public class AuthService {
 
         // 6. 응답 반환
         return new LoginResponse(accessToken, refreshToken);
+    }
+
+    private void checkUserHealth(LoginRequest req , User user) {
+        // 2. 비밀번호 검증
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
+        }
+        if(!user.isEmailVerified())
+        {
+            throw new AuthException(AuthErrorCode.EMAIL_NOT_CONFIRMD);
+        }
+        if(!user.getIsActive())
+        {
+            throw new AuthException(AuthErrorCode.INVALID_USER);
+        }
+        if(user.getIsDeleted())
+        {
+            throw new AuthException(AuthErrorCode.DELETED_USER);
+        }
+
     }
 
 

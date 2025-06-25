@@ -28,6 +28,7 @@ dependencies {
     implementation project(':public:primary-id-provider')
     implementation project (':public:response')
     implementation project (':public:jwt-token')
+    implementation project (':public:infra-messaging')
 
 }
 
