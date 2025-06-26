@@ -63,7 +63,8 @@ public class AuthService {
         userRepository.save(user);
 
 
-        eventPublish.createUserEvent(user.getId(),user.getEmail());
+        //todo : impl make comfirmurl
+        eventPublish.emailConfirmedEvent(user.getId(),user.getEmail(), "http://localhost:9001/auth/confirm");
         userRoleGrantService.grantDefaultRole(user);
     }
 
@@ -173,6 +174,7 @@ public class AuthService {
         user.setEmailVerified(true);
         user.setIsActive(true);
         userRepository.save(user);
+        eventPublish.createUserEvent(user.getId(), user.getEmail());
     }
 
     private String passwordEncode(String password)

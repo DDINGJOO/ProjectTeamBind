@@ -1,13 +1,8 @@
 package bandRoom.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "image")
@@ -17,10 +12,18 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Image {
-    @Column(name = "band_room_id", nullable = false, unique = true)
     @Id
-    Long bandRoomId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    List<String> imageUrls;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private String url;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", nullable = false)
+    private BandRoom bandroom;
+
+
 
 }

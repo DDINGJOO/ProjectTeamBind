@@ -46,8 +46,11 @@ public class UserProfileService {
 
     @Transactional
     public void hardDelete(Long userId) {
-        userInterestRepository.deleteByUserId(userId);
-        userGenreRepository.deleteByUserId(userId);
+        var userProfile  = userProfileRepository.findById(userId).orElseThrow(
+                () -> new UserProfileException(UserProfileErrorCode.USER_PROFILE_NOT_FOUND)
+        );
+        userInterestRepository.deleteByUserProfile(userProfile);
+        userGenreRepository.deleteByUserProfile(userProfile);
         userProfileRepository.deleteById(userId);
     }
 

@@ -20,9 +20,10 @@ public class OutboxEventRelayScheduler {
     private final OutboxEventRepository repository;
     private final KafkaEventProducer sender;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 1000)
     public void relayEvents() {
         List<OutboxEventEntity> events = repository.findTop100ByStatusOrderByCreatedAtAsc(OutboxStatus.PENDING);
+        log.info("{} events have been relayed", events.size());
 
         for (OutboxEventEntity event : events) {
             try {

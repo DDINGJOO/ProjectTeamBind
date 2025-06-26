@@ -22,7 +22,11 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
-
+  datasource:
+    url: ${AUTH_DB_URL}
+    username: ${AUTH_DB_USERNAME}
+    password: ${AUTH_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 logging:
   level:

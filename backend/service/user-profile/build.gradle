@@ -45,7 +45,8 @@ dependencies {
     implementation project(':public:word-filter')
     implementation project(':public:exception')
     implementation project(':public:response')
-
+    implementation project (':public:infra-messaging')
+    implementation project (':public:data-serializer')
 
 }
 

@@ -12,4 +12,6 @@ dependencies {
     implementation project(':public:primary-id-provider')
     implementation project (':public:response')
     implementation project (':public:event')
+    implementation project (':public:infra-messaging')
+    implementation project(':public:data-serializer')
 }

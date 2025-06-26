@@ -49,8 +49,9 @@ public class BandRoom {
     private boolean isClosed = true;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "RoomId")
-    private List<Image> userInterests;
+
+    @OneToMany( mappedBy = "RoomId",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Image> images;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

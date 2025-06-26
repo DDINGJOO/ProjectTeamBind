@@ -1,6 +1,7 @@
 package mail.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dataserializer.DataSerializer;
 import event.events.EmailConfirmedRequestEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +19,17 @@ public class EmailConfirmedRequestEventConsumer {
     private final MailService mailService;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "email.confirmed.request", groupId = "email-consumer-group")
+    @KafkaListener(
+            topics = "email.confirmed.request",
+            groupId = "email-consumer-group")
     public void consume(String message) {
 
         try {
-            EmailConfirmedRequestEvent event = objectMapper.readValue(message, EmailConfirmedRequestEvent.class);
+            EmailConfirmedRequestEvent event = DataSerializer
+                    .deserialize(message,EmailConfirmedRequestEvent.class)
+                    .orElseThrow(() -> new IllegalArgumentException("UserCreatedEvent 역직렬화 실패"));
+
+
             mailService.confirmedEmail(event.getEmail(),event.getUserId());
             log.info("이메일 확인 메일 발송 완료: {}", event.getUserId());
         }catch (Exception e){

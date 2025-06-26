@@ -25,7 +25,7 @@ public class MailService {
             helper.setSubject("[BANDER] 회원가입 이메일 인증");
             helper.setText("<h1>이메일 인증</h1>" +
                             "<p>아래 링크를 클릭하여 이메일을 인증해주세요:</p>" +
-                            "<a href='http://localhost:9000/api/confirm/v1/email?" +userId + "'>이메일 인증하기</a>",
+                            "<a href='http://localhost:9001/api/confirm/v1/email?" +userId + "'>이메일 인증하기</a>",
                     true);
 
             mailSender.send(message);
