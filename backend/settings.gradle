@@ -12,6 +12,7 @@ include 'public:jwt-token'
 include 'public:response'
 include 'public:log-metadata'
 include 'public:word-filter'
+include 'public:contract'
 
 
 include 'application'

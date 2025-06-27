@@ -1,7 +1,7 @@
 package auth.controller;
 
-import auth.dto.request.LogoutRequest;
 import auth.service.LogoutService;
+import dto.auth.request.LogoutRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

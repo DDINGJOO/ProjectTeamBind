@@ -1,9 +1,9 @@
 package userProfile.entity;
 
 
+import eurm.Location;
 import jakarta.persistence.*;
 import lombok.*;
-import userProfile.config.Location;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -46,12 +46,12 @@ public class UserProfile {
     private LocalDateTime updatedAt;
 
     @Builder.Default
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserInterest> userInterests = new ArrayList<>();
+    @OneToMany(mappedBy = "userInst", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserInstrument> userInstruments = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "userProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGenre> userGenres = new ArrayList<>();
+    @OneToMany(mappedBy = "userGerne", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserGerne> userGerne = new ArrayList<>();
     @Column
     private LocalDateTime deletedAt;
 

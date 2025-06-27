@@ -1,9 +1,9 @@
 package auth.controller;
 
 
-import auth.dto.request.RefreshTokenRequest;
-import auth.dto.response.LoginResponse;
 import auth.service.RefreshTokenService;
+import dto.auth.request.RefreshTokenRequest;
+import dto.auth.response.LoginResponse;
 import exception.error_code.token.TokenErrorCode;
 import exception.excrptions.TokenException;
 import lombok.RequiredArgsConstructor;

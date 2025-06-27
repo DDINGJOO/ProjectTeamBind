@@ -1,6 +1,11 @@
 package userProfile.service;
 
 
+import dto.userprofile.condition.ProfileSearchCondition;
+import dto.userprofile.request.UserProfileUpdateRequest;
+import dto.userprofile.response.UserProfileResponse;
+import eurm.Location;
+import eurm.UpdatableProfileColumn;
 import exception.error_code.userProfile.NickNameFilterErrorCode;
 import exception.error_code.userProfile.UserProfileErrorCode;
 import exception.excrptions.UserProfileException;
@@ -10,11 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import userProfile.config.Location;
-import userProfile.config.UpdatableProfileColumn;
-import userProfile.dto.condition.ProfileSearchCondition;
-import userProfile.dto.request.UserProfileUpdateRequest;
-import userProfile.dto.response.UserProfileResponse;
+import userProfile.entity.UserGerne;
+import userProfile.entity.UserInstrument;
 import userProfile.entity.UserProfile;
 import userProfile.entity.UserProfileHistory;
 import userProfile.repository.*;
@@ -98,7 +100,7 @@ public class UserProfileService {
 
     public UserProfileResponse getProfile(Long userId) {
         UserProfile profile = findActiveProfile(userId);
-        return UserProfileResponse.from(profile);
+        return from(profile);
     }
 
 
@@ -106,7 +108,7 @@ public class UserProfileService {
         Page<UserProfile> profiles = userProfileQueryRepository.search(condition, pageable);
 
         List<UserProfileResponse> responseList = profiles.getContent().stream()
-                .map( UserProfileResponse::from)
+                .map(this::from)
                 .toList();
 
         return new PageImpl<>(responseList, pageable, profiles.getTotalElements());
@@ -137,5 +139,21 @@ public class UserProfileService {
                 newValue,
                 "USER"
         ));
+    }
+
+    private UserProfileResponse from(UserProfile profile) {
+        return UserProfileResponse.builder()
+                .profileImageUrl(profile.getProfileImageUrl())
+                .nickName(profile.getNickname())
+                .userId(profile.getUserId())
+                .gender(profile.getGender())
+                .location(profile.getLocation())
+                .instruments(profile.getUserInstruments().stream()
+                        .map(UserInstrument::getInstrument)
+                        .toList())
+                .genres(profile.getUserGerne().stream()
+                        .map(UserGerne::getGenre)
+                        .toList())
+                .build();
     }
 }

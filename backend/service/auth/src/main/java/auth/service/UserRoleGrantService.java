@@ -1,11 +1,11 @@
 package auth.service;
 
 
-import auth.config.UserRoleType;
 import auth.entity.User;
 import auth.entity.UserRole;
 import auth.repository.UserRepository;
 import auth.repository.UserRoleRepository;
+import eurm.UserRoleType;
 import exception.error_code.auth.AuthErrorCode;
 import exception.excrptions.AuthException;
 import jakarta.transaction.Transactional;

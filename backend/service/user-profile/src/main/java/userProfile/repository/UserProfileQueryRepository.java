@@ -1,13 +1,13 @@
 package userProfile.repository;
 
 
+import dto.userprofile.condition.ProfileSearchCondition;
+import dto.userprofile.response.UserProfileResponse;
+import eurm.Genre;
+import eurm.Instrument;
+import eurm.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import userProfile.config.Genre;
-import userProfile.config.Instrument;
-import userProfile.config.Location;
-import userProfile.dto.condition.ProfileSearchCondition;
-import userProfile.dto.response.UserProfileResponse;
 import userProfile.entity.UserProfile;
 
 import java.time.LocalDateTime;

@@ -1,12 +1,12 @@
 package auth.service;
 
-import auth.config.ProviderList;
-import auth.dto.request.SignUpRequest;
 import auth.entity.User;
 import auth.repository.UserRepository;
 import auth.service.validator.Validator;
 import auth.service.validator.ValidatorFactory;
 import auth.service.validator.ValidatorType;
+import dto.auth.request.SignUpRequest;
+import eurm.ProviderList;
 import exception.error_code.auth.AuthErrorCode;
 import exception.excrptions.AuthException;
 import org.junit.jupiter.api.BeforeEach;

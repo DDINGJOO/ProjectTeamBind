@@ -9,6 +9,6 @@ dependencies {
     implementation project(':public:data-serializer')
     implementation project(':public:outbox')
     implementation project(':public:exception')
-
+    implementation project (':public:contract')
 
 }

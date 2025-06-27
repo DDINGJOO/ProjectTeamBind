@@ -29,6 +29,6 @@ dependencies {
     implementation project (':public:response')
     implementation project (':public:jwt-token')
     implementation project (':public:infra-messaging')
-
+    implementation project (':public:contract')
 }
 

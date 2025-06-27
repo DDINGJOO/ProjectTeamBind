@@ -1,6 +1,6 @@
 package auth.entity;
 
-import auth.config.UserRoleType;
+import eurm.UserRoleType;
 import lombok.*;
 
 import java.io.Serializable;

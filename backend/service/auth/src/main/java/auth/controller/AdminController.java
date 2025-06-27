@@ -1,8 +1,8 @@
 package auth.controller;
 
 
-import auth.config.UserRoleType;
 import auth.service.UserRoleGrantService;
+import eurm.UserRoleType;
 import exception.excrptions.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,9 @@
 package auth.service;
 
-import auth.config.UserRoleType;
 import auth.entity.User;
 import auth.entity.UserRole;
 import auth.repository.UserRoleRepository;
+import eurm.UserRoleType;
 import exception.error_code.auth.AuthErrorCode;
 import exception.excrptions.AuthException;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,13 +19,11 @@ import static org.mockito.Mockito.*;
 
 class UserRoleGrantServiceTest {
 
+    private final User user = User.builder().id(1L).build();
     @InjectMocks
     private UserRoleGrantService userRoleGrantService;
-
     @Mock
     private UserRoleRepository userRoleRepository;
-
-    private final User user = User.builder().id(1L).build();
 
     @BeforeEach
     void init() {

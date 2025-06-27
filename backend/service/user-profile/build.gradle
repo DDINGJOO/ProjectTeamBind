@@ -47,6 +47,8 @@ dependencies {
     implementation project(':public:response')
     implementation project (':public:infra-messaging')
     implementation project (':public:data-serializer')
+    implementation project (':public:contract')
+
 
 }
 

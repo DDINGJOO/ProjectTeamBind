@@ -47,8 +47,6 @@ allprojects {
         testAnnotationProcessor 'org.projectlombok:lombok'
 
 
-
-
     }
     tasks.withType(JavaCompile).configureEach {
         options.compilerArgs += ["-parameters"]

@@ -1,9 +1,9 @@
 package image.service;
 
-import image.config.eurm.ImageStatus;
-import image.config.eurm.ResourceCategory;
-import image.dto.request.ImageConfirmRequest;
-import image.dto.response.ImageResponse;
+import dto.image.request.ImageConfirmRequest;
+import dto.image.response.ImageResponse;
+import eurm.ImageStatus;
+import eurm.ResourceCategory;
 import image.entity.Image;
 import image.repository.ImageRepository;
 import image.service.component.ImageStatusChanger;
@@ -62,11 +62,11 @@ class ImageServiceTest {
                 .isThumbnail(false)
                 .build();
 
-        when(imageRepository.findByCategoryAndReferenceId(ResourceCategory.POST, "ref-123"))
+        when(imageRepository.findByCategoryAndReferenceId(ResourceCategory.POST, 123123L))
                 .thenReturn(List.of(img));
         when(urlHelper.generatePublicUrl(img)).thenReturn("https://cdn.com/img/test.webp");
 
-        List<ImageResponse> result = imageService.getImageUrls(ResourceCategory.POST, "ref-123");
+        List<ImageResponse> result = imageService.getImageUrls(ResourceCategory.POST, 123123L);
 
         assertEquals(1, result.size());
         assertEquals("https://cdn.com/img/test.webp", result.get(0).getUrl());

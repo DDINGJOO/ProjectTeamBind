@@ -1,9 +1,9 @@
 package image.service.component;
 
 
+import eurm.ImageStatus;
 import exception.error_code.image.ImageErrorCode;
 import exception.excrptions.ImageException;
-import image.config.eurm.ImageStatus;
 import image.entity.Image;
 import org.springframework.stereotype.Component;
 

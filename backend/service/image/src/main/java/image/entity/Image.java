@@ -1,9 +1,9 @@
 package image.entity;
 
 
-import image.config.eurm.ImageStatus;
-import image.config.eurm.ImageVisibility;
-import image.config.eurm.ResourceCategory;
+import eurm.ImageStatus;
+import eurm.ImageVisibility;
+import eurm.ResourceCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,23 +25,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Image {
 
+    boolean isThumbnail;
     @Id
     private Long id;
-
     // 파일 이름 (uuid.jpg)
     private String uuidName;
-
     // 원본 파일 이름
     private String originalName;
-
     // 저장된 전체 경로 (예: /upload/images/POST/2025/05/28/uuid.jpg)
     private String storedPath;
-
     // 썸네일 경로 (선택)
     private String url;
-
-    boolean isThumbnail;
-
     // MIME 타입 (image/jpeg 등)
     private String contentType;
 
@@ -53,7 +47,7 @@ public class Image {
     private ResourceCategory category;
 
     // 참조 ID (ex. 게시글 ID, 유저 ID 등)
-    private String referenceId;
+    private Long referenceId;
 
     // 이미지 업로더 (누가 업로드했는지)
     private String uploaderId;

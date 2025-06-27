@@ -1,8 +1,8 @@
 package userProfile.entity;
 
+import eurm.UpdatableProfileColumn;
 import jakarta.persistence.*;
 import lombok.*;
-import userProfile.config.UpdatableProfileColumn;
 
 import java.time.LocalDateTime;
 @Entity
@@ -36,11 +36,6 @@ public class UserProfileHistory {
     @Column(nullable = false, updatable = false)
     private LocalDateTime changedAt;
 
-    @PrePersist
-    public void onCreate() {
-        this.changedAt = LocalDateTime.now();
-    }
-
     public static UserProfileHistory of(Long userId,
                                         UpdatableProfileColumn field,
                                         String oldValue,
@@ -53,5 +48,10 @@ public class UserProfileHistory {
                 .newValue(newValue)
                 .changedBy(changedBy)
                 .build();
+    }
+
+    @PrePersist
+    public void onCreate() {
+        this.changedAt = LocalDateTime.now();
     }
 }

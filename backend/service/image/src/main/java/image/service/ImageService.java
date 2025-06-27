@@ -1,13 +1,13 @@
 package image.service;
 
 
+import dto.image.request.ImageConfirmRequest;
+import dto.image.response.ImageResponse;
+import dto.image.response.ImageUploadResponse;
+import eurm.ImageStatus;
+import eurm.ImageVisibility;
+import eurm.ResourceCategory;
 import exception.excrptions.ImageException;
-import image.config.eurm.ImageStatus;
-import image.config.eurm.ImageVisibility;
-import image.config.eurm.ResourceCategory;
-import image.dto.request.ImageConfirmRequest;
-import image.dto.response.ImageResponse;
-import image.dto.response.ImageUploadResponse;
 import image.entity.Image;
 import image.repository.ImageRepository;
 import image.service.component.ImageStatusChanger;
@@ -24,6 +24,7 @@ import primaryIdProvider.Snowflake;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -95,21 +96,23 @@ public class ImageService {
         return responses;
     }
 
-    public List<ImageResponse> getImageUrls(ResourceCategory category, String referenceId) {
+    public List<ImageResponse> getImageUrls(ResourceCategory category, Long referenceId) {
         List<Image> images = imageRepository.findByCategoryAndReferenceId(category, referenceId);
         if (images.isEmpty()) {
             throw new ImageException(IMAGE_NOT_FOUND);
         }
-
-        return images.stream()
-                .filter(image -> image.getStatus() == ImageStatus.CONFIRMED)
-                .map(image -> ImageResponse.builder()
-                        .referenceId(referenceId)
-                        .category(image.getCategory())
-                        .isThumbnail(image.isThumbnail())
-                        .url(imageUrlHelper.generatePublicUrl(image))
-                        .build())
-                .toList();
+        {
+            return images.stream()
+                    .filter(image -> image.getStatus() == ImageStatus.CONFIRMED)
+                    .sorted(Comparator.comparing(Image::isThumbnail).reversed())
+                    .map(image -> ImageResponse.builder()
+                            .referenceId(referenceId)
+                            .id(image.getId())
+                            .category(image.getCategory())
+                            .url(imageUrlHelper.generatePublicUrl(image))
+                            .build())
+                    .toList();
+        }
     }
 
     public void confirmImage(Long imageId) {
@@ -124,13 +127,13 @@ public class ImageService {
         statusChanger.changeStatus(image, null, ImageStatus.PENDING_DELETE, IMAGE_ALREADY_PENDING_DELETE);
     }
 
-    public void markAsConfirmed(ResourceCategory category, String referenceId) {
+    public void markAsConfirmed(ResourceCategory category, Long referenceId) {
         List<Image> images = imageRepository.findByCategoryAndReferenceId(category, referenceId);
         statusChanger.changeStatusBulk(images, ImageStatus.CONFIRMED);
         imageRepository.saveAll(images);
     }
 
-    public void markAsPendingDeleteExceptTemp(ResourceCategory category, String referenceId) {
+    public void markAsPendingDeleteExceptTemp(ResourceCategory category, Long referenceId) {
         List<Image> images = imageRepository.findByCategoryAndReferenceId(category, referenceId);
         if (images.isEmpty()) {
             throw new ImageException(IMAGE_NOT_FOUND);
@@ -177,4 +180,6 @@ public class ImageService {
             imageRepository.delete(image);
         }
     }
+
+
 }

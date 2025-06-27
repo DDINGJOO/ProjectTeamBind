@@ -1,7 +1,7 @@
 package auth.entity;
 
 
-import auth.config.ProviderList;
+import eurm.ProviderList;
 import jakarta.persistence.*;
 import lombok.*;
 

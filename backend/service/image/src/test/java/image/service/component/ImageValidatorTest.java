@@ -1,8 +1,8 @@
 package image.service.component;
 
+import eurm.ImageStatus;
+import eurm.ResourceCategory;
 import exception.excrptions.ImageException;
-import image.config.eurm.ImageStatus;
-import image.config.eurm.ResourceCategory;
 import image.entity.Image;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

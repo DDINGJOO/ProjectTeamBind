@@ -8,3 +8,9 @@ spring:
       port: ${REDIS_PORT}
 
 
+jwt:
+  secret_key: ${TOKEN_KEY}
+
+service:
+  auth:
+    base-url: ${DNS}:${AUTH_PORT}

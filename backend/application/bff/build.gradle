@@ -19,4 +19,9 @@ dependencies {
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+
+    implementation project(':public:contract')
+    implementation project(':public:response')
+    implementation project(':public:exception')
+    implementation project(':public:jwt-token')
 }

@@ -1,12 +1,12 @@
 package auth.controller;
 
 
-import auth.dto.request.LoginRequest;
-import auth.dto.request.PasswordChangeRequest;
-import auth.dto.request.SignUpRequest;
-import auth.dto.response.LoginResponse;
 import auth.service.AuthService;
 import auth.service.UserWithdrawService;
+import dto.auth.request.LoginRequest;
+import dto.auth.request.PasswordChangeRequest;
+import dto.auth.request.SignUpRequest;
+import dto.auth.response.LoginResponse;
 import exception.excrptions.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
