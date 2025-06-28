@@ -1,7 +1,7 @@
 package auth.controller;
 
 
-import auth.service.RefreshTokenService;
+import auth.service.token.RefreshTokenService;
 import dto.auth.request.RefreshTokenRequest;
 import dto.auth.response.LoginResponse;
 import exception.error_code.token.TokenErrorCode;

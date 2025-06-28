@@ -50,7 +50,7 @@ public class Image {
     private Long referenceId;
 
     // 이미지 업로더 (누가 업로드했는지)
-    private String uploaderId;
+    private Long uploaderId;
 
     // 이미지 상태 (TEMP, CONFIRMED, PENDING_DELETE)
     @Enumerated(EnumType.STRING)

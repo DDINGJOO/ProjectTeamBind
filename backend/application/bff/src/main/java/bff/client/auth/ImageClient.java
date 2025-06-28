@@ -1,8 +1,7 @@
 package bff.client.auth;
 
 
-import dto.auth.request.LoginRequest;
-import dto.auth.request.SignUpRequest;
+import dto.image.request.ImageConfirmRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -12,28 +11,27 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import resposne.BaseResponse;
 
-
 @Component
-public class AuthClient {
-    private final String BASE_URI = "/api/auth/v1";
+public class ImageClient {
+    private final String BASE_URI = "/api/image/v1";
     private final WebClient webClient;
-    public AuthClient(@Qualifier("authWebClient") WebClient webClient) {
+    public ImageClient(@Qualifier("imageWebClient") WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Mono<ResponseEntity<BaseResponse<?>>> signUp(SignUpRequest req) {
-        return post(req, BASE_URI + "/signup");
+    public Mono<ResponseEntity<BaseResponse<?>>> confirmImage(ImageConfirmRequest req) {
+        return post(req, BASE_URI + "/confirm");
     }
 
-    public Mono<ResponseEntity<BaseResponse<?>>> login(LoginRequest req) {
-        return post(req, BASE_URI + "/login");
+
+    public Mono<ResponseEntity<BaseResponse<?>>> deleteImage(Long imageId) {
+        return post(BASE_URI +
+                "/delete?" +
+                "imageId="+imageId);
     }
-    public Mono<ResponseEntity<BaseResponse<?>>> withdraw(Long userid, String reason) {
-        return post(BASE_URI + "/withdraw?"
-                +"userId=" + userid
-                +"&reason=" + reason
-        );
-    }
+
+
+
 
 
 
@@ -70,6 +68,4 @@ public class AuthClient {
                 );
     }
 
-
 }
-

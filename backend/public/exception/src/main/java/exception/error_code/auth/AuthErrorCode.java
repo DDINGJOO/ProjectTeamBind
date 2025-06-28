@@ -13,11 +13,9 @@ public enum AuthErrorCode implements CustomErrorCode {
     UNAUTHORIZED_ROLE_ASSIGNMENT("AUTH-005", "해당 권한을 부여할 권한이 없습니다.", HttpStatus.FORBIDDEN),
     USER_ROLE_NOT_FOUND("AUTH-006", "유저의 권한 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     IS_ALREADY_CONFIRMED("AUTH-VAL-007", "이미 이메일이 인증된 유저입니다.", HttpStatus.CONFLICT),
-    EMAIL_NOT_CONFIRMD("AUTH-VAL-008", "이메일 인증이 되지 않은 유저입니다.", HttpStatus.BAD_REQUEST ),
+    EMAIL_NOT_CONFIRMED("AUTH-VAL-008", "이메일 인증이 되지 않은 유저입니다.", HttpStatus.BAD_REQUEST ),
     INVALID_USER("AUTH-VAL-009", "활동이 정지된 유저입니다.", HttpStatus.BAD_REQUEST ),
-    DELETED_USER("AUTH-VAL-010", "삭제 대기중인 유저 입니다.", HttpStatus.BAD_REQUEST ),
-    ;
-
+    DELETED_USER("AUTH-VAL-010", "삭제 대기중인 유저 입니다.", HttpStatus.BAD_REQUEST );
 
     private final String code;
     private final String message;

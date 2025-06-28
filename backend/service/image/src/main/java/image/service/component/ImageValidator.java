@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ImageValidator {
 
-    public void validateUser(Image image, String currentUserId) {
+    public void validateUser(Image image, Long currentUserId) {
         if (!image.getUploaderId().equals(currentUserId)) {
             throw new ImageException(ImageErrorCode.UNAUTHORIZED_ACCESS);
         }

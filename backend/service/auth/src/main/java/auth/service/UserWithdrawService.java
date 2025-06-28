@@ -27,6 +27,11 @@ public class UserWithdrawService {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
 
+        if(user.getIsDeleted())
+        {
+            throw new AuthException(AuthErrorCode.DELETED_USER);
+        }
+
         user.setIsDeleted(true);
         user.setIsActive(false);
         userRepository.save(user);

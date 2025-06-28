@@ -19,7 +19,8 @@ import resposne.BaseResponse;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserWithdrawService  userWithdrawService;
+    private final UserWithdrawService userWithdrawService;
+
 
     @PostMapping("/signup")
     public ResponseEntity<BaseResponse<?>> signup(
@@ -61,7 +62,7 @@ public class AuthController {
 
     }
 
-    @DeleteMapping("/withdraw")
+    @PostMapping("/withdraw")
     public ResponseEntity<BaseResponse<?>> withdraw(
             @RequestParam Long userId,
             @RequestParam String reason

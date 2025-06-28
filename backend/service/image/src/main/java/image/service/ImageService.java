@@ -45,7 +45,7 @@ public class ImageService {
 
     public ImageUploadResponse upload(MultipartFile file,
                                       ResourceCategory category,
-                                      String uploaderId,
+                                      Long uploaderId,
                                       ImageVisibility visibility,
                                       Boolean isThumbnail) {
 
@@ -87,7 +87,7 @@ public class ImageService {
 
     public List<ImageUploadResponse> uploadImages(List<MultipartFile> files,
                                                   ResourceCategory category,
-                                                  String uploaderId,
+                                                  Long uploaderId,
                                                   ImageVisibility visibility) {
         List<ImageUploadResponse> responses = new ArrayList<>();
         for (MultipartFile file : files) {
@@ -115,7 +115,7 @@ public class ImageService {
         }
     }
 
-    public void confirmImage(Long imageId) {
+    private void confirmImage(Long imageId) {
         Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new ImageException(IMAGE_NOT_FOUND));
         statusChanger.changeStatus(image, ImageStatus.TEMP, ImageStatus.CONFIRMED, IMAGE_NOT_TEMP);
@@ -133,29 +133,26 @@ public class ImageService {
         imageRepository.saveAll(images);
     }
 
-    public void markAsPendingDeleteExceptTemp(ResourceCategory category, Long referenceId) {
+    public void markAllAsPendingDelete(ResourceCategory category, Long referenceId) {
         List<Image> images = imageRepository.findByCategoryAndReferenceId(category, referenceId);
         if (images.isEmpty()) {
             throw new ImageException(IMAGE_NOT_FOUND);
         }
 
-        List<Image> targets = images.stream()
-                .filter(img -> img.getStatus() != ImageStatus.TEMP)
-                .toList();
 
-        statusChanger.changeStatusBulk(targets, ImageStatus.PENDING_DELETE);
-        imageRepository.saveAll(targets);
+        statusChanger.changeStatusBulk(images, ImageStatus.PENDING_DELETE);
+        imageRepository.saveAll(images);
     }
 
     @Transactional
-    public void confirmImages(ImageConfirmRequest request, String currentUserId) {
+    public void confirmImages(ImageConfirmRequest request) {
         List<Image> images = imageRepository.findAllById(request.getImageIds());
         if (images.size() != request.getImageIds().size()) {
             throw new ImageException(IMAGE_NOT_FOUND);
         }
 
         for (Image image : images) {
-            validator.validateUser(image, currentUserId);
+            validator.validateUser(image, request.getUploaderId());
             validator.validateTempStatus(image);
             validator.validateCategory(image, request.getCategory());
 

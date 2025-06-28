@@ -71,10 +71,6 @@ public class UserProfileService {
             profile.setIntroduction(request.getIntroduction());
         }
 
-        if (request.getProfileImageUrl() != null && !request.getProfileImageUrl().equals(profile.getProfileImageUrl())) {
-            saveHistory(userId, UpdatableProfileColumn.PROFILE_IMAGE, profile.getProfileImageUrl(), request.getProfileImageUrl());
-            profile.setProfileImageUrl(request.getProfileImageUrl());
-        }
 
         if (request.getGender() != null && !request.getGender().equals(profile.getGender())) {
             saveHistory(userId, UpdatableProfileColumn.GENDER, profile.getGender(), request.getGender());
@@ -95,8 +91,38 @@ public class UserProfileService {
             profile.setPhoneNumber(request.getPhoneNumber());
         }
 
+        if (request.getInstruments() != null && !request.getInstruments().isEmpty()) {
+            saveHistory(userId, UpdatableProfileColumn.INSTRUMENT,
+                    profile.getUserInstruments().toString(),
+                    request.getInstruments().toString());
+
+            request.getInstruments().forEach(instrument -> {
+                userInterestRepository.save(
+                        UserInstrument.builder()
+                                .userProfile(profile)
+                                .instrument(instrument)
+                                .build()
+                );
+            });
+        }
+
+        if (request.getGenres() != null && !request.getGenres().isEmpty()) {
+            saveHistory(userId, UpdatableProfileColumn.INSTRUMENT,
+                    profile.getUserInstruments().toString(),
+                    request.getInstruments().toString());
+
+            request.getGenres().forEach(genre -> {
+                userGenreRepository.save(
+                        UserGerne.builder()
+                                .userProfile(profile)
+                                .genre(genre)
+                                .build()
+                );
+            });
+        }
         profile.setUpdatedAt(LocalDateTime.now());
     }
+
 
     public UserProfileResponse getProfile(Long userId) {
         UserProfile profile = findActiveProfile(userId);

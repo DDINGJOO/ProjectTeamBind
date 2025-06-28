@@ -8,7 +8,9 @@ public enum UpdatableProfileColumn {
     LOCATION("지역"),
     GENDER("성별"),
     PHONE_NUMBER("전화번호"),
-    EMAIL("이메일");
+    EMAIL("이메일"),
+    GERNE("장르"),
+    INSTRUMENT("악기");
 
     private final String displayName;
 

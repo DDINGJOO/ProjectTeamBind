@@ -2,15 +2,29 @@ server:
   port: ${BFF_PORT}
 
 spring:
+  main:
+    web-application-type: reactive
   data:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
-jwt:
-  secret_key: ${TOKEN_KEY}
+token:
+  secret: ${TOKEN_KEY}             # 환경변수 또는 .env 의 TOKEN_KEY
+  access-exp: ${ACCESSTOKEN_EXPIRATION}   # 초 단위
+  refresh-exp: ${REFRESHTOKEN_EXPIRATION} # 초 단위
 
 service:
   auth:
     base-url: ${DNS}:${AUTH_PORT}
+  image:
+    base-url: ${DNS}:${IMAGE_PORT}
+
+  user-profile:
+    base-url: ${DNS}:${USER_PROFILE_PORT}
+
+

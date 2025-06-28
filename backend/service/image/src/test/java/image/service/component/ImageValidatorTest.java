@@ -25,9 +25,9 @@ class ImageValidatorTest {
     @Test
     @DisplayName("업로더 불일치 시 예외 발생")
     void validateUser_shouldThrow_whenUploaderMismatch() {
-        Image image = Image.builder().uploaderId("userA").build();
+        Image image = Image.builder().uploaderId(123123L).build();
 
-        assertThrows(ImageException.class, () -> validator.validateUser(image, "userB"));
+        assertThrows(ImageException.class, () -> validator.validateUser(image, 123123L));
     }
 
     @Test
@@ -50,13 +50,13 @@ class ImageValidatorTest {
     @DisplayName("모든 조건이 유효하면 예외 없음")
     void allValidations_shouldPass_whenCorrect() {
         Image image = Image.builder()
-                .uploaderId("userA")
+                .uploaderId(123123L)
                 .status(ImageStatus.TEMP)
                 .category(ResourceCategory.POST)
                 .build();
 
         assertDoesNotThrow(() -> {
-            validator.validateUser(image, "userA");
+            validator.validateUser(image, 123123L);
             validator.validateTempStatus(image);
             validator.validateCategory(image, ResourceCategory.POST);
         });

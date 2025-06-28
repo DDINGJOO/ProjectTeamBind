@@ -1,16 +1,15 @@
 dependencies {
-    // WebFlux
+    // WebFlux (서블릿-web 제거)
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
-    // Spring Security
+    // Security (Reactive)
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    implementation project(':public:jwt-token')
-
-    // Redis
+    // Redis, Validation, jjwt 등…
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    // Reactive Netty (기본 포함)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly   'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly   'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    // Reactor Netty
     implementation 'io.projectreactor.netty:reactor-netty'
 
     // Configuration Processor
@@ -20,8 +19,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
 
+    // Internal modules
     implementation project(':public:contract')
     implementation project(':public:response')
     implementation project(':public:exception')
     implementation project(':public:jwt-token')
+    implementation project(':application:token-validation')
+
 }

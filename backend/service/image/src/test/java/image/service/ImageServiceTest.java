@@ -78,7 +78,7 @@ class ImageServiceTest {
         Image image = Image.builder()
                 .id(1L)
                 .status(ImageStatus.TEMP)
-                .uploaderId("user1")
+                .uploaderId(123123L)
                 .category(ResourceCategory.POST)
                 .build();
 
@@ -86,12 +86,13 @@ class ImageServiceTest {
         ReflectionTestUtils.setField(req, "imageIds", List.of(1L));
         ReflectionTestUtils.setField(req, "category", ResourceCategory.POST);
         ReflectionTestUtils.setField(req, "referenceId", "post-123");
+        ReflectionTestUtils.setField(req, "uploadUserId", 123123L);
 
         when(imageRepository.findAllById(List.of(1L))).thenReturn(List.of(image));
 
-        imageService.confirmImages(req, "user1");
+        imageService.confirmImages(req);
 
-        verify(validator).validateUser(image, "user1");
+        verify(validator).validateUser(image, 123123L);
         verify(validator).validateTempStatus(image);
         verify(validator).validateCategory(image, ResourceCategory.POST);
         verify(statusChanger).changeStatus(

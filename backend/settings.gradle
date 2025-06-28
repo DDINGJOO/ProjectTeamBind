@@ -17,7 +17,7 @@ include 'public:contract'
 
 include 'application'
 include 'application:bff'
-
+include 'application:token-validation'
 
 include 'service'
 include 'service:auth'

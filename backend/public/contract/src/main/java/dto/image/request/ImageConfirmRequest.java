@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 public class ImageConfirmRequest {
     private ResourceCategory category;
+    private Long uploaderId;
     private Long referenceId;
     private List<Long> imageIds;
 }

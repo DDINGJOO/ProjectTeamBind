@@ -1,6 +1,7 @@
 package userProfile.controller;
 
 
+import dto.userprofile.request.UserProfileUpdateRequest;
 import exception.excrptions.UserProfileException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,16 @@ import userProfile.service.UserProfileService;
 public class UserProfileController {
     private final UserProfileService userProfileService;
 
+
+    @PostMapping()
+    public ResponseEntity<BaseResponse<?>> upDateProfile(@RequestBody UserProfileUpdateRequest request) {
+        try{
+            userProfileService.updateProfile(request.getUserId(),request);
+            return  ResponseEntity.ok(BaseResponse.success());
+        }catch (UserProfileException e){
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
+        }
+    }
 
 
     @PostMapping("/deleteUser")
@@ -33,8 +44,6 @@ public class UserProfileController {
         catch (UserProfileException e){
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
-
-
     }
 
 
