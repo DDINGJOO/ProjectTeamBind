@@ -13,6 +13,7 @@ import image.repository.ImageRepository;
 import image.service.component.ImageStatusChanger;
 import image.service.component.ImageUrlHelper;
 import image.service.component.ImageValidator;
+import image.service.eventPublish.EventPublish;
 import image.service.image_store_impl.LocalImageStorage;
 import image.service.util.ImageUtil;
 import jakarta.transaction.Transactional;
@@ -42,6 +43,7 @@ public class ImageService {
     private final ImageValidator validator;
     private final ImageStatusChanger statusChanger;
     private final ImageUrlHelper imageUrlHelper;
+    private final EventPublish  eventPublish;
 
     public ImageUploadResponse upload(MultipartFile file,
                                       ResourceCategory category,
@@ -115,10 +117,25 @@ public class ImageService {
         }
     }
 
-    private void confirmImage(Long imageId) {
+
+    @Transactional
+    public void confirmImage(Long imageId) {
         Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new ImageException(IMAGE_NOT_FOUND));
+        if(image.getCategory() == ResourceCategory.PROFILE)
+        {
+            List<Image> beforeImages = imageRepository.findByCategoryAndReferenceId(ResourceCategory.PROFILE,image.getReferenceId());
+            for(Image beforeImage : beforeImages)
+            {
+                beforeImage.setStatus(ImageStatus.PENDING_DELETE);
+            }
+            eventPublish.createUserEvent(imageId,imageUrlHelper.generatePublicUrl(image));
+        }
+
+
+        image.setThumbnail(Boolean.TRUE);
         statusChanger.changeStatus(image, ImageStatus.TEMP, ImageStatus.CONFIRMED, IMAGE_NOT_TEMP);
+        imageRepository.save(image);
     }
 
     public void deleteImage(Long imageId) {

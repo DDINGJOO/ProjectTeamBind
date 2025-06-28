@@ -1,6 +1,7 @@
 package userProfile.entity;
 
 
+
 import eurm.Location;
 import jakarta.persistence.*;
 import lombok.*;

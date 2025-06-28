@@ -4,8 +4,8 @@ package bff.controller;
 import bff.client.auth.AuthClient;
 import dto.auth.request.LoginRequest;
 import dto.auth.request.SignUpRequest;
-import exception.error_code.auth.AuthErrorCode;
-import exception.excrptions.AuthException;
+import exception.error_code.bff.BffErrorCode;
+import exception.excrptions.BffException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +51,7 @@ public class AuthController {
 
         // userId 체크
         if (!userIdFromToken.equals(userId.toString())) {
-            throw new AuthException(AuthErrorCode.USER_NOT_FOUND);
+            throw new BffException(BffErrorCode.NOT_MATCHED_TOKEN);
         }
 
         log.info("요청자 ID={}, 권한={}", userIdFromToken, simpleRole);

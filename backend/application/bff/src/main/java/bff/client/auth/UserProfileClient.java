@@ -15,12 +15,22 @@ import resposne.BaseResponse;
 public class UserProfileClient {
     private final String BASE_URI = "/api/user-profile/v1";
     private final WebClient webClient;
+
+
+
+
+
     public UserProfileClient(@Qualifier("userProfileWebClient") WebClient webClient) {
         this.webClient = webClient;
     }
+
+
     public Mono<ResponseEntity<BaseResponse<?>>> updateProfile(UserProfileUpdateRequest request) {
         return post(request,BASE_URI);
     }
+
+
+
     public Mono<ResponseEntity<BaseResponse<?>>> softDeleteUser(
             Long userId
     ) {

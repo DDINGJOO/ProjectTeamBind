@@ -19,8 +19,12 @@ public class ImageClient {
         this.webClient = webClient;
     }
 
-    public Mono<ResponseEntity<BaseResponse<?>>> confirmImage(ImageConfirmRequest req) {
-        return post(req, BASE_URI + "/confirm");
+    public Mono<ResponseEntity<BaseResponse<?>>> confirmImages(ImageConfirmRequest req) {
+        return post(req, BASE_URI + "/confirms");
+    }
+
+    public Mono<ResponseEntity<BaseResponse<?>>> confirmImage(Long imageId) {
+        return post(BASE_URI + "/confirm?imageId=" + imageId);
     }
 
 

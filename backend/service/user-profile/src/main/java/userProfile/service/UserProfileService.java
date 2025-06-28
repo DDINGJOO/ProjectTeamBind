@@ -31,7 +31,7 @@ import java.util.List;
 public class UserProfileService {
 
     private final UserProfileRepository userProfileRepository;
-    private final UserProfileQueryRepository userProfileQueryRepository;
+    private final UserProfileRepositoryCustom userProfileQueryRepository;
     private final UserGenreRepository userGenreRepository;
     private final UserInterestRepository userInterestRepository;
     private final UserProfileHistoryRepository historyRepository;

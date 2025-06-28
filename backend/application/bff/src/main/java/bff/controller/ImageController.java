@@ -3,8 +3,8 @@ package bff.controller;
 
 import bff.client.auth.ImageClient;
 import dto.image.request.ImageConfirmRequest;
-import exception.error_code.auth.AuthErrorCode;
-import exception.excrptions.AuthException;
+import exception.error_code.bff.BffErrorCode;
+import exception.excrptions.BffException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +29,10 @@ public class ImageController {
     {
         String userIdFromToken = authentication.getName();
         if (!userIdFromToken.equals(req.getUploaderId().toString())) {
-            throw new AuthException(AuthErrorCode.USER_NOT_FOUND);
+            throw new BffException(BffErrorCode.NOT_MATCHED_TOKEN);
         }
         log.info("이미지 확정 요청<Token.UserId> ID={}, <Request.UserId>={}", userIdFromToken, req.getUploaderId());
-        return imageClient.confirmImage(req);
+        return imageClient.confirmImages(req);
     }
 
 

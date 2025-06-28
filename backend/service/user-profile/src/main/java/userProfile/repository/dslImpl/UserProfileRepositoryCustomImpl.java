@@ -1,7 +1,7 @@
 package userProfile.repository.dslImpl;
 
-
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dto.userprofile.condition.ProfileSearchCondition;
@@ -13,25 +13,24 @@ import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
-import userProfile.entity.QUserGenre;
-import userProfile.entity.QUserInterest;
+import userProfile.entity.QUserGerne;
+import userProfile.entity.QUserInstrument;
 import userProfile.entity.QUserProfile;
 import userProfile.entity.UserProfile;
-import userProfile.repository.UserProfileQueryRepository;
+import userProfile.repository.UserProfileRepositoryCustom;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 
-@Repository
-public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
+public class UserProfileRepositoryCustomImpl implements UserProfileRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
-    public UserProfileRepositoryImpl(EntityManager em) {
+    public UserProfileRepositoryCustomImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
+
     @Override
     public Page<UserProfile> searchProfilesDsl(
             String nickname,
@@ -41,11 +40,10 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
             Pageable pageable
     ) {
         QUserProfile profile = QUserProfile.userProfile;
-        QUserInterest userInterest = QUserInterest.userInterest;
-        QUserGenre userGenre = QUserGenre.userGenre;
+        QUserInstrument userInterest = QUserInstrument.userInstrument;
+        QUserGerne userGenre = QUserGerne.userGerne;
 
-        // where절 빌드
-        var whereBuilder = new BooleanBuilder();
+        BooleanBuilder whereBuilder = new BooleanBuilder();
 
         if (nickname != null && !nickname.isBlank()) {
             whereBuilder.and(profile.nickname.containsIgnoreCase(nickname));
@@ -55,24 +53,22 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
         }
         if (interests != null && !interests.isEmpty()) {
             // 관심사에 해당하는 userId만
-            whereBuilder.and(profile.userId.in(
-                    JPAExpressions
-                            .select(userInterest.userProfile.userId)
-                            .from(userInterest)
-                            .where(userInterest.interest.in(interests))
-            ));
+            SubQueryExpression<Long> interestSub = JPAExpressions
+                    .<Long>select(userInterest.userProfile.userId)
+                    .from(userInterest)
+                    .where(userInterest.instrument.in(interests));
+            whereBuilder.and(profile.userId.in(interestSub));
         }
         if (genres != null && !genres.isEmpty()) {
             // 장르에 해당하는 userId만
-            whereBuilder.and(profile.userId.in(
-                    JPAExpressions
-                            .select(userGenre.userProfile.userId)
-                            .from(userGenre)
-                            .where(userGenre.genre.in(genres))
-            ));
+            SubQueryExpression<Long> genreSub = JPAExpressions
+                    .<Long>select(userGenre.userProfile.userId)
+                    .from(userGenre)
+                    .where(userGenre.genre.in(genres));
+            whereBuilder.and(profile.userId.in(genreSub));
         }
 
-        // 1차 쿼리: UserProfile 페이징 (관계 Fetch X)
+        // 페이징된 프로필 조회 (fetch join 없이)
         List<UserProfile> results = queryFactory
                 .selectFrom(profile)
                 .where(whereBuilder)
@@ -80,7 +76,7 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        // 카운트 쿼리
+        // 전체 카운트
         Long total = queryFactory
                 .select(profile.count())
                 .from(profile)
@@ -90,8 +86,7 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
         return new PageImpl<>(results, pageable, total == null ? 0 : total);
     }
 
-
-
+    @Override
     public Page<UserProfile> search(
             ProfileSearchCondition searchCondition,
             Pageable pageable
@@ -102,10 +97,10 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
         List<Genre> genres = searchCondition.getGenre();
 
         QUserProfile profile = QUserProfile.userProfile;
-        QUserInterest userInterest = QUserInterest.userInterest;
-        QUserGenre userGenre = QUserGenre.userGenre;
+        QUserInstrument userInterest = QUserInstrument.userInstrument;
+        QUserGerne userGenre = QUserGerne.userGerne;
 
-        var whereBuilder = new BooleanBuilder();
+        BooleanBuilder whereBuilder = new BooleanBuilder();
 
         if (nickname != null && !nickname.isBlank()) {
             whereBuilder.and(profile.nickname.containsIgnoreCase(nickname));
@@ -114,21 +109,21 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
             whereBuilder.and(profile.location.eq(location));
         }
         if (interests != null && !interests.isEmpty()) {
-            whereBuilder.and(profile.userId.in(
-                    JPAExpressions.select(userInterest.userProfile.userId)
-                            .from(userInterest)
-                            .where(userInterest.interest.in(interests))
-            ));
+            SubQueryExpression<Long> interestSub = JPAExpressions
+                    .<Long>select(userInterest.userProfile.userId)
+                    .from(userInterest)
+                    .where(userInterest.instrument.in(interests));
+            whereBuilder.and(profile.userId.in(interestSub));
         }
         if (genres != null && !genres.isEmpty()) {
-            whereBuilder.and(profile.userId.in(
-                    JPAExpressions.select(userGenre.userProfile.userId)
-                            .from(userGenre)
-                            .where(userGenre.genre.in(genres))
-            ));
+            SubQueryExpression<Long> genreSub = JPAExpressions
+                    .<Long>select(userGenre.userProfile.userId)
+                    .from(userGenre)
+                    .where(userGenre.genre.in(genres));
+            whereBuilder.and(profile.userId.in(genreSub));
         }
 
-        // Step 1: id만 페이징 추출
+        // 1) id 목록 페이징
         List<Long> userIds = queryFactory
                 .select(profile.userId)
                 .from(profile)
@@ -137,18 +132,20 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        if (userIds.isEmpty()) return Page.empty(pageable);
+        if (userIds.isEmpty()) {
+            return Page.empty(pageable);
+        }
 
-        // Step 2: id 기준으로 fetch join 조회
+        // 2) fetch join 으로 연관 엔티티 함께 조회
         List<UserProfile> results = queryFactory
                 .selectFrom(profile)
                 .distinct()
-                .leftJoin(profile.userInterests, userInterest).fetchJoin()
-                .leftJoin(profile.userGenres, userGenre).fetchJoin()
+                .leftJoin(profile.userInstruments, userInterest).fetchJoin()
+                .leftJoin(profile.userGerne, userGenre).fetchJoin()
                 .where(profile.userId.in(userIds))
                 .fetch();
 
-        // Step 3: count query
+        // 3) count 쿼리
         Long total = queryFactory
                 .select(profile.count())
                 .from(profile)
@@ -158,12 +155,9 @@ public class UserProfileRepositoryImpl implements UserProfileQueryRepository {
         return new PageImpl<>(results, pageable, total == null ? 0 : total);
     }
 
-
-
     @Override
     public List<UserProfileResponse> findBatchProfiles(LocalDateTime updatedAfter) {
+        // 배치 조회 구현 필요 시 여기에 작성
         return List.of();
     }
-
-
 }

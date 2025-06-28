@@ -6,10 +6,7 @@ import exception.excrptions.ImageException;
 import image.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import resposne.BaseResponse;
 
 @RestController
@@ -18,7 +15,7 @@ import resposne.BaseResponse;
 public class ImageConfirmController {
     private final ImageService imageService;
 
-    @PostMapping("/confirm")
+    @PostMapping("/confirms")
     public ResponseEntity<BaseResponse<?>> confirmImage(
             @RequestBody ImageConfirmRequest req
     ) {
@@ -31,5 +28,18 @@ public class ImageConfirmController {
         {
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<BaseResponse<?>> confirmImage(
+            @RequestParam Long imageId
+    ){
+        try{
+            imageService.confirmImage(imageId);
+            return ResponseEntity.ok(BaseResponse.success());
+        }catch (ImageException e)
+            {
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
+            }
     }
 }

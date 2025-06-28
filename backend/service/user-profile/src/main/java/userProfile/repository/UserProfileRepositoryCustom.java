@@ -15,7 +15,7 @@ import java.util.List;
 
 
 
-public interface UserProfileQueryRepository {
+public interface UserProfileRepositoryCustom  {
     Page<UserProfile> searchProfilesDsl(
             String nickname,
             Location location,

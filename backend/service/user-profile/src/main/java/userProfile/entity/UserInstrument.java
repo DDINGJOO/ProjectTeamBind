@@ -1,5 +1,6 @@
 package userProfile.entity;
 
+import eurm.Instrument;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +22,8 @@ public class UserInstrument {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 32)
-    private eurm.Instrument instrument;
+    private Instrument instrument;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_profile_id", nullable = false)

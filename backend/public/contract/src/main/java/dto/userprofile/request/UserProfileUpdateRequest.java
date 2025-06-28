@@ -2,11 +2,17 @@ package dto.userprofile.request;
 
 import eurm.Genre;
 import eurm.Instrument;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class UserProfileUpdateRequest {
 
     private Long userId;
