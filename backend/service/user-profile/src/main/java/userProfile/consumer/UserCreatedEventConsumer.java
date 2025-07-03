@@ -1,6 +1,5 @@
 package userProfile.consumer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dataserializer.DataSerializer;
 import event.events.UserCreatedEvent;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import java.util.UUID;
 public class UserCreatedEventConsumer {
 
     private final UserProfileRepository userProfileRepository;
-    private final ObjectMapper objectMapper;
 
 
     @KafkaListener(

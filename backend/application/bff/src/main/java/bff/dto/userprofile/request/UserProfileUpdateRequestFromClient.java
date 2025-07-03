@@ -1,10 +1,13 @@
 package bff.dto.userprofile.request;
 
+import dto.image.request.ImageConfirmRequest;
 import dto.userprofile.request.UserProfileUpdateRequest;
 import eurm.Genre;
 import eurm.Instrument;
+import eurm.ResourceCategory;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,6 +37,17 @@ public class UserProfileUpdateRequestFromClient {
                 .location(fromUserProfileUpdateRequest.getLocation())
                 .phoneNumber(fromUserProfileUpdateRequest.getPhoneNumber())
                 .introduction(fromUserProfileUpdateRequest.getIntroduction())
+                .build();
+    }
+
+    public ImageConfirmRequest toImageConfirmRequest(UserProfileUpdateRequestFromClient fromUserProfileUpdateRequest) {
+        List<Long> imageIds = new ArrayList<>();
+        imageIds.add(fromUserProfileUpdateRequest.getUserId());
+        return ImageConfirmRequest.builder()
+                .uploaderId(fromUserProfileUpdateRequest.getUserId())
+                .referenceId(fromUserProfileUpdateRequest.getUserId())
+                .imageIds(imageIds)
+                .category(ResourceCategory.PROFILE)
                 .build();
     }
 

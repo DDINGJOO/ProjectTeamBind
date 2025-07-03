@@ -51,7 +51,11 @@ public class AuthClient {
                                     }
                                     return ResponseEntity.ok(body);
                                 })
+
+
                 );
+
+
     }
 
     private Mono<ResponseEntity<BaseResponse<?>>> post(String uri) {
@@ -69,6 +73,7 @@ public class AuthClient {
                                 })
                 );
     }
+
 
 
 }

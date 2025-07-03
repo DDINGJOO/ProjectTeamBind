@@ -6,6 +6,9 @@ import dto.auth.request.LoginRequest;
 import dto.auth.request.SignUpRequest;
 import exception.error_code.bff.BffErrorCode;
 import exception.excrptions.BffException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,32 +27,49 @@ public class AuthController {
 
     private final AuthClient authClient;
 
+    @Operation(summary = "회원 가입", description = "이메일·비밀번호로 회원 가입을 진행합니다.")
     @PostMapping("/signup")
-    public Mono<ResponseEntity<BaseResponse<?>>> signUp(@RequestBody SignUpRequest req) {
+    public Mono<ResponseEntity<BaseResponse<?>>> signUp(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "SignUpRequest DTO", required = true
+            )
+            @RequestBody SignUpRequest req
+    ) {
         return authClient.signUp(req);
     }
 
+    @Operation(summary = "로그인", description = "이메일·비밀번호로 로그인하고 토큰을 발급받습니다.")
     @PostMapping("/login")
-    public Mono<ResponseEntity<BaseResponse<?>>> login(@RequestBody LoginRequest req) {
+    public Mono<ResponseEntity<BaseResponse<?>>> login(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "LoginRequest DTO", required = true
+            )
+            @RequestBody LoginRequest req
+    ) {
         return authClient.login(req);
     }
 
+    @Operation(
+            summary = "회원 탈퇴",
+            description = "인증된 사용자만 자신의 계정을 탈퇴합니다.",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
 
     @PostMapping("/withdraw")
     public Mono<ResponseEntity<BaseResponse<?>>> withdraw(
             Authentication authentication,
+            @Parameter(description = "탈퇴할 사용자 ID", required = true)
             @RequestParam Long userId,
+            @Parameter(description = "탈퇴 사유", required = true)
             @RequestParam String reason
     ) {
         String userIdFromToken = authentication.getName();       // sub
-        String role = authentication.getAuthorities().stream()
+        String simpleRole = authentication.getAuthorities().stream()
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
-                .orElse("");
-        // ROLE_User 같은 형태 → 필요하면 앞 5글자("ROLE_") 제거
-        String simpleRole = role.replace("ROLE_", "");
+                .orElse("")
+                .replace("ROLE_", "");
 
-        // userId 체크
         if (!userIdFromToken.equals(userId.toString())) {
             throw new BffException(BffErrorCode.NOT_MATCHED_TOKEN);
         }
@@ -58,3 +78,4 @@ public class AuthController {
         return authClient.withdraw(userId, reason);
     }
 }
+

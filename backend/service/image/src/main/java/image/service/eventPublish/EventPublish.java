@@ -1,24 +1,11 @@
 package image.service.eventPublish;
 
+import dto.image.response.ImageResponse;
 
-import event.events.UserProfileImageUpdateEvent;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import outbox.publisher.OutboxEventPublisher;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class EventPublish {
-    private final OutboxEventPublisher outboxEventPublisher;
+public interface EventPublish {
 
-    public void createUserEvent(Long userId, String url)
-    {
-        outboxEventPublisher.publish(
-            UserProfileImageUpdateEvent.builder()
-                    .userId(userId)
-                    .profileImageUrl(url)
-                    .build()
-                );
-    }
+
+    void ImageUpdateSelector(List<ImageResponse> req);
 }
-

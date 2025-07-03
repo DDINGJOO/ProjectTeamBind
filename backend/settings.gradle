@@ -13,16 +13,27 @@ include 'public:response'
 include 'public:log-metadata'
 include 'public:word-filter'
 include 'public:contract'
+include 'public:token-validation'
+
 
 
 include 'application'
 include 'application:bff'
-include 'application:token-validation'
 
 include 'service'
 include 'service:auth'
 include 'service:mail'
-include 'service:band-room'
 include 'service:image'
 include 'service:user-profile'
 include 'service:user-activity-log'
+
+
+include 'bandroom'
+include 'bandroom:band-room'
+include 'bandroom:band-room:bandroom-info'
+include 'bandroom:band-room:product-info'
+include 'bandroom:band-room:studio'
+include 'bandroom:reservation'
+include 'bandroom:reservation:booking'
+include 'bandroom:reservation:price-manager'
+include 'bandroom:reservation:time-manager'

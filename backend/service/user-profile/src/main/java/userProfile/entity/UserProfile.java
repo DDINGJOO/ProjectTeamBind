@@ -1,14 +1,13 @@
 package userProfile.entity;
 
 
-
-import eurm.Location;
+import eurm.City;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_profile")
@@ -38,7 +37,7 @@ public class UserProfile {
     private String introduction;
 
     @Enumerated(EnumType.STRING)
-    private Location location;
+    private City city;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -47,12 +46,20 @@ public class UserProfile {
     private LocalDateTime updatedAt;
 
     @Builder.Default
-    @OneToMany(mappedBy = "userInst", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserInstrument> userInstruments = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "userProfile",      // ← UserGerne.userProfile 과 매칭
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<UserInstrument> userInstruments = new HashSet<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "userGerne", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserGerne> userGerne = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "userProfile",      // ← UserGerne.userProfile 과 매칭
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<UserGerne> userGerne = new HashSet<>();
     @Column
     private LocalDateTime deletedAt;
 

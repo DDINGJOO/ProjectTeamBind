@@ -3,7 +3,7 @@ package image.controller;
 
 import eurm.ResourceCategory;
 import exception.excrptions.ImageException;
-import image.service.ImageService;
+import image.service.lifecycle.ImageLifecycleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,7 @@ import resposne.BaseResponse;
 @RequestMapping("/api/image/v1")
 @RequiredArgsConstructor
 public class ImageController {
-    private final ImageService imageService;
+    private final ImageLifecycleService imageService;
 
 
 

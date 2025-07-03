@@ -11,5 +11,4 @@ public class ImageResponse {
     private ResourceCategory category;
     private String url;
     private Long id;
-
 }

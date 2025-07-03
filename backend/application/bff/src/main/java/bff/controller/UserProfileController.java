@@ -1,65 +1,123 @@
 package bff.controller;
 
-import bff.client.auth.ImageClient;
-import bff.client.auth.UserProfileClient;
+import bff.client.image.ImageClient;
+import bff.client.userProfle.UserProfileClient;
 import bff.dto.userprofile.request.UserProfileUpdateRequestFromClient;
+import dto.PageResult;
+import dto.userprofile.condition.ProfileSearchCondition;
+import dto.userprofile.response.UserProfileResponse;
+import eurm.City;
+import eurm.Genre;
+import eurm.Instrument;
 import exception.error_code.bff.BffErrorCode;
 import exception.excrptions.BffException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import resposne.BaseResponse;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/user-profile/v1")
+@RequestMapping(path = "/api/user-profile/v1",
+        produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "UserProfile", description = "유저 프로필 조회·수정 API")
 public class UserProfileController {
 
     private final UserProfileClient userProfileClient;
     private final ImageClient imageClient;
 
-    @PutMapping("/update")
-    public Mono<ResponseEntity<?>> userProfileUpdate(
+    @Operation(
+            summary = "유저 프로필 업데이트",
+            description = "로그인된 본인만 자신의 프로필과 이미지를 동시에 업데이트합니다.",
+            security = @SecurityRequirement(name = "bearerAuth")
+    )
+    @PutMapping(path = "/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<ResponseEntity<BaseResponse<?>>> userProfileUpdate(
             Authentication authentication,
-            @RequestBody UserProfileUpdateRequestFromClient req) {
-
-        // 1) JWT 에서 추출한 userId 검증
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "UserProfileUpdateRequestFromClient DTO",
+                    required = true
+            ) UserProfileUpdateRequestFromClient req
+    ) {
         String userId = authentication.getName();
         if (!userId.equals(req.getUserId().toString())) {
             throw new BffException(BffErrorCode.NOT_MATCHED_TOKEN);
         }
 
-        // 2) 두 API 호출을 동시에 날리고, 둘 다 ResponseEntity<BaseResponse<...>> 을 받음
         Mono<ResponseEntity<BaseResponse<?>>> profileMono =
                 userProfileClient.updateProfile(req.toUserProfileUpdateRequest(req));
-
         Mono<ResponseEntity<BaseResponse<?>>> imageMono =
-                imageClient.confirmImage(req.getThumbnailId());
+                imageClient.confirmImages(req.toImageConfirmRequest(req));
 
-        // 3) zip → flatMap 으로 결과 꺼내서, 실패 케이스가 있으면 그 JSON(body) 그대로 리턴
-        return Mono
-                .zip(profileMono, imageMono)
+        return Mono.zip(profileMono, imageMono)
                 .flatMap(tuple -> {
-                    BaseResponse<?> profBody = tuple.getT1().getBody();
-                    BaseResponse<?> imgBody  = tuple.getT2().getBody();
+                    BaseResponse<?> prof = tuple.getT1().getBody();
+                    BaseResponse<?> img  = tuple.getT2().getBody();
 
-                    // 프로필 호출이 실패(success==false) 했으면 그 body 그대로 리턴
-                    if (profBody != null && !profBody.isSuccess()) {
-                        return Mono.just(ResponseEntity.ok(profBody));
+                    if (prof != null && !prof.isSuccess()) {
+                        return Mono.just(ResponseEntity.ok(prof));
                     }
-                    // 이미지 확인 호출이 실패했으면 그 body 그대로 리턴
-                    if (imgBody != null && !imgBody.isSuccess()) {
-                        return Mono.just(ResponseEntity.ok(imgBody));
+                    if (img != null && !img.isSuccess()) {
+                        return Mono.just(ResponseEntity.ok(img));
                     }
-                    // 둘 다 성공했으면 빈 결과
                     return Mono.just(ResponseEntity.ok(BaseResponse.success()));
                 });
+    }
+
+    @Operation(
+            summary = "유저 프로필 리스트 조회",
+            description = "닉네임, 지역, 악기, 장르 조건으로 페이징된 유저 프로필 목록을 반환합니다."
+    )
+
+    @GetMapping("/list")
+    public Mono<ResponseEntity<BaseResponse<PageResult<UserProfileResponse>>>> userProfileList(
+            @Parameter(description = "닉네임(부분 검색)", required = false)
+            @RequestParam(required = false) String nickname,
+
+            @Parameter(description = "도시 필터", required = false)
+            @RequestParam(required = false) City location,
+
+            @Parameter(description = "관심 악기 리스트", required = false)
+            @RequestParam(required = false) List<Instrument> interests,
+
+            @Parameter(description = "선호 장르 리스트", required = false)
+            @RequestParam(required = false) List<Genre> genres,
+
+            @Parameter(description = "페이지 번호 (0부터 시작)", required = false)
+            @RequestParam(defaultValue = "0") int page,
+
+            @Parameter(description = "페이지 크기", required = false)
+            @RequestParam(defaultValue = "20") int size,
+
+            @Parameter(description = "정렬 기준 필드", required = false)
+            @RequestParam(defaultValue = "updatedAt") String sortBy,
+
+            @Parameter(description = "정렬 방향 (ASC or DESC)", required = false)
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction
+    ) {
+        ProfileSearchCondition condition = ProfileSearchCondition.builder()
+                .nickname(nickname)
+                .city(location)
+                .interest(interests)
+                .genre(genres)
+                .build();
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
+        return userProfileClient.searchProfiles(condition, pageable);
     }
 }

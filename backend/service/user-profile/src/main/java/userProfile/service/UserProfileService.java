@@ -4,7 +4,7 @@ package userProfile.service;
 import dto.userprofile.condition.ProfileSearchCondition;
 import dto.userprofile.request.UserProfileUpdateRequest;
 import dto.userprofile.response.UserProfileResponse;
-import eurm.Location;
+import eurm.City;
 import eurm.UpdatableProfileColumn;
 import exception.error_code.userProfile.NickNameFilterErrorCode;
 import exception.error_code.userProfile.UserProfileErrorCode;
@@ -79,9 +79,9 @@ public class UserProfileService {
 
         if (request.getLocation() != null) {
             saveHistory(userId, UpdatableProfileColumn.LOCATION,
-                    profile.getLocation() != null ? profile.getLocation().name() : null,
+                    profile.getCity() != null ? profile.getCity().name() : null,
                     request.getLocation());
-            profile.setLocation(Location.valueOf(request.getLocation()));
+            profile.setCity(City.valueOf(request.getLocation()));
         }
 
         if (request.getPhoneNumber() != null && !request.getPhoneNumber().equals(profile.getPhoneNumber())) {
@@ -173,7 +173,7 @@ public class UserProfileService {
                 .nickName(profile.getNickname())
                 .userId(profile.getUserId())
                 .gender(profile.getGender())
-                .location(profile.getLocation())
+                .city(profile.getCity())
                 .instruments(profile.getUserInstruments().stream()
                         .map(UserInstrument::getInstrument)
                         .toList())

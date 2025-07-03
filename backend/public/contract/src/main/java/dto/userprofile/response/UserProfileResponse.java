@@ -1,9 +1,9 @@
 package dto.userprofile.response;
 
 
+import eurm.City;
 import eurm.Genre;
 import eurm.Instrument;
-import eurm.Location;
 import lombok.Builder;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public record UserProfileResponse(
         String gender,
         List<Instrument> instruments,
         List<Genre> genres,
-        Location location
+        City city
 ) {
 
 

@@ -1,0 +1,38 @@
+server:
+  port: ${PRODUCT_SERVER_PORT}
+
+spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_URL}
+      group-id: product-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
+
+
+  datasource:
+    url: ${PRODUCT_DB_URL}
+    username: ${PRODUCT_USERNAME}
+    password: ${PRODUCT_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
+logging:
+  level:
+    org.apache.kafka: WARN
+    activity: DEBUG

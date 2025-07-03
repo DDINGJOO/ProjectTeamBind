@@ -1,8 +1,8 @@
 package dto.userprofile.condition;
 
+import eurm.City;
 import eurm.Genre;
 import eurm.Instrument;
-import eurm.Location;
 import lombok.*;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProfileSearchCondition {
     private String nickname;
-    private Location location;
+    private City city;
     private List<Instrument> interest;
     private List<Genre> genre;
     private String gender;

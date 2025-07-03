@@ -2,6 +2,15 @@ server:
   port: ${IMAGE_PORT}
 
 spring:
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_URL}
+      group-id: image-consumer-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
 
 
   datasource:
@@ -18,8 +27,16 @@ spring:
       hibernate:
         format_sql: true
 
+image:
+  upload:
+    dir: C:/Users/soh10/Desktop/dev/ProjectTeamBind/backend/service/image/uploads
+
+    nginx:
+      url: http:localhost:9002
+
 
 logging:
   level:
     org.springframework.kafka: INFO
     bind.mail: DEBUG
+

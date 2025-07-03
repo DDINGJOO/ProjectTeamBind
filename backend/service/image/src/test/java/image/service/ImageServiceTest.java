@@ -9,7 +9,10 @@ import image.repository.ImageRepository;
 import image.service.component.ImageStatusChanger;
 import image.service.component.ImageUrlHelper;
 import image.service.component.ImageValidator;
+import image.service.confirmation.ImageConfirmationService;
 import image.service.image_store_impl.LocalImageStorage;
+import image.service.lifecycle.ImageLifecycleService;
+import image.service.query.ImageQueryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -47,7 +50,11 @@ class ImageServiceTest {
     @Mock private primaryIdProvider.Snowflake snowflake;
 
     @InjectMocks
-    private ImageService imageService;
+    private ImageConfirmationService  imageConfirmationService;
+    @InjectMocks
+    private ImageQueryService  imageQueryService;
+    @InjectMocks
+    private ImageLifecycleService imageLifecycleService;
 
     ImageServiceTest() {
         MockitoAnnotations.openMocks(this);
@@ -55,7 +62,7 @@ class ImageServiceTest {
 
     @Test
     @DisplayName("CONFIRMED 상태 이미지만 조회하여 URL 반환")
-    void getImageUrls_shouldReturnConfirmedImages() {
+    void getImages_shouldReturnConfirmedImages() {
         Image img = Image.builder()
                 .status(ImageStatus.CONFIRMED)
                 .storedPath("/img/test.webp")
@@ -66,7 +73,7 @@ class ImageServiceTest {
                 .thenReturn(List.of(img));
         when(urlHelper.generatePublicUrl(img)).thenReturn("https://cdn.com/img/test.webp");
 
-        List<ImageResponse> result = imageService.getImageUrls(ResourceCategory.POST, 123123L);
+        List<ImageResponse> result = imageQueryService.getImages(ResourceCategory.POST, 123123L);
 
         assertEquals(1, result.size());
         assertEquals("https://cdn.com/img/test.webp", result.get(0).getUrl());
@@ -78,21 +85,21 @@ class ImageServiceTest {
         Image image = Image.builder()
                 .id(1L)
                 .status(ImageStatus.TEMP)
-                .uploaderId(123123L)
+                .uploaderId(1231123L)
                 .category(ResourceCategory.POST)
                 .build();
 
         ImageConfirmRequest req = new ImageConfirmRequest();
         ReflectionTestUtils.setField(req, "imageIds", List.of(1L));
         ReflectionTestUtils.setField(req, "category", ResourceCategory.POST);
-        ReflectionTestUtils.setField(req, "referenceId", "post-123");
-        ReflectionTestUtils.setField(req, "uploadUserId", 123123L);
+        ReflectionTestUtils.setField(req, "referenceId", 123123L);
+        ReflectionTestUtils.setField(req, "uploaderId", 1231123L);
 
         when(imageRepository.findAllById(List.of(1L))).thenReturn(List.of(image));
 
-        imageService.confirmImages(req);
+        imageConfirmationService.confirmImages(req);
 
-        verify(validator).validateUser(image, 123123L);
+        verify(validator).validateUser(image, 1231123L);
         verify(validator).validateTempStatus(image);
         verify(validator).validateCategory(image, ResourceCategory.POST);
         verify(statusChanger).changeStatus(
@@ -113,7 +120,7 @@ class ImageServiceTest {
 
         when(imageRepository.findById(1L)).thenReturn(Optional.of(image));
 
-        imageService.deleteImage(1L);
+        imageLifecycleService.deleteImage(1L);
 
         verify(statusChanger).changeStatus(
                 any(Image.class),

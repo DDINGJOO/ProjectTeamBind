@@ -19,11 +19,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
 
+    implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0'
+
     // Internal modules
     implementation project(':public:contract')
     implementation project(':public:response')
     implementation project(':public:exception')
     implementation project(':public:jwt-token')
-    implementation project(':application:token-validation')
+    implementation project(':public:token-validation')
 
 }

@@ -23,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "outbox"
 })
 @EnableJpaRepositories(basePackages = {
+        "image.repository",
         "outbox",                  // 반드시 outbox 패키지 JPA 리포지토리!
         // 필요하다면 다른 repository 패키지도 추가
 })

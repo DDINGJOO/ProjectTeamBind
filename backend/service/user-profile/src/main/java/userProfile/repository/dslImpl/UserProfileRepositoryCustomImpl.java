@@ -6,13 +6,15 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dto.userprofile.condition.ProfileSearchCondition;
 import dto.userprofile.response.UserProfileResponse;
+import eurm.City;
 import eurm.Genre;
 import eurm.Instrument;
-import eurm.Location;
 import jakarta.persistence.EntityManager;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import userProfile.entity.QUserGerne;
 import userProfile.entity.QUserInstrument;
 import userProfile.entity.QUserProfile;
@@ -22,7 +24,8 @@ import userProfile.repository.UserProfileRepositoryCustom;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@Repository
+@Primary
 public class UserProfileRepositoryCustomImpl implements UserProfileRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
@@ -34,7 +37,7 @@ public class UserProfileRepositoryCustomImpl implements UserProfileRepositoryCus
     @Override
     public Page<UserProfile> searchProfilesDsl(
             String nickname,
-            Location location,
+            City city,
             List<Instrument> interests,
             List<Genre> genres,
             Pageable pageable
@@ -48,8 +51,8 @@ public class UserProfileRepositoryCustomImpl implements UserProfileRepositoryCus
         if (nickname != null && !nickname.isBlank()) {
             whereBuilder.and(profile.nickname.containsIgnoreCase(nickname));
         }
-        if (location != null) {
-            whereBuilder.and(profile.location.eq(location));
+        if (city != null) {
+            whereBuilder.and(profile.city.eq(city));
         }
         if (interests != null && !interests.isEmpty()) {
             // 관심사에 해당하는 userId만
@@ -92,7 +95,7 @@ public class UserProfileRepositoryCustomImpl implements UserProfileRepositoryCus
             Pageable pageable
     ) {
         String nickname = searchCondition.getNickname();
-        Location location = searchCondition.getLocation();
+        City city = searchCondition.getCity();
         List<Instrument> interests = searchCondition.getInterest();
         List<Genre> genres = searchCondition.getGenre();
 
@@ -105,8 +108,8 @@ public class UserProfileRepositoryCustomImpl implements UserProfileRepositoryCus
         if (nickname != null && !nickname.isBlank()) {
             whereBuilder.and(profile.nickname.containsIgnoreCase(nickname));
         }
-        if (location != null) {
-            whereBuilder.and(profile.location.eq(location));
+        if (city != null) {
+            whereBuilder.and(profile.city.eq(city));
         }
         if (interests != null && !interests.isEmpty()) {
             SubQueryExpression<Long> interestSub = JPAExpressions
