@@ -72,6 +72,26 @@ public class UserProfileClient {
                 });
     }
 
+    public Mono<ResponseEntity<BaseResponse<?>>> getProfile(Long userId) {
+        return webClient.get()
+                .uri(ub -> {
+                    ub = ub.path(BASE_URI + "/profile")
+                            .queryParam("userId", userId);
+                    return ub.build();
+                })
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
+                .map(body -> {
+                    if (!body.isSuccess()) {
+                        return ResponseEntity
+                                .status(HttpStatus.BAD_REQUEST)
+                                .body(body);
+                    }
+                    return ResponseEntity.ok(body);
+                });
+    }
+
+
 
 
     public Mono<ResponseEntity<BaseResponse<?>>> updateProfile(UserProfileUpdateRequest request) {

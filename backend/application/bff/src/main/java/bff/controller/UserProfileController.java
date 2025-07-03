@@ -79,6 +79,18 @@ public class UserProfileController {
                 });
     }
 
+    @GetMapping()
+    public Mono<ResponseEntity<BaseResponse<?>>> userProfile(
+            Authentication authentication,
+            @RequestParam Long userId
+    ){
+        String userIdFromToken = authentication.getName();
+        if (!userIdFromToken.equals(userId.toString())) {
+            throw new BffException(BffErrorCode.NOT_MATCHED_TOKEN);
+        }
+        return userProfileClient.getProfile(userId);
+    }
+
     @Operation(
             summary = "유저 프로필 리스트 조회",
             description = "닉네임, 지역, 악기, 장르 조건으로 페이징된 유저 프로필 목록을 반환합니다."

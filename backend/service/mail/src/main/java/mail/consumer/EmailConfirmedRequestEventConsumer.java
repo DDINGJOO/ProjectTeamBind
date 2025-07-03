@@ -1,6 +1,5 @@
 package mail.consumer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import dataserializer.DataSerializer;
 import event.events.EmailConfirmedRequestEvent;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailConfirmedRequestEventConsumer {
     private final MailService mailService;
-    private final ObjectMapper objectMapper;
 
     @KafkaListener(
             topics = "email.confirmed.request",

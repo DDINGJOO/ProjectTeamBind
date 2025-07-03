@@ -7,7 +7,6 @@ import eurm.Instrument;
 import eurm.ResourceCategory;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,6 +26,7 @@ public class UserProfileUpdateRequestFromClient {
     private String location;
     private Long phoneNumber;
     private Long thumbnailId;
+    private List<Long> imageIds;
 
     public UserProfileUpdateRequest toUserProfileUpdateRequest(UserProfileUpdateRequestFromClient fromUserProfileUpdateRequest) {
         return UserProfileUpdateRequest.builder()
@@ -41,8 +41,7 @@ public class UserProfileUpdateRequestFromClient {
     }
 
     public ImageConfirmRequest toImageConfirmRequest(UserProfileUpdateRequestFromClient fromUserProfileUpdateRequest) {
-        List<Long> imageIds = new ArrayList<>();
-        imageIds.add(fromUserProfileUpdateRequest.getUserId());
+
         return ImageConfirmRequest.builder()
                 .uploaderId(fromUserProfileUpdateRequest.getUserId())
                 .referenceId(fromUserProfileUpdateRequest.getUserId())

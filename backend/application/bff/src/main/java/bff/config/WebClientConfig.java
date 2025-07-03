@@ -42,6 +42,14 @@ public class WebClientConfig {
                 .build();
     }
 
+    @Bean
+    public WebClient studioWebClient(WebClient.Builder builder,
+                                     @Value("${service.band-room.studio}") String url) {
+        return builder
+                .baseUrl(url)
+                .build();
+    }
+
 
 
 }
