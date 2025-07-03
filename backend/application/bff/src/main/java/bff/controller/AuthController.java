@@ -78,6 +78,10 @@ public class AuthController {
         return authClient.withdraw(userId, reason);
     }
 
+    @Operation(
+            summary = "이메일 인증",
+            description = " 이메일 인증을 합니다."
+    )
     @PostMapping("/confirmEmail")
     public Mono<ResponseEntity<BaseResponse<?>>> confirmEmail(
             @RequestParam Long userId,
