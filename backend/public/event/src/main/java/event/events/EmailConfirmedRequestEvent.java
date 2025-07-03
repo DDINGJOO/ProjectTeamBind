@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 public class EmailConfirmedRequestEvent implements CustomEvent {
     private Long userId;
     private String email;
-    private String url;
+    private String code;
+
 
     @Override
     public String name() {

@@ -22,13 +22,13 @@ public class EventPublish {
                 );
     }
 
-    public void emailConfirmedEvent(Long userId, String email,String url)
+    public void emailConfirmedEvent(Long userId, String email, String code)
     {
         outboxEventPublisher.publish(
                 EmailConfirmedRequestEvent.builder()
                         .email(email)
-                        .url(url)
                         .userId(userId)
+                        .code(code)
                         .build()
         );
     }

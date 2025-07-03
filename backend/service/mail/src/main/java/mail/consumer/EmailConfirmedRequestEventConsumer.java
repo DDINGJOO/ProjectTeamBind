@@ -30,7 +30,7 @@ public class EmailConfirmedRequestEventConsumer {
                     .orElseThrow(() -> new IllegalArgumentException("UserCreatedEvent 역직렬화 실패"));
 
 
-            mailService.confirmedEmail(event.getEmail(),event.getUserId());
+            mailService.confirmedEmail(event.getEmail(),event.getCode());
             log.info("이메일 확인 메일 발송 완료: {}", event.getUserId());
         }catch (Exception e){
             log.error("Failed to process LogEvent: {}", e.getMessage(), e);

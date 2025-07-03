@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 public class MailService {
     private final JavaMailSender mailSender;
 
-    public void confirmedEmail(String email, Long userId) {
-        System.out.println("This is MailService.sendVerificationEmail() \n email : " + email + "\n token :" + userId);
+    public void confirmedEmail(String email, String code ) {
+        System.out.println("This is MailService.sendVerificationEmail() \n email : " + email + "\n code :" + code);
         try {
             //TODO : 인증 링크를 그냥 만들어서 줄까?
             MimeMessage message = mailSender.createMimeMessage();
@@ -24,8 +24,8 @@ public class MailService {
             helper.setTo(email);
             helper.setSubject("[BANDER] 회원가입 이메일 인증");
             helper.setText("<h1>이메일 인증</h1>" +
-                            "<p>아래 링크를 클릭하여 이메일을 인증해주세요:</p>" +
-                            "<a href='http://localhost:9001/api/confirm/v1/email?" +userId + "'>이메일 인증하기</a>",
+                            "<p>아래 코드를 입력하여  이메일을 인증해주세요:</p>" +
+                            code ,
                     true);
 
             mailSender.send(message);

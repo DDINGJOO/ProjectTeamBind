@@ -77,5 +77,14 @@ public class AuthController {
         log.info("요청자 ID={}, 권한={}", userIdFromToken, simpleRole);
         return authClient.withdraw(userId, reason);
     }
+
+    @PostMapping("/confirmEmail")
+    public Mono<ResponseEntity<BaseResponse<?>>> confirmEmail(
+            @RequestParam Long userId,
+            @RequestParam String code
+    )
+    {
+        return authClient.confirmEmail(userId, code);
+    }
 }
 

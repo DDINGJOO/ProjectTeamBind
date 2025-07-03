@@ -17,8 +17,9 @@ public class ConfirmController {
 
     @PostMapping("/email")
     public void confirmEmail(
-            @RequestParam Long userId
+            @RequestParam Long userId,
+            @RequestParam String code
     ) {
-        authService.confirmedEmail(userId);
+        authService.confirmedEmail(userId,code);
     }
 }

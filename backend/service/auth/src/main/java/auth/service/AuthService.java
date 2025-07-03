@@ -5,6 +5,7 @@ import auth.entity.User;
 import auth.entity.UserRole;
 import auth.repository.UserRepository;
 import auth.repository.UserRoleRepository;
+import auth.service.code.CreateCodeService;
 import auth.service.eventPublish.EventPublish;
 import auth.service.token.RefreshTokenStore;
 import auth.service.validator.Validator;
@@ -37,6 +38,7 @@ public class AuthService {
     private final UserRoleGrantService userRoleGrantService;
     private final UserRoleRepository userRoleRepository;
     private final RefreshTokenStore refreshTokenStore;
+    private final CreateCodeService createCode;
 
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -62,7 +64,7 @@ public class AuthService {
         eventPublish.emailConfirmedEvent(
                 user.getId(),
                 user.getEmail(),
-                "http://localhost:9001/auth/confirm"
+                createCode.createCode(user.getId())
         );
         userRoleGrantService.grantDefaultRole(user);
     }
@@ -148,12 +150,17 @@ public class AuthService {
     }
 
     @Transactional
-    public void confirmedEmail(Long userId) {
+    public void confirmedEmail(Long userId ,String code) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_NOT_FOUND));
 
         if (user.isEmailVerified()) {
             throw new AuthException(AuthErrorCode.IS_ALREADY_CONFIRMED);
+        }
+
+        if(!confirmCode(userId, code))
+        {
+            throw new AuthException(AuthErrorCode.EMAIL_NOT_CONFIRMED);
         }
 
         user.setEmailVerified(true);
@@ -163,6 +170,20 @@ public class AuthService {
         eventPublish.createUserEvent(user.getId(), user.getEmail());
     }
 
+    private boolean confirmCode(Long userId, String code)
+    {
+        String strUserId = String.valueOf(userId);
+
+        if(strUserId.contains(code))
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
 
     private String passwordEncode(String password) {
         return passwordEncoder.encode(password);
