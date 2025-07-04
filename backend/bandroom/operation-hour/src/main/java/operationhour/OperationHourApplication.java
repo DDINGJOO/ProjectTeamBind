@@ -1,4 +1,4 @@
-package studio;
+package operationhour;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 @EnableScheduling
 @ComponentScan(basePackages = {
-        "studio",
+        "operationhour",
         "outbox",                // Outbox 모듈
         "primaryIdProvider",
         "wordFilter",
@@ -27,7 +27,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "outbox"
 })
 @EnableJpaRepositories(basePackages = {
-        "studio.repository",
+        "operationhour.repository",
         "outbox",
         // 필요하다면 다른 repository 패키지도 추가
 })

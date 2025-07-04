@@ -22,6 +22,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing operation schedules and handling related business logic.
+ *
+ * This service provides methods for creating, updating, deleting, and querying operation schedules,
+ * as well as managing temporary holidays and checking open status based on specified criteria.
+ *
+ * The key functionalities include:
+ * - Managing operation schedules, including saving multiple schedules, retrieving a single schedule
+ *   by ID, or retrieving all schedules.
+ * - Adding or deleting temporary holidays associated with specific operation schedules.
+ * - Determining the open status of a studio or room at a particular date and time, taking into account
+ *   operation schedules, temporary holidays, and monthly week patterns.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
