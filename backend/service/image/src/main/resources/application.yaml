@@ -29,10 +29,10 @@ spring:
 
 image:
   upload:
-    dir: C:/Users/soh10/Desktop/dev/ProjectTeamBind/backend/service/image/uploads
+    dir: C:/Users/soh10/Desktop/dev/ProjectTeamBind/backend/uploads
 
     nginx:
-      url: http:localhost:9002
+      url: http://localhost
 
 
 logging:

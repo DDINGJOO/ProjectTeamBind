@@ -22,10 +22,10 @@ public class UserProfileUpdateRequestFromClient {
     private List<Genre> genres;
     private String nickname;
     private String introduction;
+    private Boolean smsAgreement;
     private String gender;
     private String location;
-    private Long phoneNumber;
-    private Long thumbnailId;
+    private String phoneNumber;
     private List<Long> imageIds;
 
     public UserProfileUpdateRequest toUserProfileUpdateRequest(UserProfileUpdateRequestFromClient fromUserProfileUpdateRequest) {
@@ -35,6 +35,7 @@ public class UserProfileUpdateRequestFromClient {
                 .instruments(fromUserProfileUpdateRequest.getInstruments())
                 .nickname(fromUserProfileUpdateRequest.getNickname())
                 .location(fromUserProfileUpdateRequest.getLocation())
+                .snsAgreement(fromUserProfileUpdateRequest.getSmsAgreement())
                 .phoneNumber(fromUserProfileUpdateRequest.getPhoneNumber())
                 .introduction(fromUserProfileUpdateRequest.getIntroduction())
                 .build();

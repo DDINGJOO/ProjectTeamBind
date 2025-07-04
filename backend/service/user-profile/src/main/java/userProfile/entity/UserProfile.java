@@ -28,7 +28,8 @@ public class UserProfile {
     private String email; // 카프카 기반 업데이트 (컬럼명 소문자)
     private String profileImageUrl; //카프카 기반 업데이트
 
-    private Long phoneNumber;
+    private String phoneNumber;
+    private Boolean smsAgree;
 
     @Column(length = 8)
     private String gender;

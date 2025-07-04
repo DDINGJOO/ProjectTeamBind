@@ -36,7 +36,7 @@ public class AuthClient {
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> confirmEmail(Long userId, String code) {
-        return post(BASE_URI + "/confirmEmail?userId=" + userId + "&code=" + code);
+        return post(BASE_URI + "/email?userId=" + userId + "&code=" + code);
     }
 
 

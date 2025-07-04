@@ -62,7 +62,7 @@ public class ConcurrentDummyUserProfile {
                     .nickname("user" + i)
                     .email("user" + i + "@example.com")
                     .profileImageUrl("http://example.com/avatars/" + i + ".png")
-                    .phoneNumber(1_000_000_000L + i)
+                    .phoneNumber("010" + i + "678")
                     .gender(i % 2 == 0 ? "M" : "F")
                     .introduction("Hello, I'm user" + i)
                     .city(City.values()[i % City.values().length])

@@ -86,8 +86,8 @@ public class UserProfileService {
 
         if (request.getPhoneNumber() != null && !request.getPhoneNumber().equals(profile.getPhoneNumber())) {
             saveHistory(userId, UpdatableProfileColumn.PHONE_NUMBER,
-                    profile.getPhoneNumber() != null ? profile.getPhoneNumber().toString() : null,
-                    request.getPhoneNumber().toString());
+                    profile.getPhoneNumber() != null ? profile.getPhoneNumber() : null,
+                    request.getPhoneNumber());
             profile.setPhoneNumber(request.getPhoneNumber());
         }
 

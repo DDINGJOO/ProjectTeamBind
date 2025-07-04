@@ -20,7 +20,8 @@ public class UserProfileUpdateRequest {
     private List<Genre> genres;
     private String nickname;
     private String introduction;
+    private boolean snsAgreement;
     private String gender;
     private String location;
-    private Long phoneNumber;
+    private String phoneNumber;
 }

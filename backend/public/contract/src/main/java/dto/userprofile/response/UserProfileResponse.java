@@ -20,6 +20,4 @@ public record UserProfileResponse(
         List<Genre> genres,
         City city
 ) {
-
-
 }

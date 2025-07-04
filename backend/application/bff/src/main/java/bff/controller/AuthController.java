@@ -35,6 +35,7 @@ public class AuthController {
             )
             @RequestBody SignUpRequest req
     ) {
+        log.info("CALLED /api/auth/v1/signup /n"+req.toString());
         return authClient.signUp(req);
     }
 
@@ -46,6 +47,7 @@ public class AuthController {
             )
             @RequestBody LoginRequest req
     ) {
+        log.info("CALLED /api/auth/v1/login /n"+req.toString());
         return authClient.login(req);
     }
 
@@ -74,7 +76,8 @@ public class AuthController {
             throw new BffException(BffErrorCode.NOT_MATCHED_TOKEN);
         }
 
-        log.info("요청자 ID={}, 권한={}", userIdFromToken, simpleRole);
+        log.info("CALLED /api/auth/v1/withdraw /n" +
+                "요청자 ID={}, 권한={}", userIdFromToken, simpleRole);
         return authClient.withdraw(userId, reason);
     }
 
@@ -88,6 +91,8 @@ public class AuthController {
             @RequestParam String code
     )
     {
+        log.info("CALLED /api/auth/v1/confirmEmail /n"+
+                "요청자 ID {}, 코드  {} ",userId, code);
         return authClient.confirmEmail(userId, code);
     }
 }
