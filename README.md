@@ -1,138 +1,205 @@
-좋아, 그 “고민의 흔적”이 진짜 실력 보여주는 포인트야.
-"왜 이걸 안 썼는지"까지 논리 있게 적어두면 오히려 **아키텍처 의사결정 능력**이 돋보여.
-그래서 Redis, ElasticSearch 등을 **고민한 배경과 배제한 이유**, 그리고 **확장 방향**으로 포함해서 블로그 글을 리팩토링해봤어.
+# ProjectTeamBind Backend Improvement Tasks
+
+This document contains a comprehensive list of actionable improvement tasks for the ProjectTeamBind backend codebase. Tasks are organized by category and priority, with each item marked with a checkbox for tracking completion.
+
+## 🏗️ Architecture & Build System
+
+### Build Configuration
+- [ ] Remove Spring Boot plugin from library modules (public/*) that don't need it
+- [ ] Create separate build configurations for different module types (library vs service vs application)
+- [ ] Remove duplicate dependencies (e.g., dotenv-java) from individual module build.gradle files
+- [ ] Add dependency version management using Spring Boot BOM or custom BOM
+- [ ] Implement consistent dependency scoping across all modules
+- [ ] Add build performance optimizations (parallel builds, build cache)
+- [ ] Create module-specific test configurations
+
+### Module Structure
+- [ ] Add missing modules to settings.gradle (e.g., bandroom:statistics)
+- [ ] Review and standardize module naming conventions
+- [ ] Create clear module dependency hierarchy documentation
+- [ ] Implement proper module isolation (prevent circular dependencies)
+- [ ] Add module-level README files explaining purpose and dependencies
+
+## 🔒 Security Improvements
+
+### Authentication & Authorization
+- [ ] Fix critical security flaw in AuthService.confirmCode() method (currently uses weak string contains check)
+- [ ] Implement proper email verification code generation and validation
+- [ ] Add rate limiting for authentication endpoints
+- [ ] Implement account lockout mechanism after failed login attempts
+- [ ] Add password strength validation with configurable policies
+- [ ] Implement secure password reset functionality
+- [ ] Add multi-factor authentication support
+- [ ] Implement proper session management and token rotation
+
+### Data Protection
+- [ ] Add input validation annotations to all DTOs
+- [ ] Implement proper SQL injection prevention checks
+- [ ] Add XSS protection for API responses
+- [ ] Implement data encryption for sensitive fields
+- [ ] Add audit logging for security-sensitive operations
+- [ ] Implement proper error handling to prevent information leakage
+
+## 🧪 Testing Improvements
+
+### Test Coverage & Quality
+- [ ] Standardize test naming convention (currently mixed Korean/English)
+- [ ] Add missing test dependencies and mocks in AuthServiceTest
+- [ ] Implement comprehensive test coverage for AuthService (login, changePassword, confirmedEmail methods)
+- [ ] Add integration tests for critical business flows
+- [ ] Implement test data builders/factories for consistent test data
+- [ ] Add performance tests for critical endpoints
+- [ ] Implement contract testing between modules
+- [ ] Add mutation testing to verify test quality
+
+### Test Infrastructure
+- [ ] Create shared test utilities and base test classes
+- [ ] Implement test containers for database integration tests
+- [ ] Add test profiles for different testing scenarios
+- [ ] Create automated test reporting and coverage analysis
+- [ ] Implement parallel test execution configuration
+
+## 💻 Code Quality & Standards
+
+### Code Structure & Patterns
+- [ ] Implement consistent error handling patterns across all services
+- [ ] Add proper validation in service methods (e.g., OperationScheduleService)
+- [ ] Standardize response object creation patterns
+- [ ] Implement proper logging with structured format
+- [ ] Add method-level documentation for complex business logic
+- [ ] Implement consistent null-safety patterns
+- [ ] Add proper exception hierarchy and custom exceptions
+
+### Performance Optimizations
+- [ ] Optimize stream operations in OperationScheduleService
+- [ ] Implement database query optimization and indexing strategy
+- [ ] Add caching strategy for frequently accessed data
+- [ ] Implement pagination for large result sets
+- [ ] Add database connection pooling configuration
+- [ ] Implement async processing for non-critical operations
+
+### Code Formatting & Style
+- [ ] Remove unnecessary blank lines and formatting inconsistencies
+- [ ] Implement consistent import organization
+- [ ] Add EditorConfig for consistent code formatting
+- [ ] Implement code style checks with Checkstyle or SpotBugs
+- [ ] Add pre-commit hooks for code quality checks
+
+## 📊 Monitoring & Observability
+
+### Logging & Metrics
+- [ ] Implement structured logging with correlation IDs
+- [ ] Add application metrics collection (Micrometer)
+- [ ] Implement health checks for all services
+- [ ] Add distributed tracing support
+- [ ] Create monitoring dashboards
+- [ ] Implement alerting for critical system events
+
+### Error Handling & Debugging
+- [ ] Implement global exception handlers
+- [ ] Add proper error response standardization
+- [ ] Implement request/response logging for debugging
+- [ ] Add performance monitoring and profiling
+- [ ] Create error tracking and reporting system
+
+## 🗄️ Data Management
+
+### Database Optimization
+- [ ] Implement database migration strategy (Flyway/Liquibase)
+- [ ] Add database indexing strategy
+- [ ] Implement proper transaction management
+- [ ] Add database connection monitoring
+- [ ] Implement data archiving strategy
+- [ ] Add database backup and recovery procedures
+
+### Data Validation & Integrity
+- [ ] Add comprehensive input validation
+- [ ] Implement data consistency checks
+- [ ] Add referential integrity constraints
+- [ ] Implement data sanitization procedures
+- [ ] Add data retention policies
+
+## 🚀 DevOps & Deployment
+
+### Containerization & Deployment
+- [ ] Create Dockerfiles for each service
+- [ ] Implement multi-stage Docker builds
+- [ ] Add Docker Compose for local development
+- [ ] Create Kubernetes deployment manifests
+- [ ] Implement CI/CD pipeline configuration
+- [ ] Add environment-specific configuration management
+
+### Infrastructure as Code
+- [ ] Create infrastructure provisioning scripts
+- [ ] Implement configuration management
+- [ ] Add secrets management solution
+- [ ] Create backup and disaster recovery procedures
+- [ ] Implement monitoring and alerting infrastructure
+
+## 📚 Documentation & API
+
+### API Documentation
+- [ ] Enhance OpenAPI/Swagger documentation
+- [ ] Add API versioning strategy
+- [ ] Create API usage examples and tutorials
+- [ ] Implement API rate limiting documentation
+- [ ] Add API changelog and migration guides
+
+### Technical Documentation
+- [ ] Create architecture decision records (ADRs)
+- [ ] Add deployment and operational guides
+- [ ] Create troubleshooting documentation
+- [ ] Add performance tuning guides
+- [ ] Create security best practices documentation
+
+## 🔧 Configuration & Environment
+
+### Environment Management
+- [ ] Standardize environment variable naming
+- [ ] Implement configuration validation
+- [ ] Add environment-specific property files
+- [ ] Create configuration documentation
+- [ ] Implement feature flags system
+- [ ] Add configuration hot-reloading capability
+
+### External Integrations
+- [ ] Implement proper retry mechanisms for external services
+- [ ] Add circuit breaker patterns
+- [ ] Implement service discovery
+- [ ] Add external service monitoring
+- [ ] Create integration testing for external dependencies
+
+## 📈 Performance & Scalability
+
+### Application Performance
+- [ ] Implement connection pooling optimization
+- [ ] Add JVM tuning configurations
+- [ ] Implement memory usage optimization
+- [ ] Add performance benchmarking
+- [ ] Create load testing scenarios
+- [ ] Implement auto-scaling strategies
+
+### Database Performance
+- [ ] Optimize database queries and add proper indexing
+- [ ] Implement read replicas for read-heavy operations
+- [ ] Add database query monitoring
+- [ ] Implement database partitioning strategy
+- [ ] Add database performance tuning
 
 ---
 
-#  합주실 탐색 기능의 설계: 정렬에서 표기로, 현실적인 MVP를 위한 선택
+## Priority Legend
+- **High Priority**: Security vulnerabilities, critical bugs, and foundational improvements
+- **Medium Priority**: Performance optimizations, testing improvements, and code quality
+- **Low Priority**: Documentation, monitoring enhancements, and nice-to-have features
 
-## 1. 도입
-
-음악인들을 위한 합주실 예약 플랫폼을 설계하면서, 우리는 사용자들이 **합주실 이름, 주소, 이용 가능 시간**을 기준으로 손쉽게 탐색할 수 있는 기능이 필요하다는 것을 확인했다.
-이에 따라, \*\*합주실을 운영하는 관리자(사장님)\*\*가 정보를 등록하고, \*\*클라이언트(사용자)\*\*가 다양한 기준으로 합주실을 탐색할 수 있도록 하는 모듈을 설계하게 되었다.
-
----
-
-## 2. 설계 목표
-
-*  **운영자 입장:** 합주실의 이름, 주소, 연락처, 운영시간, 방(Room) 정보 등을 등록
-*  **사용자 입장:** 특정 시간에 예약 가능한 합주실을, 이름/주소를 기반으로 쉽게 검색
-*  **MVP 우선:** 너무 많은 복잡도를 초기에 가져가지 않도록 **기능과 구조를 분리하고**, 확장 가능한 형태로 시작
+## Completion Tracking
+- Total Tasks: 89
+- Completed: 0
+- In Progress: 0
+- Not Started: 89
 
 ---
 
-## 3. 초기 고민: 정렬 기준을 어떻게 할 것인가?
-
-초기에는 사용자 편의성을 고려하여 다음과 같은 요구가 있었다:
-
-> “지정한 시간대에 예약 가능한 합주실을 가장 위에 보여주고 싶다.”
-
-우리는 이 요구를 충족하기 위해 다음과 같은 기술들을 고민했다:
-
-### 🔸 Redis Sorted Set
-
-* 예약 가능 여부를 기준으로 studioId에 정렬 score를 부여
-* 요청 시간대에 맞는 ZSET을 생성하고 빠르게 정렬 제공
-* ✅ 정렬 속도는 빠르지만,
-* 
-  ⛔️ 시간대마다 ZSET이 계속 쌓이기 때문에 TTL 관리와 일관성 보장이 어려움
-
-### 🔸 ElasticSearch
-
-* 검색 + 정렬 + 조건 필터링을 모두 해결할 수 있는 궁극기
-* ✅ 부분 일치 검색, 거리 기반 정렬 등도 가능하지만
-* 
-  ⛔️ 운영 복잡도가 커지고, MVP엔 과한 스펙
-
----
-
-## 4. 기술적 현실: 정렬을 구현하면 생기는 문제들
-
-* 예약 가능 여부는 `Room` → `Slot` → `TimeManager` 모듈에 의존
-  → **합주실만 보고 판단 불가능**
-* 실시간 정렬을 구현하려면,
-
-    * 모든 방을 기준으로 예약 가능 여부를 계산
-    * 조건별 Redis ZSET or SearchView를 동기화
-      → **캐싱과 동기화 로직 폭발**
-* 결국 성능, 일관성, 복잡도에서 모두 비용이 큼
-
----
-
-## 5. 현실적인 선택: 정렬 대신 표기
-
-우리는 결국 정렬 기능은 뒤로 미루고 다음과 같은 **현실적인 MVP 선택**을 했다.
-
-> ⏳ "해당 시간에 예약 가능한지 여부만 Boolean으로 표기한다."
-
-| 항목          | 결정   |
-| ----------- | ---- |
-| 정렬 기능       | ❌  |
-| 예약 가능 여부 표시 | ✅  |
-| 이름/주소 기준 정렬 | ✅  |
-
----
-
-## 6. 구현 설명
-
-###  핵심 모듈: `studio-searchview`
-
-```java
-public class StudioSearchView {
-    Long studioId;
-    String studioName;
-    String area;
-    Boolean hasParking;
-    Boolean isAvailable; // 해당 시간 기준 예약 가능한 방이 하나라도 있나?
-}
-```
-
-###  이벤트 기반 갱신 흐름
-
-| 이벤트                       | 발생 모듈                  | SearchView 갱신 항목          |
-| ------------------------- | ---------------------- | ------------------------- |
-| studio.updated            | Studio 모듈              | 이름, 주차정보                  |
-| address.updated           | AddressService (Kafka) | 지역 필드                     |
-| room.availability.changed | TimeManager            | isAvailable (시간 기반 계산 결과) |
-
-###  사용자 요청 흐름 (MVP 기준)
-
-1. 사용자가 검색 조건 입력: 이름/주소 + 시간 범위
-2. BFF에서 SearchView 조회
-3. 조건에 맞는 `isAvailable == true`인 합주실만 필터링
-4. 정렬은 이름/주소 기준, 예약 가능 여부는 단순 표기
-
----
-
-## 7. 회고 및 확장 가능성
-
-###  MVP에서 제한한 부분
-
-| 항목       | 이유                                    |
-| -------- | ------------------------------------- |
-| 예약 가능 정렬 | Redis/ElasticSearch 기반 정렬 구조는 과도한 복잡도 |
-| 슬롯 전체 캐싱 | 2주치 30분 단위 슬롯 저장은 불가능한 규모             |
-| 검색 최적화   | MVP 기준에서는 full-text search도 제외        |
-
----
-
-###  향후 확장 계획
-
-| 기능           | 확장 방법                                |
-| ------------ | ------------------------------------ |
-| 시간 기준 정렬     | Redis ZSET 또는 정렬 score 기반 projection |
-| 부분 검색 (합주실명) | ElasticSearch 연동                     |
-| 지역 기반 지도 검색  | 위경도 + Geo Index 추가                   |
-| 실시간 예약 제한    | TimeManager의 Slot 검증 강화              |
-| 유저 평점 기반 정렬  | SearchView에 평점 필드 추가 후 score 연산      |
-
----
-
-##  마치며
-
-> “무엇을 만들 것인가”보다 더 중요한 건 “**언제 무엇을 만들지 않을 것인가**”다.
-
-우리는 복잡한 정렬 기능 대신, 현재 사용자에게 가장 필요한 핵심 기능인 \*\*“예약 가능 여부의 표시”\*\*를 선택했다.
-이 판단은 MVP를 빠르게 출시하고, 유저 피드백을 통해 진짜 필요한 확장 방향을 검증하기 위한 전략적 결정이었다.
-
----
+*Last Updated: 2025-01-04*
+*Next Review: 2025-01-11*
