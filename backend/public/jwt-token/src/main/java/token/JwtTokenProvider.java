@@ -7,6 +7,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+
+@Slf4j
 public class JwtTokenProvider {
     private final SecretKey key;
     private final long accessTokenExpirationSeconds;
@@ -64,10 +67,15 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (ExpiredJwtException e) {
+            // 적절한 로그 추가
+            log.error("Token expired: {}", e.getMessage());
             throw new TokenException(TokenErrorCode.EXPIRED_TOKEN);
         } catch (JwtException | IllegalArgumentException e) {
+            // 상세 에러 메시지 확인용 로그 추가
+            log.error("Invalid token: {}", e.getMessage(), e);
             throw new TokenException(TokenErrorCode.INVALID_TOKEN);
         }
+
     }
 
     public String getJti(String token) {

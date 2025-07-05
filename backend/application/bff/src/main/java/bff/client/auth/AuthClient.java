@@ -2,6 +2,7 @@ package bff.client.auth;
 
 
 import dto.auth.request.LoginRequest;
+import dto.auth.request.RefreshTokenRequest;
 import dto.auth.request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,6 +17,7 @@ import resposne.BaseResponse;
 @Component
 public class AuthClient {
     private final String BASE_URI = "/api/auth/v1";
+    private final String TOKEN_URI = "/api/auth/token/v1";
     private final WebClient webClient;
     public AuthClient(@Qualifier("authWebClient") WebClient webClient) {
         this.webClient = webClient;
@@ -37,6 +39,12 @@ public class AuthClient {
 
     public Mono<ResponseEntity<BaseResponse<?>>> confirmEmail(Long userId, String code) {
         return post(BASE_URI + "/email?userId=" + userId + "&code=" + code);
+    }
+
+
+    public Mono<ResponseEntity<BaseResponse<?>>> refresh(RefreshTokenRequest req) {
+        return post(req, TOKEN_URI + "/refresh");
+
     }
 
 
