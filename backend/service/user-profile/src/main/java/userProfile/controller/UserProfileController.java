@@ -46,6 +46,19 @@ public class UserProfileController {
         }
     }
 
+    @GetMapping("/nickname-check")
+    public ResponseEntity<BaseResponse<?>> checkNickname(
+            @RequestParam String nickname
+    )
+    {
+        try{
+            userProfileService.validateNickname(nickname);
+            return ResponseEntity.ok(BaseResponse.success());
+        }catch (UserProfileException e){
+            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
+        }
+    }
+
 
 
     @PostMapping("/deleteUser")

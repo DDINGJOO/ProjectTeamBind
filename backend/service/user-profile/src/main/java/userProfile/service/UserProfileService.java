@@ -150,7 +150,7 @@ public class UserProfileService {
                 .orElseThrow(() -> new UserProfileException(UserProfileErrorCode.USER_PROFILE_NOT_FOUND));
     }
 
-    private void validateNickname(String nickname) {
+    public void validateNickname(String nickname) {
         if (nickname.length() < 2) throw new UserProfileException(NickNameFilterErrorCode.NICKNAME_TOO_SHORT);
         if (nickname.length() > 20) throw new UserProfileException(NickNameFilterErrorCode.NICKNAME_TOO_LONG);
         if (nickname.contains(" ")) throw new UserProfileException(NickNameFilterErrorCode.NICKNAME_CONTAINS_SPACES);

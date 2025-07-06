@@ -101,6 +101,8 @@ public class AuthService {
                 .map(UserRole::getRole)
                 .orElseThrow(() -> new AuthException(AuthErrorCode.USER_ROLE_NOT_FOUND));
 
+
+        Long deviceId = (snowflake.nextId()%9999);
         // 1) 토큰 발급
         String accessToken  = jwtTokenProvider.issueAccessToken(
                 String.valueOf(user.getId()),
@@ -108,18 +110,18 @@ public class AuthService {
         );
         String refreshToken = jwtTokenProvider.issueRefreshToken(
                 String.valueOf(user.getId()),
-                req.getDeviceId()
+                deviceId.toString()
         );
 
         // 2) 리프레시 토큰 저장 (토큰 스토어에 위임)
         refreshTokenStore.save(
                 String.valueOf(user.getId()),
-                req.getDeviceId(),
+                deviceId.toString(),
                 refreshToken,
                 jwtTokenProvider.getRefreshTokenTTL()
         );
 
-        return new LoginResponse(accessToken, refreshToken);
+        return new LoginResponse(accessToken, refreshToken,deviceId.toString());
     }
 
     private void checkUserHealth(LoginRequest req, User user) {
@@ -188,4 +190,6 @@ public class AuthService {
     private String passwordEncode(String password) {
         return passwordEncoder.encode(password);
     }
+
+
 }

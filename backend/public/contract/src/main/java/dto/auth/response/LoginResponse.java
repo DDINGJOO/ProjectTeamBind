@@ -11,4 +11,5 @@ import lombok.*;
 public class LoginResponse {
     String access_token;
     String refresh_token;
+    String deviceId;
 }

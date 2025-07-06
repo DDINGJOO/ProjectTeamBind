@@ -79,6 +79,25 @@ public class UserProfileController {
                 });
     }
 
+    @GetMapping("/my")
+    public Mono<ResponseEntity<BaseResponse<?>>> myProfile(
+            Authentication authentication
+    ){
+        String userId = authentication.getName();
+        return userProfileClient.getProfile(Long.valueOf(userId));
+    }
+
+    @GetMapping("/nickname-validate")
+    public Mono<ResponseEntity<BaseResponse<?>>> nicknameValidate(
+            @RequestParam String nickname
+
+    ){
+        return userProfileClient.checkNickName(nickname);
+    }
+
+
+
+
     @GetMapping()
     public Mono<ResponseEntity<BaseResponse<?>>> userProfile(
             Authentication authentication,

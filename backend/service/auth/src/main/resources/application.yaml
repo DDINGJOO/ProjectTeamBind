@@ -32,3 +32,7 @@ jwt:
   secret: ${TOKEN_KEY}
   access-expiration: ${ACCESSTOKEN_EXPIRATION}
   refresh-expiration: ${REFRESHTOKEN_EXPIRATION}
+
+kakao:
+  client_id: ${KAKAO_REST_API_KEY}
+  redirect_uri_pc: http://119.196.161.182:9101/kakao/callback

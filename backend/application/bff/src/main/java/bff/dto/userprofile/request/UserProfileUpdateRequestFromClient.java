@@ -24,7 +24,7 @@ public class UserProfileUpdateRequestFromClient {
     private String introduction;
     private Boolean smsAgreement;
     private String gender;
-    private String location;
+    private String location; // TODO : 프로필 설정전에 합의
     private String phoneNumber;
     private List<Long> imageIds;
 
@@ -50,8 +50,4 @@ public class UserProfileUpdateRequestFromClient {
                 .category(ResourceCategory.PROFILE)
                 .build();
     }
-
-
-
-
 }

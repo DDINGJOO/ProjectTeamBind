@@ -15,7 +15,8 @@ public enum AuthErrorCode implements CustomErrorCode {
     IS_ALREADY_CONFIRMED("AUTH-VAL-007", "이미 이메일이 인증된 유저입니다.", HttpStatus.CONFLICT),
     EMAIL_NOT_CONFIRMED("AUTH-VAL-008", "이메일 인증이 되지 않은 유저입니다.", HttpStatus.BAD_REQUEST ),
     INVALID_USER("AUTH-VAL-009", "활동이 정지된 유저입니다.", HttpStatus.BAD_REQUEST ),
-    DELETED_USER("AUTH-VAL-010", "삭제 대기중인 유저 입니다.", HttpStatus.BAD_REQUEST );
+    DELETED_USER("AUTH-VAL-010", "삭제 대기중인 유저 입니다.", HttpStatus.BAD_REQUEST ),
+    INVALID_PROVIDER("AUTH-VAL-011", "유효하지 않은 인증 제공자입니다.", HttpStatus.BAD_REQUEST);
 
     private final String code;
     private final String message;
