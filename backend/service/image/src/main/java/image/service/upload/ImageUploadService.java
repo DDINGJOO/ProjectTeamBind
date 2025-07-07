@@ -13,6 +13,7 @@ import image.service.component.ImageValidator;
 import image.service.image_store_impl.LocalImageStorage;
 import image.service.util.ImageUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import primaryIdProvider.Snowflake;
@@ -27,6 +28,7 @@ import static exception.error_code.image.ImageErrorCode.IMAGE_PROCESSING_ERROR;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ImageUploadService {
 
     private static final int THUMBNAIL_SIZE = 256;
@@ -44,17 +46,35 @@ public class ImageUploadService {
                                       ImageVisibility visibility,
                                       Boolean isThumbnail) {
 
-        String uuid = UUID.randomUUID().toString();
+        String uuid         = UUID.randomUUID().toString();
         String webpFileName = uuid + ".webp";
-        String datePath = LocalDateTime.now().toLocalDate().toString().replace("-", "/");
-        String storedPath = "/" + category.name() + "/" + datePath + "/" + webpFileName;
+        String datePath     = LocalDateTime.now().toLocalDate().toString().replace("-", "/");
+        String storedPath   = "/" + category.name() + "/" + datePath + "/" + webpFileName;
 
+        byte[] webpBytes;
         try {
-            byte[] webpBytes = Boolean.TRUE.equals(isThumbnail)
+            // ① WebP 변환
+            webpBytes = Boolean.TRUE.equals(isThumbnail)
                     ? ImageUtil.toWebpThumbnail(file, THUMBNAIL_SIZE, THUMBNAIL_SIZE, 0.8f)
                     : ImageUtil.toWebp(file, 0.8f);
+
+            // ② 변환 결과 로그
+            log.info("WebP 변환: inputSize={} → outputSize={}",
+                    file.getSize(), webpBytes != null ? webpBytes.length : -1);
+
+            // ③ 결과 검증
+            if (webpBytes == null || webpBytes.length == 0) {
+                log.error("WebP 변환 실패: 반환된 바이트가 없습니다.");
+                throw new ImageException(IMAGE_PROCESSING_ERROR);
+            }
+
+            // ④ 파일 저장
             imageStorage.store(webpBytes, storedPath);
+
+        } catch (ImageException e) {
+            throw e;  // ImageException 은 그대로 던지고
         } catch (Exception e) {
+            log.error("이미지 처리 중 예외 발생", e);
             throw new ImageException(IMAGE_PROCESSING_ERROR);
         }
 

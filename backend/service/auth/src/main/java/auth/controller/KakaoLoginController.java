@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import resposne.BaseResponse;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class KakaoLoginController {
 
     private final KakaoService kakaoService;
     private final SocialService OauthService;
-    private EventPublish eventPublish;
+    private final EventPublish eventPublish;
 
 
 
@@ -40,7 +39,6 @@ public class KakaoLoginController {
         KakaoUserInfoResponseDto userInfo = kakaoService.getUserInfo(kakaoAccessToken);
 
         User user = OauthService.createUser(ProviderList.Kakao, userInfo.kakaoAccount.email);
-        eventPublish.createUserEvent(user.getId(), user.getEmail());
         LoginResponse loginResponse = OauthService.login( ProviderList.Kakao,user);
         return ResponseEntity.ok(BaseResponse.success(loginResponse));
 

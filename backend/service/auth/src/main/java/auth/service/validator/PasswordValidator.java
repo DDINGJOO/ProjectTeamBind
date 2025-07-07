@@ -11,6 +11,7 @@ public class PasswordValidator implements Validator<String> {
 
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(
             "^(?=(?:.*[A-Z]){1,})(?=(?:.*[a-z]){1,})(?=(?:.*\\d){1,})(?=(?:.*[\\W_]){1,}).{10,}$"
+
     );
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EventPublishIImpl implements EventPublish {
-    OutboxEventPublisher  outboxEventPublisher;
+    private final OutboxEventPublisher  outboxEventPublisher;
 
 
     @Override

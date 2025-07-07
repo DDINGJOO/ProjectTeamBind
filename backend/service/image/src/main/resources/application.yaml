@@ -3,8 +3,8 @@ server:
 
 spring:
   kafka:
+    bootstrap-servers: ${KAFKA_URL}
     consumer:
-      bootstrap-servers: ${KAFKA_URL}
       group-id: image-consumer-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -29,11 +29,10 @@ spring:
 
 image:
   upload:
-    dir: C:/Users/soh10/Desktop/dev/ProjectTeamBind/backend/uploads
+    dir: /home/teambind/teambind/backend/ProjectTeamBind/backend/images/uploads
 
     nginx:
-      url: http://localhost
-
+      url: ${IP}
 
 logging:
   level:

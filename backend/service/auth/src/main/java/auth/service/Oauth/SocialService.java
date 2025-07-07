@@ -6,6 +6,7 @@ import auth.entity.UserRole;
 import auth.repository.UserRepository;
 import auth.repository.UserRoleRepository;
 import auth.service.UserRoleGrantService;
+import auth.service.eventPublish.EventPublish;
 import auth.service.token.RefreshTokenStore;
 import dto.auth.response.LoginResponse;
 import eurm.ProviderList;
@@ -31,12 +32,14 @@ public class SocialService {
     private final UserRoleRepository userRoleRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenStore refreshTokenStore;
+    private final EventPublish eventPublish;
 
 
     @Transactional
     public User createUser(ProviderList provider, String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new AuthException(AuthErrorCode.DUPLICATE_EMAIL);
+            return userRepository.findByEmail(email).orElseThrow();
+
         }
 
         User user = User.builder()
@@ -50,6 +53,7 @@ public class SocialService {
                 .build();
         userRepository.save(user);
         userRoleGrantService.grantDefaultRole(user);
+        eventPublish.createUserEvent(user.getId(),user.getEmail());
         return user;
     }
 
@@ -88,8 +92,6 @@ public class SocialService {
                 refreshToken,
                 jwtTokenProvider.getRefreshTokenTTL()
         );
-
         return new LoginResponse(accessToken, refreshToken,deviceId.toString());
-
     }
 }

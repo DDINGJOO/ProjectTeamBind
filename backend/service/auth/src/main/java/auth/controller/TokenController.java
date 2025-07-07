@@ -50,7 +50,13 @@ public class TokenController {
             String newAccessToken = jwtTokenProvider.issueAccessToken(req.userId(), Map.of("role", role));
             String newRefreshToken = jwtTokenProvider.issueRefreshToken(req.userId(), deviceId);
 
-            return ResponseEntity.ok(BaseResponse.success(new LoginResponse(newAccessToken, newRefreshToken)));
+            return ResponseEntity.ok(BaseResponse.success(LoginResponse
+                    .builder()
+                    .access_token(  newAccessToken)
+                    .refresh_token(newRefreshToken)
+                    .deviceId(deviceId)
+                    .build()
+            ));
         } catch (TokenException e) {
             log.warn("Refresh Token 요청 실패 userId={}, reason={}", req.userId(), e.getMessage());
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));

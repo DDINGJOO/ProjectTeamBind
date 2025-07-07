@@ -58,7 +58,7 @@ public class AuthClient {
                                 .map(body -> {
                                     if (!body.isSuccess()) {
                                         return ResponseEntity
-                                                .status(HttpStatus.BAD_REQUEST)
+                                                .status(HttpStatus.ACCEPTED)
                                                 .body(body);
                                     }
                                     return ResponseEntity.ok(body);
@@ -78,7 +78,7 @@ public class AuthClient {
                                 .map(body -> {
                                     if (!body.isSuccess()) {
                                         return ResponseEntity
-                                                .status(HttpStatus.BAD_REQUEST)
+                                                .status(HttpStatus.ACCEPTED)
                                                 .body(body);
                                     }
                                     return ResponseEntity.ok(body);
