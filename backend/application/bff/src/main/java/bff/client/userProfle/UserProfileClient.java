@@ -1,6 +1,8 @@
 package bff.client.userProfle;
 
 
+import bff.client.ClientMethodFactory;
+import bff.client.impl.ClientMethodFactoryImpl;
 import dto.PageResult;
 import dto.userprofile.condition.ProfileSearchCondition;
 import dto.userprofile.request.UserProfileUpdateRequest;
@@ -24,9 +26,12 @@ import java.util.Optional;
 public class UserProfileClient {
     private static final String BASE_URI = "/api/user-profile/v1";
     private final WebClient webClient;
+    private final ClientMethodFactory clientMethod;
 
     public UserProfileClient(@Qualifier("userProfileWebClient") WebClient webClient) {
+
         this.webClient = webClient;
+        this.clientMethod = new ClientMethodFactoryImpl(webClient);
     }
 
     public Mono<ResponseEntity<BaseResponse<PageResult<UserProfileResponse>>>> searchProfiles(
@@ -73,128 +78,25 @@ public class UserProfileClient {
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> getProfile(Long userId) {
-        return webClient.get()
-                .uri(ub -> {
-                    ub = ub.path(BASE_URI + "/profile")
-                            .queryParam("userId", userId);
-                    return ub.build();
-                })
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                .map(body -> {
-                    if (!body.isSuccess()) {
-                        return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
-                    }
-                    return ResponseEntity.ok(body);
-                });
+        String uri = BASE_URI + "/profile?userId=" + userId;
+        return clientMethod.get(uri);
     }
 
 
     public Mono<ResponseEntity<BaseResponse<?>>> checkNickName(String nickname) {
-        return webClient.get()
-                .uri(ub -> {
-                    ub = ub.path(BASE_URI + "/checkNickName")
-                            .queryParam("nickname", nickname);
-                    return ub.build();
-                })
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                .map(body -> {
-                    if (!body.isSuccess()) {
-                        return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
-                    }
-                    return ResponseEntity.ok(body);
-                });
+        String uri = BASE_URI + "/checkNickName?nickname=" + nickname;
+        return clientMethod.get(uri);
     }
-
-
 
 
     public Mono<ResponseEntity<BaseResponse<?>>> updateProfile(UserProfileUpdateRequest request) {
-        return post(request,BASE_URI);
+        return clientMethod.post(request, BASE_URI);
     }
-
 
 
     public Mono<ResponseEntity<BaseResponse<?>>> softDeleteUser(
             Long userId
     ) {
-        return post(BASE_URI+"/deleteUser?userId="+userId);
+        return clientMethod.post(BASE_URI + "/deleteUser?userId=" + userId);
     }
-
-
-
-
-    private Mono<ResponseEntity<BaseResponse<?>>> post(Object req, String uri) {
-        return webClient.post()
-                .uri(uri)
-                .bodyValue(req)
-                .exchangeToMono(response ->
-                        response.bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                                .map(body -> {
-                                    if (!body.isSuccess()) {
-                                        return ResponseEntity
-                                                .status(HttpStatus.BAD_REQUEST)
-                                                .body(body);
-                                    }
-                                    return ResponseEntity.ok(body);
-                                })
-                );
-    }
-
-    private Mono<ResponseEntity<BaseResponse<?>>> post(String uri) {
-        return webClient.post()
-                .uri(uri)
-                .exchangeToMono(response ->
-                        response.bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                                .map(body -> {
-                                    if (!body.isSuccess()) {
-                                        return ResponseEntity
-                                                .status(HttpStatus.BAD_REQUEST)
-                                                .body(body);
-                                    }
-                                    return ResponseEntity.ok(body);
-                                })
-                );
-    }
-
-
-    /*
-
-
-    @PostMapping()
-    public ResponseEntity<BaseResponse<?>> upDateProfile(@RequestBody UserProfileUpdateRequest request) {
-        try{
-            userProfileService.updateProfile(request.getUserId(),request);
-            return  ResponseEntity.ok(BaseResponse.success());
-        }catch (UserProfileException e){
-            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
-        }
-    }
-
-
-    @PostMapping("/deleteUser")
-    public void softDeleteUser(
-            @RequestParam Long userId ){
-        userProfileService.softDelete(userId);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<BaseResponse<?>> getProfile(
-            @RequestParam Long userId
-    ){
-
-        try {
-            return ResponseEntity.ok(BaseResponse.success(userProfileService.getProfile(userId)));
-        }
-        catch (UserProfileException e){
-            return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
-        }
-    }
-
-     */
 }

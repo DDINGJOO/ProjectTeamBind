@@ -87,14 +87,13 @@ public class AuthController {
     )
     @PostMapping("/confirmEmail")
     public Mono<ResponseEntity<BaseResponse<?>>> confirmEmail(
-            Authentication authentication,
+            @RequestParam Long userId,
             @RequestParam String code
     )
     {
-        String userId = authentication.getName();       //
-        log.info("CALLED /api/auth/v1/confirmEmail /n"+
-                "요청자 ID {}, 코드  {} ",userId, code);
-        return authClient.confirmEmail(Long.valueOf(userId), code);
+        log.info("CALLED /api/auth/v1/confirmEmail/n"+
+                " 코드  {} ",code);
+        return authClient.confirmEmail(userId,code);
     }
 }
 

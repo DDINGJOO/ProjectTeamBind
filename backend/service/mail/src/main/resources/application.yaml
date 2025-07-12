@@ -32,3 +32,8 @@ logging:
   level:
     org.springframework.kafka: INFO
     bind.mail: DEBUG
+
+
+bander:
+  app:
+    url: ${DNS}:${BFF_PORT}

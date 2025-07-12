@@ -1,6 +1,8 @@
 package bff.client.auth;
 
 
+import bff.client.ClientMethodFactory;
+import bff.client.impl.ClientMethodFactoryImpl;
 import dto.auth.request.LoginRequest;
 import dto.auth.request.RefreshTokenRequest;
 import dto.auth.request.SignUpRequest;
@@ -18,73 +20,40 @@ import resposne.BaseResponse;
 public class AuthClient {
     private final String BASE_URI = "/api/auth/v1";
     private final String TOKEN_URI = "/api/auth/token/v1";
-    private final WebClient webClient;
+    private final ClientMethodFactory clientMethodFactory;
     public AuthClient(@Qualifier("authWebClient") WebClient webClient) {
-        this.webClient = webClient;
+
+        clientMethodFactory = new ClientMethodFactoryImpl(webClient);
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> signUp(SignUpRequest req) {
-        return post(req, BASE_URI + "/signup");
+        return clientMethodFactory.post(req, BASE_URI + "/signup");
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> login(LoginRequest req) {
-        return post(req, BASE_URI + "/login");
+        return clientMethodFactory.post(req, BASE_URI + "/login");
     }
     public Mono<ResponseEntity<BaseResponse<?>>> withdraw(Long userid, String reason) {
-        return post(BASE_URI + "/withdraw?"
-                +"userId=" + userid
-                +"&reason=" + reason
-        );
+        String url = BASE_URI + "/withdraw?userId=" + userid + "&reason=" + reason;
+        return clientMethodFactory.post(url);
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> confirmEmail(Long userId, String code) {
-        return post(BASE_URI + "/email?userId=" + userId + "&code=" + code);
+        String url = BASE_URI + "/email?userId=" + userId + "&code=" + code;
+        return clientMethodFactory.post(url);
     }
 
 
     public Mono<ResponseEntity<BaseResponse<?>>> refresh(RefreshTokenRequest req) {
-        return post(req, TOKEN_URI + "/refresh");
+        return clientMethodFactory.post(req, TOKEN_URI + "/refresh");
 
     }
 
 
 
-    private Mono<ResponseEntity<BaseResponse<?>>> post(Object req, String uri) {
-        return webClient.post()
-                .uri(uri)
-                .bodyValue(req)
-                .exchangeToMono(response ->
-                        response.bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                                .map(body -> {
-                                    if (!body.isSuccess()) {
-                                        return ResponseEntity
-                                                .status(HttpStatus.ACCEPTED)
-                                                .body(body);
-                                    }
-                                    return ResponseEntity.ok(body);
-                                })
 
 
-                );
 
-
-    }
-
-    private Mono<ResponseEntity<BaseResponse<?>>> post(String uri) {
-        return webClient.post()
-                .uri(uri)
-                .exchangeToMono(response ->
-                        response.bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                                .map(body -> {
-                                    if (!body.isSuccess()) {
-                                        return ResponseEntity
-                                                .status(HttpStatus.ACCEPTED)
-                                                .body(body);
-                                    }
-                                    return ResponseEntity.ok(body);
-                                })
-                );
-    }
 
 
 

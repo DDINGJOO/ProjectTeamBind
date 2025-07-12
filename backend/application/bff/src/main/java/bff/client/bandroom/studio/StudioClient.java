@@ -1,5 +1,7 @@
 package bff.client.bandroom.studio;
 
+import bff.client.ClientMethodFactory;
+import bff.client.impl.ClientMethodFactoryImpl;
 import dto.studio.request.StudioCreateRequest;
 import dto.studio.request.StudioUpdateRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,139 +19,49 @@ public class StudioClient {
 
 
     private final String BASE_URI = "/api/studio/v1";
-    private final WebClient webClient;
+    private final ClientMethodFactory clientMethod;
     public StudioClient(@Qualifier("studioWebClient") WebClient webClient) {
-        this.webClient = webClient;
+        this.clientMethod = new ClientMethodFactoryImpl(webClient);
+
     }
 
+
+
     public Mono<ResponseEntity<BaseResponse<?>>> getStudio(Long studioId) {
-        return webClient.get()
-                .uri(ub -> {
-                    ub = ub.path(BASE_URI)
-                            .queryParam("studioId", studioId);
-                    return ub.build();
-                })
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                .map(body -> {
-                    if (!body.isSuccess()) {
-                        return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
-                    }
-                    return ResponseEntity.ok(body);
-                });
+        String uri = BASE_URI+"/studio?studioId="+studioId;
+        return clientMethod.get(uri);
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> getStudios(Long bandRoomId)
     {
-        return webClient.get()
-                .uri(ub -> {
-                    ub = ub.path(BASE_URI+"/studios")
-                            .queryParam("bandRoomId", bandRoomId);
-                    return ub.build();
-                })
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                .map(body -> {
-                    if (!body.isSuccess()) {
-                        return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
-                    }
-                    return ResponseEntity.ok(body);
-                });
+
+        String uri = BASE_URI+"/studios?bandRoomId="+bandRoomId;
+        return clientMethod.get(uri);
+
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> updateStudio(StudioUpdateRequest req)
     {
-        return post(req,BASE_URI+"/update");
+        return clientMethod.post(req,BASE_URI+"/update");
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> createStudio(StudioCreateRequest req)
     {
-        return post(req,BASE_URI+"/create");
+        return clientMethod.post(req,BASE_URI+"/create");
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> deleteStudio(Long studioId)
     {
-        return webClient.delete()
-                .uri(ub -> {
-                    ub = ub.path(BASE_URI)
-                            .queryParam("studioId", studioId);
-                    return ub.build();
-                })
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                .map(body -> {
-                    if (!body.isSuccess()) {
-                        return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
-                    }
-                    return ResponseEntity.ok(body);
-                });
+        String uri = BASE_URI+"/delete?studioId="+studioId;
+        return clientMethod.delete(uri);
     }
 
     public Mono<ResponseEntity<BaseResponse<?>>> deleteStudios(Long bandRoomId)
     {
-        return webClient.delete()
-                .uri(ub -> {
-                    ub = ub.path(BASE_URI+"/delete")
-                            .queryParam("bandRoomId", bandRoomId);
-                    return ub.build();
-                })
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                .map(body -> {
-                    if (!body.isSuccess()) {
-                        return ResponseEntity
-                                .status(HttpStatus.BAD_REQUEST)
-                                .body(body);
-                    }
-                    return ResponseEntity.ok(body);
-                });
+        String uri = BASE_URI+"/delete?bandRoomId="+bandRoomId;
+        return clientMethod.delete(uri);
     }
 
-
-
-
-    private Mono<ResponseEntity<BaseResponse<?>>> post(Object req, String uri) {
-        return webClient.post()
-                .uri(uri)
-                .bodyValue(req)
-                .exchangeToMono(response ->
-                        response.bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                                .map(body -> {
-                                    if (!body.isSuccess()) {
-                                        return ResponseEntity
-                                                .status(HttpStatus.BAD_REQUEST)
-                                                .body(body);
-                                    }
-                                    return ResponseEntity.ok(body);
-                                })
-
-
-                );
-
-
-    }
-
-    private Mono<ResponseEntity<BaseResponse<?>>> post(String uri) {
-        return webClient.post()
-                .uri(uri)
-                .exchangeToMono(response ->
-                        response.bodyToMono(new ParameterizedTypeReference<BaseResponse<?>>() {})
-                                .map(body -> {
-                                    if (!body.isSuccess()) {
-                                        return ResponseEntity
-                                                .status(HttpStatus.BAD_REQUEST)
-                                                .body(body);
-                                    }
-                                    return ResponseEntity.ok(body);
-                                })
-                );
-    }
 
 
 }

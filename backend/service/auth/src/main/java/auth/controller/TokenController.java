@@ -1,6 +1,8 @@
 package auth.controller;
 
 
+import auth.entity.UserRole;
+import auth.repository.UserRoleRepository;
 import auth.service.token.RefreshTokenService;
 import dto.auth.request.RefreshTokenRequest;
 import dto.auth.response.LoginResponse;
@@ -23,6 +25,7 @@ public class TokenController {
 
     private final RefreshTokenService refreshTokenService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserRoleRepository userRoleRepository;
 
 
     @PostMapping("/refresh")
@@ -31,9 +34,6 @@ public class TokenController {
             log.info("Refresh Token 요청: {}", req);
 
             // 토큰 값 검증
-            if (req.accessToken() == null || req.accessToken().isEmpty()) {
-                throw new TokenException(TokenErrorCode.INVALID_TOKEN);
-            }
             if (req.refreshToken() == null || req.refreshToken().isEmpty()) {
                 throw new TokenException(TokenErrorCode.INVALID_TOKEN);
             }
@@ -43,16 +43,20 @@ public class TokenController {
                 throw new TokenException(TokenErrorCode.INVALID_TOKEN);
             }
 
-            String role = jwtTokenProvider.getClaim(req.accessToken(), "role");
-            String deviceId = jwtTokenProvider.getClaim(req.refreshToken(), "deviceId");
+            // 2. RefreshToken에서 userId, deviceId 추출
+            Long userId = Long.valueOf(jwtTokenProvider.getUserId(req.refreshToken()));
+            String deviceId = jwtTokenProvider.getDeviceId(req.refreshToken());
+
+            // 2.1. 사용자 권한 확인
+            UserRole role = userRoleRepository.findByUser_Id(userId);
 
             // 3. AccessToken 재발급
-            String newAccessToken = jwtTokenProvider.issueAccessToken(req.userId(), Map.of("role", role));
-            String newRefreshToken = jwtTokenProvider.issueRefreshToken(req.userId(), deviceId);
+            String newAccessToken = jwtTokenProvider.issueAccessToken(userId.toString(), Map.of("role", role.getRole().name()));
+            String newRefreshToken = jwtTokenProvider.issueRefreshToken(userId.toString(), deviceId);
 
             return ResponseEntity.ok(BaseResponse.success(LoginResponse
                     .builder()
-                    .access_token(  newAccessToken)
+                    .access_token( newAccessToken)
                     .refresh_token(newRefreshToken)
                     .deviceId(deviceId)
                     .build()

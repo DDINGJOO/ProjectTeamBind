@@ -33,7 +33,7 @@ public class TokenController {
         if(refreshToken.userId() != null && !refreshToken.userId().equals(userId)) {
             return Mono.just(ResponseEntity.ok(BaseResponse.error("refreshToken.userId is not matched")));
         }
-        log.info("CALLED /api/token/v1/refresh /n"+refreshToken.toString());
+        log.info("CALLED /api/token/v1/refresh /n{}", refreshToken);
         return authClient.refresh(refreshToken);
     }
 

@@ -7,6 +7,7 @@ import dto.auth.request.LoginRequest;
 import dto.auth.request.PasswordChangeRequest;
 import dto.auth.request.SignUpRequest;
 import dto.auth.response.LoginResponse;
+import exception.error_code.auth.AuthErrorCode;
 import exception.excrptions.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body(BaseResponse.fail(e.getErrorCode()));
         }
     }
+
+
     @PostMapping("/changePassword")
     public ResponseEntity<BaseResponse<?>> changePassword(
             @RequestBody PasswordChangeRequest req

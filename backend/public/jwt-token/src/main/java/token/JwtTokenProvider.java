@@ -139,4 +139,20 @@ public class JwtTokenProvider {
                 List.of(authority)
         );
     }
+
+    public String getUserId(String s) {
+        try {
+            return parse(s).getSubject();
+        } catch (Exception e) {
+            throw new TokenException(TokenErrorCode.INVALID_TOKEN);
+        }
+    }
+
+    public String getDeviceId(String s) {
+        try {
+            return getClaim(s, "deviceId");
+        } catch (Exception e) {
+            throw new TokenException(TokenErrorCode.INVALID_TOKEN);
+        }
+    }
 }

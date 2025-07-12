@@ -60,13 +60,18 @@ public class AuthService {
                 .isDeleted(false)
                 .build();
         userRepository.save(user);
+        pubEmailConfirmEvent(user);
 
+        userRoleGrantService.grantDefaultRole(user);
+    }
+
+    private void pubEmailConfirmEvent(User user)
+    {
         eventPublish.emailConfirmedEvent(
                 user.getId(),
                 user.getEmail(),
                 createCode.createCode(user.getId())
         );
-        userRoleGrantService.grantDefaultRole(user);
     }
 
     private void validateUser(SignUpRequest req) {
@@ -129,6 +134,7 @@ public class AuthService {
             throw new AuthException(AuthErrorCode.INVALID_PASSWORD);
         }
         if (!user.isEmailVerified()) {
+            pubEmailConfirmEvent(user);
             throw new AuthException(AuthErrorCode.EMAIL_NOT_CONFIRMED);
         }
         if (!user.getIsActive()) {
