@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "token.JwtProperties",
+      "sourceType": "token.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.access-expiration",
+      "type": "java.lang.Long",
+      "sourceType": "token.JwtProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "jwt.refresh-expiration",
+      "type": "java.lang.Long",
+      "sourceType": "token.JwtProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "token.JwtProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

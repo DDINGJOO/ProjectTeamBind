@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "name": "bind.kafka.topic",
+      "type": "inframessaging.properties.KafkaTopicProperties",
+      "sourceType": "inframessaging.properties.KafkaTopicProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "bind.kafka.topic.order-created",
+      "type": "java.lang.String",
+      "sourceType": "inframessaging.properties.KafkaTopicProperties"
+    },
+    {
+      "name": "bind.kafka.topic.user-registered",
+      "type": "java.lang.String",
+      "sourceType": "inframessaging.properties.KafkaTopicProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

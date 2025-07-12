@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.5.0/571cee41914166d639c56eac7d80fb35e8201325/spring-boot-configuration-processor-3.5.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="backend.application.main" />
+        <module name="backend.bandroom.reservation.main" />
+        <module name="backend.public.token-validation.main" />
+        <module name="backend.public.event.main" />
+        <module name="backend.bandroom.reservation.booking.main" />
+        <module name="backend.service.main" />
+        <module name="backend.public.primary-id-provider.main" />
+        <module name="backend.bandroom.main" />
+        <module name="backend.public.outbox.main" />
+        <module name="backend.public.response.main" />
+        <module name="backend.public.log-metadata.main" />
+        <module name="backend.public.main" />
+        <module name="backend.public.infra-messaging.main" />
+        <module name="backend.public.word-filter.main" />
+        <module name="backend.public.jwt-token.main" />
+        <module name="backend.public.data-serializer.main" />
+        <module name="backend.application.bff.main" />
+        <module name="backend.public.exception.main" />
+        <module name="backend.main" />
+        <module name="backend.bandroom.band-room.main" />
+        <module name="backend.public.contract.main" />
+        <module name="backend.service.mail.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="backend.public.infra-messaging.test" />
+        <module name="backend.bandroom.operation-hour.test" />
+        <module name="backend.public.primary-id-provider.test" />
+        <module name="backend.service.user-profile.test" />
+        <module name="backend.bandroom.test" />
+        <module name="backend.public.test" />
+        <module name="backend.service.image.test" />
+        <module name="backend.bandroom.reservation.booking.test" />
+        <module name="backend.public.log-metadata.test" />
+        <module name="backend.bandroom.reservation.test" />
+        <module name="backend.public.contract.test" />
+        <module name="backend.service.auth.test" />
+        <module name="backend.bandroom.band-room.bandroom-info.test" />
+        <module name="backend.public.outbox.test" />
+        <module name="backend.bandroom.band-room.studio.test" />
+        <module name="backend.public.response.test" />
+        <module name="backend.public.event.test" />
+        <module name="backend.service.mail.test" />
+        <module name="backend.public.jwt-token.test" />
+        <module name="backend.service.test" />
+        <module name="backend.service.user-activity-log.test" />
+        <module name="backend.public.word-filter.test" />
+        <module name="backend.bandroom.band-room.test" />
+        <module name="backend.public.token-validation.test" />
+        <module name="backend.public.data-serializer.test" />
+        <module name="backend.application.bff.test" />
+        <module name="backend.test" />
+        <module name="backend.application.test" />
+        <module name="backend.public.exception.test" />
+        <module name="backend.bandroom.band-room.product-info.test" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.5.0/571cee41914166d639c56eac7d80fb35e8201325/spring-boot-configuration-processor-3.5.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.1.1/48b9bda22b091b1f48b13af03fe36db3be6e1ae3/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/jakarta.persistence/jakarta.persistence-api/3.1.0/66901fa1c373c6aff65c13791cc11da72060a8d6/jakarta.persistence-api-3.1.0.jar" />
+        </processorPath>
+        <module name="backend.bandroom.operation-hour.main" />
+        <module name="backend.bandroom.band-room.studio.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.5.0/571cee41914166d639c56eac7d80fb35e8201325/spring-boot-configuration-processor-3.5.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/jakarta.persistence/jakarta.persistence-api/3.1.0/66901fa1c373c6aff65c13791cc11da72060a8d6/jakarta.persistence-api-3.1.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.1.1/48b9bda22b091b1f48b13af03fe36db3be6e1ae3/jakarta.annotation-api-2.1.1.jar" />
+        </processorPath>
+        <module name="backend.service.image.main" />
+        <module name="backend.service.auth.main" />
+        <module name="backend.service.user-activity-log.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.5.0/571cee41914166d639c56eac7d80fb35e8201325/spring-boot-configuration-processor-3.5.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.querydsl/querydsl-apt/5.0.0/d48657412f2b96d787bbe5ae393e33815c94b4d0/querydsl-apt-5.0.0-jakarta.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/jakarta.annotation/jakarta.annotation-api/2.1.1/48b9bda22b091b1f48b13af03fe36db3be6e1ae3/jakarta.annotation-api-2.1.1.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/jakarta.persistence/jakarta.persistence-api/3.1.0/66901fa1c373c6aff65c13791cc11da72060a8d6/jakarta.persistence-api-3.1.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.querydsl/querydsl-codegen/5.1.0/a8504ea51fbc2258543cedab6a37fe6039b2d20a/querydsl-codegen-5.1.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.querydsl/querydsl-core/5.1.0/be322c3fe98de8e7c204afb8860bfabd81a3bafd/querydsl-core-5.1.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.querydsl/codegen-utils/5.1.0/ba401554d613760617992eafb6cdba175c811e6f/codegen-utils-5.1.0.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/io.github.classgraph/classgraph/4.8.146/360448a09bfa5689d89cfa97fea53b3fdefa9c23/classgraph-4.8.146.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.mysema.commons/mysema-commons-lang/0.2.4/d09c8489d54251a6c22fbce804bdd4a070557317/mysema-commons-lang-0.2.4.jar" />
+          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.eclipse.jdt/ecj/3.26.0/4837be609a3368a0f7e7cf0dc1bdbc7fe94993de/ecj-3.26.0.jar" />
+        </processorPath>
+        <module name="backend.bandroom.band-room.bandroom-info.main" />
+        <module name="backend.service.user-profile.main" />
+        <module name="backend.bandroom.band-room.product-info.main" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="backend" options="-parameters -parameters" />
+      <module name="backend.application" options="-parameters -parameters" />
+      <module name="backend.application.bff" options="-parameters -parameters" />
+      <module name="backend.application.bff.main" options="-parameters -parameters" />
+      <module name="backend.application.bff.test" options="-parameters -parameters" />
+      <module name="backend.application.main" options="-parameters -parameters" />
+      <module name="backend.application.test" options="-parameters -parameters" />
+      <module name="backend.bandroom" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.bandroom-info" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.bandroom-info.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.bandroom-info.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.product-info" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.product-info.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.product-info.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.studio" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.studio.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.studio.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.band-room.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.operation-hour" options="-parameters -parameters" />
+      <module name="backend.bandroom.operation-hour.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.operation-hour.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.reservation" options="-parameters -parameters" />
+      <module name="backend.bandroom.reservation.booking" options="-parameters -parameters" />
+      <module name="backend.bandroom.reservation.booking.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.reservation.booking.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.reservation.main" options="-parameters -parameters" />
+      <module name="backend.bandroom.reservation.test" options="-parameters -parameters" />
+      <module name="backend.bandroom.test" options="-parameters -parameters" />
+      <module name="backend.main" options="-parameters -parameters" />
+      <module name="backend.public" options="-parameters -parameters" />
+      <module name="backend.public.contract" options="-parameters -parameters" />
+      <module name="backend.public.contract.main" options="-parameters -parameters" />
+      <module name="backend.public.contract.test" options="-parameters -parameters" />
+      <module name="backend.public.data-serializer" options="-parameters -parameters" />
+      <module name="backend.public.data-serializer.main" options="-parameters -parameters" />
+      <module name="backend.public.data-serializer.test" options="-parameters -parameters" />
+      <module name="backend.public.event" options="-parameters -parameters" />
+      <module name="backend.public.event.main" options="-parameters -parameters" />
+      <module name="backend.public.event.test" options="-parameters -parameters" />
+      <module name="backend.public.exception" options="-parameters -parameters" />
+      <module name="backend.public.exception.main" options="-parameters -parameters" />
+      <module name="backend.public.exception.test" options="-parameters -parameters" />
+      <module name="backend.public.infra-messaging" options="-parameters -parameters" />
+      <module name="backend.public.infra-messaging.main" options="-parameters -parameters" />
+      <module name="backend.public.infra-messaging.test" options="-parameters -parameters" />
+      <module name="backend.public.jwt-token" options="-parameters -parameters" />
+      <module name="backend.public.jwt-token.main" options="-parameters -parameters" />
+      <module name="backend.public.jwt-token.test" options="-parameters -parameters" />
+      <module name="backend.public.log-metadata" options="-parameters -parameters" />
+      <module name="backend.public.log-metadata.main" options="-parameters -parameters" />
+      <module name="backend.public.log-metadata.test" options="-parameters -parameters" />
+      <module name="backend.public.main" options="-parameters -parameters" />
+      <module name="backend.public.outbox" options="-parameters -parameters" />
+      <module name="backend.public.outbox.main" options="-parameters -parameters" />
+      <module name="backend.public.outbox.test" options="-parameters -parameters" />
+      <module name="backend.public.primary-id-provider" options="-parameters -parameters" />
+      <module name="backend.public.primary-id-provider.main" options="-parameters -parameters" />
+      <module name="backend.public.primary-id-provider.test" options="-parameters -parameters" />
+      <module name="backend.public.response" options="-parameters -parameters" />
+      <module name="backend.public.response.main" options="-parameters -parameters" />
+      <module name="backend.public.response.test" options="-parameters -parameters" />
+      <module name="backend.public.test" options="-parameters -parameters" />
+      <module name="backend.public.token-validation" options="-parameters -parameters" />
+      <module name="backend.public.token-validation.main" options="-parameters -parameters" />
+      <module name="backend.public.token-validation.test" options="-parameters -parameters" />
+      <module name="backend.public.word-filter" options="-parameters -parameters" />
+      <module name="backend.public.word-filter.main" options="-parameters -parameters" />
+      <module name="backend.public.word-filter.test" options="-parameters -parameters" />
+      <module name="backend.service" options="-parameters -parameters" />
+      <module name="backend.service.auth" options="-parameters -parameters" />
+      <module name="backend.service.auth.main" options="-parameters -parameters" />
+      <module name="backend.service.auth.test" options="-parameters -parameters" />
+      <module name="backend.service.image" options="-parameters -parameters" />
+      <module name="backend.service.image.main" options="-parameters -parameters" />
+      <module name="backend.service.image.test" options="-parameters -parameters" />
+      <module name="backend.service.mail" options="-parameters -parameters" />
+      <module name="backend.service.mail.main" options="-parameters -parameters" />
+      <module name="backend.service.mail.test" options="-parameters -parameters" />
+      <module name="backend.service.main" options="-parameters -parameters" />
+      <module name="backend.service.test" options="-parameters -parameters" />
+      <module name="backend.service.user-activity-log" options="-parameters -parameters" />
+      <module name="backend.service.user-activity-log.main" options="-parameters -parameters" />
+      <module name="backend.service.user-activity-log.test" options="-parameters -parameters" />
+      <module name="backend.service.user-profile" options="-parameters -parameters" />
+      <module name="backend.service.user-profile.main" options="-parameters -parameters" />
+      <module name="backend.service.user-profile.test" options="-parameters -parameters" />
+      <module name="backend.test" options="-parameters -parameters" />
+    </option>
+  </component>
+</project>

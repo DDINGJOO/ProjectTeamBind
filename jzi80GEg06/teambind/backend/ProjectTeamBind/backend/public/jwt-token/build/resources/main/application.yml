@@ -1,0 +1,4 @@
+jwt:
+  secret: ${TOKEN_KEY}
+  access-expiration: ${ACCESSTOKEN_EXPIRATION}   # 15 minutes
+  refresh-expiration: ${REFRESHTOKEN_EXPIRATION}

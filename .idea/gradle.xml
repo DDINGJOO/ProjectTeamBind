@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/backend/ProjectTeamBind/backend" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/application" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/application/bff" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/band-room" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/band-room/bandroom-info" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/band-room/product-info" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/band-room/studio" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/operation-hour" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/reservation" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/bandroom/reservation/booking" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/contract" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/data-serializer" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/event" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/exception" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/infra-messaging" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/jwt-token" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/log-metadata" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/outbox" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/primary-id-provider" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/response" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/token-validation" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/public/word-filter" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/service" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/service/auth" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/service/image" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/service/mail" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/service/user-activity-log" />
+            <option value="$PROJECT_DIR$/backend/ProjectTeamBind/backend/service/user-profile" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

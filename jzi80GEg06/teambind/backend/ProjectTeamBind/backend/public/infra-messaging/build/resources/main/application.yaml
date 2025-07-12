@@ -1,0 +1,12 @@
+bind:
+  kafka:
+    topic:
+      user-registered: user.registered
+      order-created: order.created
+
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_URL}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
